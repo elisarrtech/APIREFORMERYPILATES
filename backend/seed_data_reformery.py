@@ -1,11 +1,22 @@
-from app import create_app, db
+"""
+Script de población de base de datos - REFORMERY
+Autor: @elisarrtech
+Datos reales del centro fitness REFORMERY
+"""
+
+from app import create_app
+from extensions import db
 from models import User, Package, UserPackage, PilatesClass, Instructor, ClassSchedule, Reservation
 from datetime import datetime, timedelta
 import random
+import logging
+
+LOG = logging.getLogger(__name__)
 
 def seed_reformery_data():
     """
     Puebla la base de datos con datos reales de REFORMERY
+    7 clases + 9 paquetes (todos 30 días vigencia)
     """
     
     print("\n" + "="*80)
@@ -31,7 +42,7 @@ def seed_reformery_data():
             'password': 'instructor123',
             'full_name': 'Sofía Martínez',
             'specialization': 'PLT FIT, PLT BLAST, PLT JUMP',
-            'bio': 'Instructor certificado con más de 8 años de experiencia en Pilates Reformer.'
+            'bio': 'Instructora certificada con más de 8 años de experiencia en Pilates Reformer.'
         },
         {
             'email': 'carlos.rodriguez@reformery.com',
@@ -45,14 +56,14 @@ def seed_reformery_data():
             'password': 'instructor123',
             'full_name': 'Laura Gómez',
             'specialization': 'PLT PRIVADAS Y SEMIPRIVADAS, PLT EMBARAZADAS',
-            'bio': 'Instructor certificado especializado en clases privadas y embarazadas.'
+            'bio': 'Instructora certificada especializada en clases privadas y embarazadas.'
         },
         {
             'email': 'ana.lopez@reformery.com',
             'password': 'instructor123',
             'full_name': 'Ana López',
             'specialization': 'PLT FIT, PLT JUMP, PLT EMBARAZADAS',
-            'bio': 'Instructor certificado con experiencia en fitness funcional y prenatal.'
+            'bio': 'Instructora certificada con experiencia en fitness funcional y prenatal.'
         },
         {
             'email': 'miguel.santos@reformery.com',
@@ -78,7 +89,7 @@ def seed_reformery_data():
     
     print(f"   ✓ {len(instructors_data)} instructores creados")
     
-    # Clientes
+    # Clientes de prueba
     clients = []
     for i in range(1, 11):
         client = User(
@@ -87,7 +98,7 @@ def seed_reformery_data():
             role='client',
             active=True
         )
-        client.set_password('client123')
+        client.set_password('cliente123')
         db.session.add(client)
         clients.append(client)
     
@@ -111,6 +122,7 @@ def seed_reformery_data():
     # ========================================================================
     
     print("🧘 Creando registros de instructores...")
+    instructors = []
     for user, data in instructor_users:
         instructor = Instructor(
             user_id=user.id,
@@ -119,54 +131,56 @@ def seed_reformery_data():
             active=True
         )
         db.session.add(instructor)
+        instructors.append(instructor)
     
     db.session.commit()
-    print(f"   ✓ {len(instructor_users)} instructores creados\n")
+    print(f"   ✓ {len(instructors)} instructores creados\n")
     
     # ========================================================================
-    # CREAR PAQUETES REFORMERY (DATOS REALES)
+    # CREAR 9 PAQUETES REFORMERY - DATOS REALES
     # ========================================================================
     
-    print("📦 Creando paquetes REFORMERY...")
+    print("📦 Creando 9 paquetes REFORMERY (todos 30 días vigencia)...")
+    
     packages_data = [
         {
-            'name': 'PAQUETE 1',
-            'description': '1 clase REFORMERY MUESTRA',
+            'name': 'PAQUETE 1 - REFORMERY MUESTRA',
+            'description': 'Vale por 1 clase REFORMERY MUESTRA',
             'total_classes': 1,
             'validity_days': 30,
             'price': 150.00
         },
         {
-            'name': 'PAQUETE 2',
-            'description': '1 clase REFORMERY',
+            'name': 'PAQUETE 2 - REFORMERY',
+            'description': 'Vale por 1 clase REFORMERY',
             'total_classes': 1,
             'validity_days': 30,
             'price': 200.00
         },
         {
-            'name': 'PAQUETE 3',
-            'description': '5 clases REFORMERY',
+            'name': 'PAQUETE 3 - 5 CLASES',
+            'description': 'Vale por 5 clases REFORMERY',
             'total_classes': 5,
             'validity_days': 30,
             'price': 800.00
         },
         {
-            'name': 'PAQUETE 4',
-            'description': '8 clases REFORMERY',
+            'name': 'PAQUETE 4 - 8 CLASES',
+            'description': 'Vale por 8 clases REFORMERY',
             'total_classes': 8,
             'validity_days': 30,
             'price': 1000.00
         },
         {
-            'name': 'PAQUETE 5',
-            'description': '12 clases REFORMERY',
+            'name': 'PAQUETE 5 - 12 CLASES',
+            'description': 'Vale por 12 clases REFORMERY',
             'total_classes': 12,
             'validity_days': 30,
             'price': 1400.00
         },
         {
-            'name': 'PAQUETE 6',
-            'description': '20 clases REFORMERY',
+            'name': 'PAQUETE 6 - 20 CLASES',
+            'description': 'Vale por 20 clases REFORMERY',
             'total_classes': 20,
             'validity_days': 30,
             'price': 1900.00
@@ -208,62 +222,70 @@ def seed_reformery_data():
         packages.append(package)
     
     db.session.commit()
-    print(f"   ✓ {len(packages)} paquetes REFORMERY creados\n")
+    print(f"   ✓ 9 paquetes REFORMERY creados (todos con 30 días de vigencia)\n")
     
     # ========================================================================
-    # CREAR CLASES REFORMERY (DATOS REALES)
+    # CREAR 7 CLASES REFORMERY - DATOS REALES
     # ========================================================================
     
-    print("🏋️ Creando clases REFORMERY...")
+    print("🏋️ Creando 7 clases REFORMERY...")
+    
     classes_data = [
         {
             'name': 'PLT FIT',
             'description': 'Clase de Pilates enfocada en fitness y tonificación muscular',
             'duration': 50,
-            'difficulty_level': 'intermedio',
-            'max_participants': 10
+            'difficulty_level': 'Intermedio',
+            'max_participants': 10,
+            'color': '#8BA88D'
         },
         {
             'name': 'PLT BLAST',
             'description': 'Clase intensa de Pilates con cardio de alto impacto',
             'duration': 50,
-            'difficulty_level': 'avanzado',
-            'max_participants': 10
+            'difficulty_level': 'Avanzado',
+            'max_participants': 10,
+            'color': '#E8B4B8'
         },
         {
             'name': 'PLT JUMP',
             'description': 'Clase de Pilates en trampolín para cardio y coordinación',
             'duration': 50,
-            'difficulty_level': 'intermedio',
-            'max_participants': 8
+            'difficulty_level': 'Intermedio',
+            'max_participants': 8,
+            'color': '#B8D4E8'
         },
         {
             'name': 'PLT HIT',
             'description': 'Entrenamiento de alta intensidad con Pilates',
             'duration': 50,
-            'difficulty_level': 'avanzado',
-            'max_participants': 10
+            'difficulty_level': 'Avanzado',
+            'max_participants': 10,
+            'color': '#E8D4B8'
         },
         {
             'name': 'PLT PRIVADA TRAPEZE',
             'description': 'Sesión privada de Pilates en trapecio',
             'duration': 50,
-            'difficulty_level': 'todos',
-            'max_participants': 2
+            'difficulty_level': 'Todos los niveles',
+            'max_participants': 2,
+            'color': '#D4E8B8'
         },
         {
             'name': 'PLT PRIVADAS Y SEMIPRIVADAS',
             'description': 'Sesiones privadas y semiprivadas personalizadas',
             'duration': 50,
-            'difficulty_level': 'todos',
-            'max_participants': 4
+            'difficulty_level': 'Todos los niveles',
+            'max_participants': 4,
+            'color': '#C8A8E8'
         },
         {
             'name': 'PLT EMBARAZADAS',
             'description': 'Clase de Pilates especializada para mujeres embarazadas',
             'duration': 50,
-            'difficulty_level': 'principiante',
-            'max_participants': 8
+            'difficulty_level': 'Principiante',
+            'max_participants': 8,
+            'color': '#E8C8D4'
         }
     ]
     
@@ -275,125 +297,208 @@ def seed_reformery_data():
             duration=class_data['duration'],
             difficulty_level=class_data['difficulty_level'],
             max_participants=class_data['max_participants'],
+            color=class_data['color'],
             active=True
         )
         db.session.add(pilates_class)
         pilates_classes.append(pilates_class)
     
     db.session.commit()
-    print(f"   ✓ {len(pilates_classes)} clases REFORMERY creadas\n")
+    print(f"   ✓ 7 clases REFORMERY creadas\n")
     
     # ========================================================================
     # ASIGNAR PAQUETES A CLIENTES
     # ========================================================================
     
-    print("📋 Asignando paquetes a clientes...")
-    for client in clients:
-        # Asignar paquete aleatorio
-        package = random.choice(packages[:6])  # Solo paquetes regulares para demo
+    print("📋 Asignando paquetes a clientes de prueba...")
+    for i, client in enumerate(clients):
+        # Asignar diferentes paquetes para variedad
+        package = packages[i % len(packages)]
         
-        # Calcular fecha de expiración
-        purchase_date = datetime.utcnow()
+        # Calcular fechas
+        purchase_date = datetime.utcnow() - timedelta(days=random.randint(0, 10))
         expiry_date = purchase_date + timedelta(days=package.validity_days)
         
-        # Crear user_package con TODOS los campos requeridos
+        # Usar algunas clases al azar
+        used_classes = random.randint(0, min(3, package.total_classes))
+        
         user_package = UserPackage(
             user_id=client.id,
             package_id=package.id,
             purchase_date=purchase_date,
             expiry_date=expiry_date,
             total_classes=package.total_classes,
-            used_classes=0,
-            remaining_classes=package.total_classes,
+            used_classes=used_classes,
+            remaining_classes=package.total_classes - used_classes,
             status='active'
         )
         db.session.add(user_package)
     
     db.session.commit()
-    print(f"   ✓ Paquetes asignados a clientes\n")
+    print(f"   ✓ {len(clients)} paquetes asignados a clientes\n")
     
     # ========================================================================
-    # CREAR HORARIOS PROGRAMADOS
+    # CREAR HORARIOS PROGRAMADOS (4 SEMANAS)
     # ========================================================================
     
-    print("📅 Creando horarios programados...")
+    print("📅 Creando horarios programados (próximas 4 semanas)...")
     
-    # Obtener instructores creados
-    instructors = Instructor.query.all()
-    
-    # Crear horarios para las próximas 4 semanas
     schedules_created = 0
     start_date = datetime.utcnow()
     
+    # Horarios típicos de un centro fitness
+    # Lunes a Viernes: 6am, 7am, 8am, 9am, 10am, 5pm, 6pm, 7pm, 8pm
+    # Sábado: 8am, 9am, 10am, 11am, 12pm
+    # Domingo: 9am, 10am, 11am
+    
+    schedule_times = {
+        0: [6, 7, 8, 9, 10, 17, 18, 19, 20],  # Lunes
+        1: [6, 7, 8, 9, 10, 17, 18, 19, 20],  # Martes
+        2: [6, 7, 8, 9, 10, 17, 18, 19, 20],  # Miércoles
+        3: [6, 7, 8, 9, 10, 17, 18, 19, 20],  # Jueves
+        4: [6, 7, 8, 9, 10, 17, 18, 19, 20],  # Viernes
+        5: [8, 9, 10, 11, 12],                # Sábado
+        6: [9, 10, 11]                        # Domingo
+    }
+    
     for week in range(4):
-        for day in range(7):  # Lunes a Domingo
+        for day in range(7):
             schedule_date = start_date + timedelta(days=(week * 7 + day))
+            day_of_week = schedule_date.weekday()
             
-            # Horarios del día: 7am, 8am, 9am, 10am, 5pm, 6pm, 7pm
-            hours = [7, 8, 9, 10, 17, 18, 19]
+            hours = schedule_times.get(day_of_week, [])
             
             for hour in hours:
-                # Seleccionar clase e instructor aleatorios
+                # Seleccionar clase e instructor
                 pilates_class = random.choice(pilates_classes)
                 instructor = random.choice(instructors)
                 
-                start_time = schedule_date.replace(hour=hour, minute=0, second=0, microsecond=0)
+                start_time = schedule_date.replace(
+                    hour=hour, 
+                    minute=0, 
+                    second=0, 
+                    microsecond=0
+                )
                 end_time = start_time + timedelta(minutes=pilates_class.duration)
                 
-                schedule = ClassSchedule(
-                    pilates_class_id=pilates_class.id,
-                    instructor_id=instructor.id,
-                    start_time=start_time,
-                    end_time=end_time,
-                    max_capacity=pilates_class.max_participants,
-                    available_spots=pilates_class.max_participants,
-                    status='scheduled',
-                    notes=''
-                )
-                db.session.add(schedule)
-                schedules_created += 1
+                # Verificar que no haya conflicto de instructor
+                conflict = ClassSchedule.query.filter(
+                    ClassSchedule.instructor_id == instructor.id,
+                    ClassSchedule.start_time < end_time,
+                    ClassSchedule.end_time > start_time
+                ).first()
+                
+                if not conflict:
+                    schedule = ClassSchedule(
+                        pilates_class_id=pilates_class.id,
+                        instructor_id=instructor.id,
+                        start_time=start_time,
+                        end_time=end_time,
+                        max_capacity=pilates_class.max_participants,
+                        status='scheduled',
+                        notes=''
+                    )
+                    db.session.add(schedule)
+                    schedules_created += 1
     
     db.session.commit()
-    print(f"   ✓ {schedules_created} horarios creados\n")
+    print(f"   ✓ {schedules_created} horarios programados creados\n")
     
     # ========================================================================
-    # RESUMEN
+    # CREAR ALGUNAS RESERVAS DE EJEMPLO
+    # ========================================================================
+    
+    print("🎫 Creando reservas de ejemplo...")
+    
+    # Obtener horarios de la semana actual
+    week_start = datetime.utcnow()
+    week_end = week_start + timedelta(days=7)
+    
+    current_schedules = ClassSchedule.query.filter(
+        ClassSchedule.start_time >= week_start,
+        ClassSchedule.start_time < week_end,
+        ClassSchedule.status == 'scheduled'
+    ).limit(20).all()
+    
+    reservations_created = 0
+    for schedule in current_schedules:
+        # 50% de probabilidad de tener reservas
+        if random.random() > 0.5:
+            continue
+        
+        # Seleccionar clientes aleatorios (1-3 por clase)
+        num_reservations = random.randint(1, min(3, schedule.max_capacity))
+        selected_clients = random.sample(clients, num_reservations)
+        
+        for client in selected_clients:
+            # Obtener paquete activo del cliente
+            user_package = UserPackage.query.filter_by(
+                user_id=client.id,
+                status='active'
+            ).first()
+            
+            if user_package and user_package.remaining_classes > 0:
+                reservation = Reservation(
+                    user_id=client.id,
+                    schedule_id=schedule.id,
+                    user_package_id=user_package.id,
+                    status='confirmed',
+                    reservation_date=datetime.utcnow() - timedelta(days=random.randint(1, 5))
+                )
+                db.session.add(reservation)
+                
+                # Usar clase del paquete
+                user_package.use_class()
+                
+                reservations_created += 1
+    
+    db.session.commit()
+    print(f"   ✓ {reservations_created} reservas de ejemplo creadas\n")
+    
+    # ========================================================================
+    # RESUMEN FINAL
     # ========================================================================
     
     print("="*80)
-    print("✅ ¡BASE DE DATOS POBLADA EXITOSAMENTE CON DATOS REFORMERY!")
+    print("✅ ¡BASE DE DATOS POBLADA EXITOSAMENTE CON DATOS REALES DE REFORMERY!")
     print("="*80 + "\n")
     
-    print("📊 RESUMEN:")
+    print("📊 RESUMEN DE DATOS:")
     print(f"   • Usuarios totales: {User.query.count()}")
-    print(f"   • Instructores: {User.query.filter_by(role='instructor').count()}")
+    print(f"   • Instructores: {Instructor.query.count()}")
     print(f"   • Clientes: {User.query.filter_by(role='client').count()}")
     print(f"   • Administradores: {User.query.filter_by(role='admin').count()}")
-    print(f"   • Paquetes REFORMERY: {Package.query.count()}")
+    print(f"   • Paquetes REFORMERY: {Package.query.count()} (todos con 30 días)")
     print(f"   • Clases REFORMERY: {PilatesClass.query.count()}")
     print(f"   • Paquetes asignados: {UserPackage.query.count()}")
-    print(f"   • Horarios programados: {ClassSchedule.query.count()}\n")
+    print(f"   • Horarios programados: {ClassSchedule.query.count()}")
+    print(f"   • Reservas activas: {Reservation.query.filter_by(status='confirmed').count()}\n")
     
-    print("📦 CLASES REFORMERY:")
+    print("🏋️ 7 CLASES REFORMERY:")
     for cls in PilatesClass.query.all():
-        print(f"   • {cls.name}")
+        print(f"   • {cls.name} ({cls.difficulty_level}) - Max: {cls.max_participants} personas")
     print()
     
-    print("💰 PAQUETES REFORMERY:")
+    print("💰 9 PAQUETES REFORMERY (todos 30 días vigencia):")
     for pkg in Package.query.all():
-        print(f"   • {pkg.name} - {pkg.total_classes} clases - ${pkg.price}")
+        print(f"   • {pkg.name}: {pkg.total_classes} clases - ${pkg.price:.2f} MXN")
     print()
     
-    print("🔐 CREDENCIALES DE PRUEBA:")
-    print("   Admin:")
-    print("   • Email: admin@reformery.com")
-    print("   • Password: admin123\n")
-    print("   Cliente de prueba:")
-    print("   • Email: cliente1@example.com")
-    print("   • Password: client123\n")
-    print("   Instructor de prueba:")
-    print("   • Email: sofia.martinez@reformery.com")
-    print("   • Password: instructor123\n")
+    print("🔐 CREDENCIALES DE ACCESO:")
+    print("\n   👨‍💼 ADMINISTRADOR:")
+    print("      Email: admin@reformery.com")
+    print("      Password: admin123")
+    
+    print("\n   👤 CLIENTE DE PRUEBA:")
+    print("      Email: cliente1@example.com")
+    print("      Password: cliente123")
+    
+    print("\n   🧘 INSTRUCTOR DE PRUEBA:")
+    print("      Email: sofia.martinez@reformery.com")
+    print("      Password: instructor123")
+    
+    print("\n" + "="*80)
+    print("🚀 SISTEMA LISTO PARA USAR")
     print("="*80 + "\n")
 
 if __name__ == '__main__':

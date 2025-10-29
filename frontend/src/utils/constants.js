@@ -1,100 +1,281 @@
 /**
- * Application Constants
- * Autor: @elisarrtech con Elite AI Architect
+ * Application Constants - REFORMERY
+ * Centraliza todas las constantes de la aplicación
+ * 
+ * @version 2.0.0
+ * @author @elisarrtech
+ * @date 2025-10-27
  */
 
-// Roles de usuario
-export const USER_ROLES = {
+// ==================== DASHBOARD TABS ====================
+export const TABS = {
+  OVERVIEW: 'overview',
+  USERS: 'users',
+  PACKAGES: 'packages',
+  CLASSES: 'classes',
+  SCHEDULES: 'schedules',
+  STATISTICS: 'statistics',  // ✅ NUEVO TAB
+  NOTIFICATIONS: 'notificaciones'  
+};
+
+
+// ==================== USER ROLES ====================
+export const ROLES = {
   ADMIN: 'admin',
   INSTRUCTOR: 'instructor',
-  CLIENT: 'client'
+  CLIENT: 'client',
 };
 
-// Estados de reserva
-export const RESERVATION_STATUS = {
-  CONFIRMED: 'confirmed',
+// Alias para compatibilidad
+export const USER_ROLES = ROLES;
+
+// Labels para roles de usuario (para UI)
+export const USER_ROLE_LABELS = {
+  admin: '👑 Administrador',
+  instructor: '🏋️ Instructor',
+  client: '👤 Cliente',
+};
+
+// Array de roles para selects
+export const USER_ROLES_ARRAY = [
+  { value: 'admin', label: '👑 Administrador' },
+  { value: 'instructor', label: '🏋️ Instructor' },
+  { value: 'client', label: '👤 Cliente' },
+];
+
+// ==================== STATUS ====================
+export const STATUS = {
+  ACTIVE: 'active',
+  INACTIVE: 'inactive',
+  PENDING: 'pending',
   CANCELLED: 'cancelled',
   COMPLETED: 'completed',
-  NO_SHOW: 'no_show'
+  SCHEDULED: 'scheduled',
 };
 
-// Estados de horario
+// ==================== PACKAGE TYPES ====================
+export const PACKAGE_TYPES = {
+  INDIVIDUAL: 'individual',
+  DUO: 'duo',
+  COMBO: 'combo',
+};
+
+// Labels para tipos de paquete (para UI)
+export const PACKAGE_TYPE_LABELS = {
+  individual: '📦 Individual',
+  duo: '👥 Dúo',
+  combo: '🎁 Combo',
+};
+
+// Array de tipos de paquete para selects
+export const PACKAGE_TYPES_ARRAY = [
+  { value: 'individual', label: '📦 Individual' },
+  { value: 'duo', label: '👥 Dúo' },
+  { value: 'combo', label: '🎁 Combo' },
+];
+
+// ==================== CLASS CATEGORIES ====================
+export const CLASS_CATEGORIES = {
+  GRUPAL: 'grupal',
+  PRIVADA: 'privada',
+  SEMIPRIVADA: 'semiprivada',
+  ESPECIAL: 'especial',
+};
+
+// Labels para categorías de clase (para UI)
+export const CLASS_CATEGORY_LABELS = {
+  grupal: '👥 Grupal',
+  privada: '👤 Privada',
+  semiprivada: '👥 Semiprivada',
+  especial: '⭐ Especial',
+};
+
+// Array de categorías para selects
+export const CLASS_CATEGORIES_ARRAY = [
+  { value: 'grupal', label: '👥 Grupal' },
+  { value: 'privada', label: '👤 Privada' },
+  { value: 'semiprivada', label: '👥 Semiprivada' },
+  { value: 'especial', label: '⭐ Especial' },
+];
+
+// ==================== INTENSITY LEVELS ====================
+export const INTENSITY_LEVELS = {
+  BAJA: 'baja',
+  MEDIA: 'media',
+  ALTA: 'alta',
+};
+
+// Labels para niveles de intensidad (para UI)
+export const INTENSITY_LEVEL_LABELS = {
+  baja: '🟢 Baja',
+  media: '🟡 Media',
+  alta: '🔴 Alta',
+};
+
+// Array de intensidades para selects
+export const INTENSITY_LEVELS_ARRAY = [
+  { value: 'baja', label: '🟢 Baja' },
+  { value: 'media', label: '🟡 Media' },
+  { value: 'alta', label: '🔴 Alta' },
+];
+
+// ==================== SCHEDULE STATUS ====================
 export const SCHEDULE_STATUS = {
   SCHEDULED: 'scheduled',
   CANCELLED: 'cancelled',
-  COMPLETED: 'completed'
+  COMPLETED: 'completed',
 };
 
-// Días de la semana
-export const WEEK_DAYS = [
-  'Lunes',
-  'Martes',
-  'Miércoles',
-  'Jueves',
-  'Viernes',
-  'Sábado'
-];
-
-// Horarios disponibles (7:00 AM - 8:00 PM)
-export const AVAILABLE_HOURS = [
-  '06:00', '07:00', '08:00', '09:00', '10:00', '11:00',
-  '12:00', '13:00', '14:00', '15:00', '16:00', '17:00',
-  '18:00', '19:00', '20:00', '21:00'
-];
-
-// Colores predefinidos para clases
-export const CLASS_COLORS = [
-  '#8BA88D', // Verde principal
-  '#B4A7D6', // Púrpura
-  '#D4A574', // Naranja claro
-  '#A8C5DD', // Azul claro
-  '#E8A87C', // Naranja
-  '#F4B5D1', // Rosa
-  '#C38E70', // Marrón
-  '#9ABCA7'  // Verde claro
-];
-
-// Configuración de la aplicación
-export const APP_CONFIG = {
-  NAME: 'FitnessClub',
-  VERSION: '2.0.0',
-  MIN_HOURS_TO_CANCEL: 2,
-  MAX_RESERVATIONS_PER_USER: 10,
-  PACKAGE_VALIDITY_DAYS: 30,
-  ALERT_DAYS_BEFORE_EXPIRY: 5,
-  ALERT_CLASSES_REMAINING: 3
+// Labels para estados de horario (para UI)
+export const SCHEDULE_STATUS_LABELS = {
+  scheduled: '📅 Programado',
+  cancelled: '❌ Cancelado',
+  completed: '✅ Completado',
 };
 
-// Mensajes de la aplicación
-export const MESSAGES = {
-  SUCCESS: {
-    RESERVATION_CREATED: '¡Reserva confirmada exitosamente!',
-    RESERVATION_CANCELLED: 'Reserva cancelada exitosamente',
-    CLASS_CREATED: 'Clase creada exitosamente',
-    CLASS_UPDATED: 'Clase actualizada exitosamente',
-    CLASS_DELETED: 'Clase eliminada exitosamente',
-    SCHEDULE_CREATED: 'Horario creado exitosamente',
-    SCHEDULE_UPDATED: 'Horario actualizado exitosamente',
-    SCHEDULE_DELETED: 'Horario cancelado exitosamente'
+// ==================== COLORS ====================
+export const COLORS = {
+  PRIMARY: '#0EA5E9',
+  SECONDARY: '#8B5CF6',
+  SUCCESS: '#10B981',
+  WARNING: '#F59E0B',
+  DANGER: '#EF4444',
+  INFO: '#3B82F6',
+};
+
+// ==================== API ENDPOINTS ====================
+export const API_ENDPOINTS = {
+  AUTH: {
+    LOGIN: '/auth/login',
+    REGISTER: '/auth/register',
+    LOGOUT: '/auth/logout',
+    ME: '/auth/me',
   },
-  ERROR: {
-    GENERIC: 'Ha ocurrido un error. Por favor intenta de nuevo.',
-    NO_ACTIVE_PACKAGE: 'No tienes un paquete activo',
-    CLASS_FULL: 'Esta clase está llena',
-    ALREADY_RESERVED: 'Ya has reservado esta clase',
-    CANNOT_CANCEL: 'No puedes cancelar esta reserva',
-    UNAUTHORIZED: 'No tienes permisos para realizar esta acción'
-  }
+  ADMIN: {
+    STATISTICS: '/admin-reformery/statistics',
+    USERS: '/admin-reformery/users',
+    PACKAGES: '/admin-reformery/packages',
+    CLASSES: '/admin-reformery/classes',
+    SCHEDULES: '/admin-reformery/schedules',
+  },
 };
 
+// ==================== VALIDATION RULES ====================
+export const VALIDATION = {
+  EMAIL_REGEX: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  PHONE_REGEX: /^[0-9]{10}$/,
+  PASSWORD_MIN_LENGTH: 6,
+  NAME_MIN_LENGTH: 3,
+  NAME_MAX_LENGTH: 100,
+};
+
+// ==================== PAGINATION ====================
+export const PAGINATION = {
+  DEFAULT_PAGE_SIZE: 10,
+  PAGE_SIZE_OPTIONS: [10, 25, 50, 100],
+};
+
+// ==================== DATE FORMATS ====================
+export const DATE_FORMATS = {
+  DISPLAY: 'DD/MM/YYYY',
+  API: 'YYYY-MM-DD',
+  DISPLAY_WITH_TIME: 'DD/MM/YYYY HH:mm',
+  API_WITH_TIME: 'YYYY-MM-DD HH:mm:ss',
+};
+
+// ==================== DEFAULT VALUES ====================
+export const DEFAULTS = {
+  CLASS_DURATION: 50, // minutos
+  CLASS_CAPACITY: 10, // personas
+  PACKAGE_VALIDITY: 30, // días
+  SCHEDULE_START_TIME: '06:00',
+  SCHEDULE_END_TIME: '07:00',
+};
+
+// ==================== INITIAL STATES ====================
+
+/**
+ * Estado inicial para formulario de paquete
+ */
+export const INITIAL_PACKAGE_STATE = {
+  name: '',
+  description: '',
+  total_classes: 1,
+  total_classes_reformer: 1,
+  total_classes_top_barre: 0,
+  validity_days: 30,
+  price: 0,
+  package_type: 'individual',
+  active: true,
+  display_order: 0,
+};
+
+/**
+ * Estado inicial para formulario de usuario
+ */
+export const INITIAL_USER_STATE = {
+  email: '',
+  full_name: '',
+  phone: '',
+  password: '',
+  role: 'client',
+  active: true,
+};
+
+/**
+ * Estado inicial para formulario de clase
+ */
+export const INITIAL_CLASS_STATE = {
+  name: '',
+  description: '',
+  duration: 50,
+  max_capacity: 10,
+  category: 'grupal',
+  intensity_level: 'media',
+  active: true,
+};
+
+/**
+ * Estado inicial para formulario de horario
+ */
+export const INITIAL_SCHEDULE_STATE = {
+  class_id: '',
+  instructor_id: '',
+  date: new Date().toISOString().split('T')[0],
+  start_time: '06:00',
+  end_time: '07:00',
+  max_capacity: 10,
+  notes: '',
+};
+
+
+// ==================== EXPORT DEFAULT ====================
 export default {
+  TABS,
+  ROLES,
   USER_ROLES,
-  RESERVATION_STATUS,
+  USER_ROLE_LABELS,
+  USER_ROLES_ARRAY,
+  STATUS,
+  PACKAGE_TYPES,
+  PACKAGE_TYPE_LABELS,
+  PACKAGE_TYPES_ARRAY,
+  CLASS_CATEGORIES,
+  CLASS_CATEGORY_LABELS,
+  CLASS_CATEGORIES_ARRAY,
+  INTENSITY_LEVELS,
+  INTENSITY_LEVEL_LABELS,
+  INTENSITY_LEVELS_ARRAY,
   SCHEDULE_STATUS,
-  WEEK_DAYS,
-  AVAILABLE_HOURS,
-  CLASS_COLORS,
-  APP_CONFIG,
-  MESSAGES
+  SCHEDULE_STATUS_LABELS,
+  COLORS,
+  API_ENDPOINTS,
+  VALIDATION,
+  PAGINATION,
+  DATE_FORMATS,
+  DEFAULTS,
+  INITIAL_PACKAGE_STATE,
+  INITIAL_USER_STATE,
+  INITIAL_CLASS_STATE,
+  INITIAL_SCHEDULE_STATE,
 };
-
