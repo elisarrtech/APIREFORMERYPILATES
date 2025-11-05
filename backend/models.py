@@ -1,38 +1,34 @@
-# models.py
-# Modelos SQLAlchemy - Base de Datos UNIFICADOS
-# Autor: @elisarrtech con Elite AI Architect
-# CÓDIGO DE ÉLITE MUNDIAL - PRODUCTION READY
-
-from extensions import db
-from sqlalchemy import Index, CheckConstraint
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+
 try:
     from passlib.context import CryptContext
     pwd_context = CryptContext(schemes=["bcrypt", "pbkdf2_sha256"], deprecated="auto")
 except Exception:
     pwd_context = None
 
-# Ejemplo de métodos reutilizables (si tu sistema importa desde aquí)
 def hash_password(password: str) -> str:
     return generate_password_hash(password)
 
 def verify_password(stored_hash: str, password: str) -> bool:
     if not stored_hash:
         return False
+    ph = stored_hash.strip()
     # Intentar werkzeug primero
     try:
-        if check_password_hash(stored_hash, password):
+        if check_password_hash(ph, password):
             return True
     except Exception as e:
         print(f"⚠️ werkzeug verify raised: {e}")
     # Intentar passlib si está disponible
     if pwd_context is not None:
         try:
-            return pwd_context.verify(password, stored_hash)
+            return pwd_context.verify(password, ph)
         except Exception as e:
             print(f"⚠️ passlib verify raised: {e}")
     return False
+
+
 
 class User(db.Model):
     """Usuario del sistema - MODELO PRINCIPAL"""
