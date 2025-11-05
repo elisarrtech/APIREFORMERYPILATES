@@ -83,9 +83,8 @@ with app.app_context():
         print("✅ Database tables created")
         # seed users, clases, paquetes, etc. (se mantiene lógica existente)
         
-           # ==================== USUARIOS ====================
+              # ==================== USUARIOS ====================
     from app.models.user import User
-    from werkzeug.security import generate_password_hash
 
     # Admin
     admin = User.query.filter_by(email='admin@reformery.com').first()
@@ -97,13 +96,13 @@ with app.app_context():
             role='admin',
             active=True
         )
-        # Use helper to set password (ensures consistent hashing)
+        # Usar helper set_password para garantizar hashing consistente
         admin.set_password('admin123')
         db.session.add(admin)
         print("✅ Admin user created")
     else:
         print("✅ Admin user already exists")
-    
+
     # Client
     client = User.query.filter_by(email='client@reformery.com').first()
     if not client:
@@ -119,7 +118,7 @@ with app.app_context():
         print("✅ Client user created")
     else:
         print("✅ Client user already exists")
-    
+
     # Instructor
     instructor = User.query.filter_by(email='instructor@reformery.com').first()
     if not instructor:
@@ -135,9 +134,8 @@ with app.app_context():
         print("✅ Instructor user created")
     else:
         print("✅ Instructor user already exists")
-    
+
     db.session.commit()
-        
         # ==================== CLASES ====================
         from app.models.pilates_class import PilatesClass
         
