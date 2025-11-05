@@ -2,10 +2,9 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
 
-# Intentar importar passlib (opcional, está en requirements.txt)
+# Intentar importar passlib (ya está en requirements.txt)
 try:
     from passlib.context import CryptContext
-    # Soportamos bcrypt y pbkdf2_sha256 (passlib maneja muchos formatos)
     pwd_context = CryptContext(schemes=["bcrypt", "pbkdf2_sha256"], deprecated="auto")
 except Exception:
     pwd_context = None
@@ -35,10 +34,10 @@ class User(db.Model):
 
     def check_password(self, password: str) -> bool:
         """
-        Verifica la contraseña de manera resiliente:
-        1) Intentamos werkzeug.check_password_hash (pbkdf2, etc.)
-        2) Si falla, intentamos passlib (si está disponible) que soporta bcrypt y otros formatos.
-        Esto evita excepciones 'Invalid salt' y da compatibilidad retroactiva.
+        Verificación resiliente:
+        - Intentar werkzeug.check_password_hash (pbkdf2, scrypt...)
+        - Si falla, intentar passlib (bcrypt, pbkdf2, etc.) si está disponible.
+        - Atrapar excepciones para evitar 'Invalid salt' y devolver False.
         """
         try:
             if not self.password_hash:
@@ -46,26 +45,26 @@ class User(db.Model):
 
             ph = self.password_hash.strip()
 
-            # 1) Intento con werkzeug (maneja pbkdf2:sha256 y otros)
+            # 1) Intento con werkzeug
             try:
                 if check_password_hash(ph, password):
                     return True
             except Exception as e:
-                # No rompemos: intentamos otros métodos
+                # No rompemos la app; intentamos otros métodos
                 print(f"⚠️ werkzeug check raised: {e}")
 
-            # 2) Si passlib está disponible, intentar verify (maneja bcrypt, pbkdf2, etc.)
+            # 2) Intento con passlib si está instalado (compatibilidad bcrypt, pbkdf2, etc.)
             if pwd_context is not None:
                 try:
                     return pwd_context.verify(password, ph)
                 except Exception as e:
                     print(f"⚠️ passlib verify raised: {e}")
 
-            # 3) Ningún método coincidió
+            # 3) Si nada coincide
             return False
 
         except Exception as e:
-            # Capturar excepciones inesperadas y devolver False (no romper la app)
+            # Capturar cualquier excepción y devolver False
             print(f"❌ Error checking password: {str(e)}")
             return False
 
