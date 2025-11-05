@@ -16,42 +16,44 @@ def create_app(config_name='development'):
     db.init_app(app)
     jwt.init_app(app)
 
-    # ➕ Origen de Netlify desde variable de entorno (sin quitar localhost)
-    netlify_origin = os.getenv("NETLIFY_ORIGIN")  # ej: https://tu-sitio.netlify.app
+    # Orígenes permitidos: local dev + NETLIFY_ORIGIN si está definido en env vars
+    netlify_origin = os.getenv("NETLIFY_ORIGIN")  # ej: https://reformeryavances.netlify.app
     allowed_origins = ["http://localhost:5173", "http://127.0.0.1:5173"]
     if netlify_origin:
         allowed_origins.append(netlify_origin)
 
-    # <-- FIX: permitir CORS en todas las rutas (preflight /auth/login estaba fallando porque la petición iba a /auth/* sin /api prefijo)
+    # FIX: aplicar CORS a todas las rutas (responde OPTIONS y añade Access-Control-Allow-*).
     # Se mantiene la lista de orígenes para seguridad en producción.
-    CORS(app,
-         resources={r"/*": {
-             "origins": allowed_origins,
-             "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
-             "allow_headers": ["Content-Type", "Authorization"],
-             "supports_credentials": True,
-             "expose_headers": ["Content-Type", "Authorization"],
-             "max_age": 3600
-         }})
+    CORS(
+        app,
+        resources={r"/*": {
+            "origins": allowed_origins,
+            "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+            "allow_headers": ["Content-Type", "Authorization", "X-Requested-With"],
+            "supports_credentials": True,
+            "expose_headers": ["Content-Type", "Authorization"],
+            "max_age": 3600
+        }},
+    )
 
-    # Register blueprints
+    # Register blueprints (API canonical con /api/v1)
     from app.routes.auth import auth_bp
     from app.routes.admin import admin_bp
 
-    # Registro principal con prefijo API versiónado
     app.register_blueprint(auth_bp, url_prefix='/api/v1/auth')
     app.register_blueprint(admin_bp, url_prefix='/api/v1/admin')
 
-    # <-- FIX (compatibilidad): registrar también sin prefijo /api/v1 para soportar clientes que aún llaman a /auth/*
-    # Esto evita 404s si el frontend (o un cliente externo) usa /auth/login en lugar de /api/v1/auth/login.
+    # Compatibilidad: registrar también sin prefijo para clientes que todavía usan /auth
+    # Evita 404 en clientes que llaman /auth/login
     try:
         app.register_blueprint(auth_bp, url_prefix='/auth')
         app.register_blueprint(admin_bp, url_prefix='/admin')
     except Exception:
-        # si por alguna razón ya están registrados o blueprint no admite doble registro, continuar sin romper
+        # no romper si ya está registrado o si blueprint no permite doble registro
         pass
 
     print("✅ Core blueprints registered")
+    
 
     # Register optional blueprints
     try:
@@ -76,9 +78,10 @@ def create_app(config_name='development'):
         print("⚠️ Notifications blueprint not found")
 
     # Initialize database and seed data
-    with app.app_context():
+with app.app_context():
         db.create_all()
         print("✅ Database tables created")
+        # seed users, clases, paquetes, etc. (se mantiene lógica existente)
         
         # ==================== USUARIOS ====================
         from app.models.user import User
@@ -202,9 +205,7 @@ def create_app(config_name='development'):
         
         db.session.commit()
         
-        print("✅ Database seeded successfully")
-    
-        print(f"✅ Flask app created successfully in {config_name} mode")
+       print("✅ Database seeded successfully")
 
     # Healthcheck para Railway (DEBE estar dentro de create_app)
     @app.get("/health")
