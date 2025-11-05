@@ -22,7 +22,9 @@ def create_app(config_name='development'):
     if netlify_origin:
         allowed_origins.append(netlify_origin)
 
-    # Aplicar CORS a todas las rutas para asegurar respuesta correcta a OPTIONS
+    # FIX: aplicar CORS a TODAS las rutas (resources r"/*") para asegurar que
+    # la respuesta al preflight OPTIONS incluya Access-Control-Allow-Origin
+    # incluso si el cliente está llamando a /auth/login (sin /api/v1).
     CORS(
         app,
         resources={r"/*": {
@@ -35,22 +37,23 @@ def create_app(config_name='development'):
         }},
     )
 
-    # Register blueprints (API canonical con /api/v1)
+    # Register canonical blueprints (API versionado)
     from app.routes.auth import auth_bp
     from app.routes.admin import admin_bp
 
     app.register_blueprint(auth_bp, url_prefix='/api/v1/auth')
     app.register_blueprint(admin_bp, url_prefix='/api/v1/admin')
 
-    # Compatibilidad: registrar también sin prefijo para clientes antiguos que usan /auth
+    # Compatibilidad → registrar alias sin prefijo para evitar 404 de clientes antiguos
+    # Si por diseño prefieres no mantener alias, puedes eliminar este bloque.
     try:
         app.register_blueprint(auth_bp, url_prefix='/auth')
         app.register_blueprint(admin_bp, url_prefix='/admin')
     except Exception:
-        # no romper si ya está registrado o si blueprint no permite doble registro
+        # Si ya está registrado o no se puede duplicar, no romper la app
         pass
-    
 
+    
     # Register optional blueprints
     try:
         from app.routes.schedules import admin_schedules_bp
@@ -74,6 +77,7 @@ def create_app(config_name='development'):
         print("⚠️ Notifications blueprint not found")
 
     # Initialize database and seed data
+
 with app.app_context():
         db.create_all()
         print("✅ Database tables created")
@@ -204,7 +208,7 @@ with app.app_context():
        print("✅ Database seeded successfully")
 
     # Healthcheck para Railway (DEBE estar dentro de create_app)
-    @app.get("/health")
+        @app.get("/health")
     def health():
         return {"status": "ok"}, 200
 
