@@ -21,15 +21,28 @@ const LOCAL_TOKEN_KEY = 'token'; // key usada en localStorage
  * - Si quieres apuntar directo a Railway/Heroku, define API_BASE_URL en env.
  */
 const deriveBaseURL = () => {
+  // 1) Intenta por configuración (constante/env)
   try {
-    const c = (API_BASE_URL || '').toString().trim();
-    if (c) return c.replace(/\/+$/, '');
-  } catch (err) {
-    // ignore
+    // Lee API_BASE_URL (si lo usas) o VITE_API_URL; ambos opcionales
+    const root =
+      (API_BASE_URL && API_BASE_URL.toString().trim()) ||
+      (import.meta?.env?.VITE_API_URL || "").toString().trim();
+
+    if (root) {
+      let base = root.replace(/\/+$/, "");
+      // Si NO termina en /api o /api/vX, añade /api/v1
+      if (!/\/api(\/v\d+)?$/i.test(base)) base += "/api/v1";
+      return base;
+    }
+  } catch (_) {
+    /* ignore */
   }
-  // Default: proxy path used by Netlify config redirects (recommended)
-  return '/api';
+
+  // 2) Fallback para quienes usen proxy de Netlify (no es tu caso ahora)
+  //    /api -> debería redirigir a tu backend en netlify.toml si lo configuras.
+  return "/api";
 };
+
 
 const api = axios.create({
   baseURL: deriveBaseURL(),
