@@ -2,7 +2,7 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
 
-# Intentar importar passlib (opcional, pero está en requirements.txt)
+# Intentar importar passlib (opcional, está en requirements.txt)
 try:
     from passlib.context import CryptContext
     # Soportamos bcrypt y pbkdf2_sha256 (passlib maneja muchos formatos)
@@ -36,60 +36,36 @@ class User(db.Model):
     def check_password(self, password: str) -> bool:
         """
         Verifica la contraseña de manera resiliente:
-        - Si el hash parece pbkdf2 (werkzeug), usar werkzeug.check_password_hash.
-        - Si el hash parece bcrypt ($2...), usar passlib (si disponible).
-        - Si no sabemos, intentar werkzeug primero (capturando errores), luego passlib.
-        Esto evita excepciones 'Invalid salt' y permite compatibilidad retroactiva.
+        1) Intentamos werkzeug.check_password_hash (pbkdf2, etc.)
+        2) Si falla, intentamos passlib (si está disponible) que soporta bcrypt y otros formatos.
+        Esto evita excepciones 'Invalid salt' y da compatibilidad retroactiva.
         """
         try:
             if not self.password_hash:
                 return False
 
-            ph = self.password_hash
+            ph = self.password_hash.strip()
 
-            # Heurística por prefijo de hash:
-            try:
-                prefix = ph.split(':', 1)[0]
-            except Exception:
-                prefix = ""
-
-            # 1) Si el hash parece PBKDF2/werkzeug (empieza por 'pbkdf2' o contiene 'pbkdf2')
-            if ph.startswith("pbkdf2:") or "pbkdf2" in prefix:
-                try:
-                    return check_password_hash(ph, password)
-                except Exception as e:
-                    # Logger de depuración (no rompe la app)
-                    print(f"⚠️ werkzeug check raised: {e}")
-
-            # 2) Si el hash parece bcrypt (prefijo $2a$, $2b$, $2y$), usar passlib si está disponible
-            if ph.startswith("$2a$") or ph.startswith("$2b$") or ph.startswith("$2y$") or ph.startswith("$2$"):
-                if pwd_context is not None:
-                    try:
-                        return pwd_context.verify(password, ph)
-                    except Exception as e:
-                        print(f"⚠️ passlib verify raised for bcrypt: {e}")
-                # si no hay passlib, intentamos fallar grácilmente
-                return False
-
-            # 3) Intentar werkzeug como fallback (capturando excepciones)
+            # 1) Intento con werkzeug (maneja pbkdf2:sha256 y otros)
             try:
                 if check_password_hash(ph, password):
                     return True
             except Exception as e:
-                print(f"⚠️ werkzeug fallback check raised: {e}")
+                # No rompemos: intentamos otros métodos
+                print(f"⚠️ werkzeug check raised: {e}")
 
-            # 4) Intentar passlib general (si está disponible): passlib reconoce muchos formatos
+            # 2) Si passlib está disponible, intentar verify (maneja bcrypt, pbkdf2, etc.)
             if pwd_context is not None:
                 try:
                     return pwd_context.verify(password, ph)
                 except Exception as e:
-                    print(f"⚠️ passlib fallback verify raised: {e}")
+                    print(f"⚠️ passlib verify raised: {e}")
 
-            # Nada coincidió
+            # 3) Ningún método coincidió
             return False
 
         except Exception as e:
-            # Capturar cualquier excepción inesperada y devolver False (no romper la app)
+            # Capturar excepciones inesperadas y devolver False (no romper la app)
             print(f"❌ Error checking password: {str(e)}")
             return False
 
