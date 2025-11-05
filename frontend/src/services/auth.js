@@ -14,8 +14,9 @@ import { API_BASE_URL } from '../utils/constants';
 
 const DEFAULT_TIMEOUT = 30_000; // 30s por defecto
 const LOCAL_TOKEN_KEY = 'token'; // key usada en localStorage
-const ROOT = ((API_BASE_URL?.toString().trim()) || (import.meta?.env?.VITE_API_URL || "")).replace(/\/+$/, "");
 
+// ROOT removed - rely on deriveBaseURL to decide API host and /api/v1 suffix
+const ROOT = ((API_BASE_URL?.toString().trim()) || (import.meta?.env?.VITE_API_URL || "")).replace(/\/+$/, "");
 
 
 /**
@@ -43,8 +44,11 @@ const deriveBaseURL = () => {
   return "/api";
 };
 
+// Use deriveBaseURL() to construct axios baseURL (prevents double /api/v1 or missing prefix)
+const baseURL = deriveBaseURL();
+
 const api = axios.create({
-  baseURL: `${ROOT}/api/v1`,          // ← fuerza el prefijo correcto
+  baseURL,          // ahora será: <VITE_API_URL>/api/v1  o '/api' si proxy
   headers: { 'Content-Type': 'application/json' },
   timeout: DEFAULT_TIMEOUT,
 });
