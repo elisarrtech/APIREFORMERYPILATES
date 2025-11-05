@@ -16,5 +16,4 @@ with app.app_context():
         print("ID:", u.id)
         print("Email:", u.email)
         print("password_hash len:", len(ph))
-        # Muestra sólo el prefijo para identificar algoritmo
-        print("password_hash prefix (first 60 chars):", ph[:60])
+        print("password_hash prefix (first 80 chars):", ph[:80])
