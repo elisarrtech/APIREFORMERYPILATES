@@ -1,7 +1,7 @@
-# backend/scripts/inspect_admin_password.py
 # Ejecutar: python backend/scripts/inspect_admin_password.py
 import os
-from app import create_app, db
+from app import create_app
+from app import db
 from app.models.user import User
 
 ENV = os.getenv('FLASK_ENV', 'production')
@@ -16,4 +16,5 @@ with app.app_context():
         print("ID:", u.id)
         print("Email:", u.email)
         print("password_hash len:", len(ph))
+        # Muestra sólo el prefijo para identificar algoritmo
         print("password_hash prefix (first 60 chars):", ph[:60])
