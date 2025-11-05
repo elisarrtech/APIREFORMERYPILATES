@@ -14,6 +14,8 @@ import { API_BASE_URL } from '../utils/constants';
 
 const DEFAULT_TIMEOUT = 30_000; // 30s por defecto
 const LOCAL_TOKEN_KEY = 'token'; // key usada en localStorage
+const ROOT = ((API_BASE_URL?.toString().trim()) || (import.meta?.env?.VITE_API_URL || "")).replace(/\/+$/, "");
+
 
 /**
  * Deriva baseURL desde constantes o fallback.
@@ -41,14 +43,12 @@ const deriveBaseURL = () => {
 };
 
 
-
 const api = axios.create({
-  baseURL: deriveBaseURL(),
+  baseURL: `${ROOT}/api/v1`,     // << fuerza /api/v1
   headers: { 'Content-Type': 'application/json' },
   timeout: DEFAULT_TIMEOUT,
-  // withCredentials: false, // cambia a true si usas cookies httpOnly para auth
 });
-
+ 
 /* ===========================
    Auth token helpers
    =========================== */
