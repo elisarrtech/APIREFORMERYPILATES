@@ -17,6 +17,7 @@ const LOCAL_TOKEN_KEY = 'token'; // key usada en localStorage
 const ROOT = ((API_BASE_URL?.toString().trim()) || (import.meta?.env?.VITE_API_URL || "")).replace(/\/+$/, "");
 
 
+
 /**
  * Deriva baseURL desde constantes o fallback.
  * - Si usas Netlify proxy: deja API_BASE_URL vacío y usa '/api' por defecto.
@@ -42,9 +43,8 @@ const deriveBaseURL = () => {
   return "/api";
 };
 
-
 const api = axios.create({
-  baseURL: `${ROOT}/api/v1`,     // << fuerza /api/v1
+  baseURL: `${ROOT}/api/v1`,          // ← fuerza el prefijo correcto
   headers: { 'Content-Type': 'application/json' },
   timeout: DEFAULT_TIMEOUT,
 });
