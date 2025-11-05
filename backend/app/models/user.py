@@ -18,27 +18,23 @@ class User(db.Model):
     def __repr__(self):
         return f"<User {self.email}>"
 
-    # Setter helper: guarda el hash (usa werkzeug por compatibilidad con el seeding)
     def set_password(self, password: str):
         if password is None:
             self.password_hash = None
         else:
-            # Método por defecto: 'pbkdf2:sha256' (compatible con generate_password_hash en seeding)
+            # Usa werkzeug (pbkdf2:sha256 por defecto) — compatible con generate_password_hash en el seeding
             self.password_hash = generate_password_hash(password)
 
-    # Verificación: usa check_password_hash de werkzeug, que entiende hashes generados por generate_password_hash
     def check_password(self, password: str) -> bool:
         try:
             if not self.password_hash:
                 return False
             return check_password_hash(self.password_hash, password)
         except Exception as e:
-            # Loguea el error para ayudar a debug (si usas logging, preferir logging en lugar de print)
-            # Aquí devolvemos False si ocurre cualquier excepción (evita que la app rompa)
+            # Loguea para debug; devolver False evita crash
             print(f"❌ Error checking password: {str(e)}")
             return False
 
-    # Método auxiliar para serializar usuario (ajusta según lo que necesites)
     def to_dict(self):
         return {
             "id": self.id,
