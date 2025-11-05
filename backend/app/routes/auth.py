@@ -15,7 +15,7 @@ from email_validator import validate_email, EmailNotValidError
 auth_bp = Blueprint('auth', __name__)
 
 
-@auth_bp.route('/register', methods=['POST'])
+@auth_bp.route('/register', methods=['POST', 'OPTIONS'])
 def register():
     """
     Register a new user
@@ -120,7 +120,7 @@ def register():
         }), 500
 
 
-@auth_bp.route('/login', methods=['POST'])
+@auth_bp.route('/login', methods=['POST', 'OPTIONS'])
 def login():
     """
     User login
