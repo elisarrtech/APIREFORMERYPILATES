@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Eye, EyeOff, Mail, Lock, User, Phone, X, GraduationCap, Users } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, User, Phone, X, GraduationCap, Users, Shield } from 'lucide-react';
 
 /**
  * Register Page - Reformery Pilates Studio
@@ -19,7 +19,8 @@ const Register = () => {
     phone: '',
     password: '',
     confirmPassword: '',
-    acceptTerms: false
+    acceptTerms: false,
+    adminCode: ''
   });
   
   const [showPassword, setShowPassword] = useState(false);
@@ -59,18 +60,25 @@ const Register = () => {
     setIsLoading(true);
 
     try {
-      const result = await register({
-        full_name: formData.full_name,
-        email: formData.email,
-        phone: formData.phone,
+      const payload = {
+        full_name: formData.full_name.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim() || undefined,
         password: formData.password,
-        role: formData.role
-      });
+        role: formData.role,
+        // send admin_code only if provided (backend will validate it)
+        admin_code: formData.adminCode ? formData.adminCode.trim() : undefined
+      };
+
+      const result = await register(payload);
       
-      if (result.success) {
-        navigate('/login');
+      if (result?.success) {
+        // Registration created a session/token — redirect depending on role or to login
+        navigate('/schedules');
       } else {
-        setError(result.message || 'Error al crear cuenta');
+        // Try to read the error message from different possible shapes
+        const msg = result?.error || result?.message || 'Error al crear cuenta';
+        setError(msg);
       }
     } catch (err) {
       setError('Error de conexión. Intenta de nuevo.');
@@ -141,12 +149,12 @@ const Register = () => {
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
             
-            {/* Role Selection */}
+            {/* Role Selection (client / instructor / admin) */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
                 Tipo de Cuenta
               </label>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-3 gap-3">
                 <button
                   type="button"
                   onClick={() => setFormData(prev => ({ ...prev, role: 'client' }))}
@@ -172,7 +180,23 @@ const Register = () => {
                   <GraduationCap className="w-8 h-8 mb-2" />
                   <span className="text-sm font-semibold">Instructor</span>
                 </button>
+
+                <button
+                  type="button"
+                  onClick={() => setFormData(prev => ({ ...prev, role: 'admin' }))}
+                  className={`flex flex-col items-center justify-center p-4 border-2 rounded-xl transition-all duration-300 ${
+                    formData.role === 'admin'
+                      ? 'border-yellow-600 bg-yellow-50 text-yellow-700'
+                      : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'
+                  }`}
+                >
+                  <Shield className="w-8 h-8 mb-2" />
+                  <span className="text-sm font-semibold">Administrador</span>
+                </button>
               </div>
+              <p className="mt-2 text-xs text-gray-500">
+                Para crear una cuenta administrador necesitas el código secreto. Si no lo tienes, el registro creará una cuenta cliente.
+              </p>
             </div>
 
             {/* Full Name */}
@@ -233,6 +257,23 @@ const Register = () => {
                   onChange={handleChange}
                   placeholder="55 1234 5678"
                   className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:bg-white focus:border-sage-500 focus:ring-2 focus:ring-sage-200 transition-all duration-200 outline-none"
+                />
+              </div>
+            </div>
+
+            {/* Admin code (optional) */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase tracking-wide">
+                Código de administrador (opcional)
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  name="adminCode"
+                  value={formData.adminCode}
+                  onChange={handleChange}
+                  placeholder={formData.role === 'admin' ? 'Introduce el código para crear admin' : 'Si no eres admin deja vacío'}
+                  className="w-full pl-4 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:bg-white focus:border-sage-500 focus:ring-2 focus:ring-sage-200 transition-all duration-200 outline-none"
                 />
               </div>
             </div>
