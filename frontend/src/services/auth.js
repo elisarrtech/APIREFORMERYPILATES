@@ -52,10 +52,7 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
   timeout: DEFAULT_TIMEOUT,
 });
-
-console.log("[API baseURL]", api.defaults.baseURL);
-window.__SHOW_BASE__ = () => console.log("[API baseURL]", api.defaults.baseURL);
-
+ 
 /* ===========================
    Auth token helpers
    =========================== */
