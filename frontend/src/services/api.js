@@ -28,7 +28,7 @@ const api = axios.create({
   }
 });
 
-// Request interceptor
+// Request interceptor: adjunta token desde localStorage
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token') || localStorage.getItem('access_token');
@@ -36,23 +36,39 @@ api.interceptors.request.use(
       if (!config.headers) config.headers = {};
       config.headers.Authorization = `Bearer ${token}`;
     }
-    // Optional: helpful logs for debugging deployed host/URL
-    // console.debug(`🚀 Request: ${config.method?.toUpperCase()} ${config.baseURL}${config.url}`);
     return config;
   },
   (error) => Promise.reject(error)
 );
 
-// Response interceptor
+// Response interceptor: no redirigir automáticamente en 401 — emitir evento
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      // Notificar o redirigir si corresponde
-      window.location.href = '/login';
+    const status = error?.response?.status;
+
+    if (status === 401) {
+      // Limpiar credenciales localmente
+      try {
+        localStorage.removeItem('token');
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('user');
+      } catch (e) {
+        // ignore
+      }
+
+      // Emitir evento global para que AuthContext gestione el logout y la UI
+      try {
+        if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function') {
+          window.dispatchEvent(new CustomEvent('auth:unauthorized', { detail: { reason: error } }));
+        }
+      } catch (e) {
+        // ignore
+      }
+
+      // No redirigimos aquí: dejamos que el AuthContext haga la acción apropiada
     }
+
     return Promise.reject(error);
   }
 );
