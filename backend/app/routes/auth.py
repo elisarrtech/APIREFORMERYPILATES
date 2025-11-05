@@ -1,88 +1,69 @@
-"""
-Authentication Routes
-Login, Register, Token Management
-
-@version 2.0.0
-@author @elisarrtech
-"""
-
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from app import db
 from app.models.user import User
 from email_validator import validate_email, EmailNotValidError
+import os
 
 auth_bp = Blueprint('auth', __name__)
-
 
 @auth_bp.route('/register', methods=['POST', 'OPTIONS'])
 def register():
     """
     Register a new user
-    
-    Request Body:
-        email (str): User email
-        password (str): User password
-        full_name (str): User full name
-        phone (str, optional): User phone
-        role (str, optional): User role (default: client)
-    
-    Returns:
-        JSON: Success message with user data and token
+    Request body must include:
+      - email, password, full_name
+    Optional:
+      - phone
+      - role (defaults to 'client') BUT role='admin' will only be granted if admin_code is valid
+      - admin_code (secret)
     """
     try:
         data = request.get_json()
-        
-        # Validate required fields
         if not data:
-            return jsonify({
-                'success': False,
-                'message': 'No se recibieron datos'
-            }), 400
-        
+            return jsonify({'success': False, 'message': 'No se recibieron datos'}), 400
+
         email = data.get('email', '').strip()
         password = data.get('password', '')
         full_name = data.get('full_name', '').strip()
         phone = data.get('phone', '').strip()
-        role = data.get('role', 'client')
-        
+        requested_role = data.get('role', 'client')
+        admin_code = data.get('admin_code', None)
+
         # Validate email
         if not email:
-            return jsonify({
-                'success': False,
-                'message': 'El email es requerido'
-            }), 400
-        
+            return jsonify({'success': False, 'message': 'El email es requerido'}), 400
         try:
             validate_email(email)
         except EmailNotValidError:
-            return jsonify({
-                'success': False,
-                'message': 'Email inválido'
-            }), 400
-        
-        # Validate password
+            return jsonify({'success': False, 'message': 'Email inválido'}), 400
+
+        # Validate password and full_name
         if not password or len(password) < 6:
-            return jsonify({
-                'success': False,
-                'message': 'La contraseña debe tener al menos 6 caracteres'
-            }), 400
-        
-        # Validate full name
+            return jsonify({'success': False, 'message': 'La contraseña debe tener al menos 6 caracteres'}), 400
         if not full_name or len(full_name) < 3:
-            return jsonify({
-                'success': False,
-                'message': 'El nombre debe tener al menos 3 caracteres'
-            }), 400
-        
+            return jsonify({'success': False, 'message': 'El nombre debe tener al menos 3 caracteres'}), 400
+
         # Check if user already exists
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
-            return jsonify({
-                'success': False,
-                'message': 'El email ya está registrado'
-            }), 409
-        
+            return jsonify({'success': False, 'message': 'El email ya está registrado'}), 409
+
+        # Determine role: default 'client'; only set 'admin' if admin_code matches env var
+        role = 'client'
+        if requested_role == 'instructor':
+            role = 'instructor'
+        # If they requested admin, verify secret/admin_code
+        if requested_role == 'admin' or admin_code:
+            SECRET = current_app.config.get('ADMIN_REGISTRATION_CODE') or os.getenv('ADMIN_REGISTRATION_CODE')
+            if SECRET and admin_code and admin_code == SECRET:
+                role = 'admin'
+            else:
+                # No valid admin code: ignore requested role and keep default/other values
+                # Optionally return an error if you want to forbid attempts to set admin without code:
+                # return jsonify({'success': False, 'message': 'Código de admin inválido'}), 403
+                role = 'client'
+
         # Create new user
         new_user = User(
             email=email,
@@ -92,15 +73,12 @@ def register():
             active=True
         )
         new_user.set_password(password)
-        
+
         db.session.add(new_user)
         db.session.commit()
-        
-        # Generate token
+
         access_token = create_access_token(identity=new_user.id)
-        
-        print(f"✅ [AUTH] Usuario registrado: {email}")
-        
+
         return jsonify({
             'success': True,
             'message': 'Usuario registrado exitosamente',
@@ -109,16 +87,11 @@ def register():
                 'user': new_user.to_dict()
             }
         }), 201
-        
+
     except Exception as e:
         db.session.rollback()
         print(f"❌ [AUTH] Error en registro: {str(e)}")
-        return jsonify({
-            'success': False,
-            'message': 'Error al registrar usuario',
-            'error': str(e)
-        }), 500
-
+        return jsonify({'success': False, 'message': 'Error al registrar usuario', 'error': str(e)}), 500
 
 @auth_bp.route('/login', methods=['POST', 'OPTIONS'])
 def login():
