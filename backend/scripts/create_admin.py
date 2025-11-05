@@ -7,7 +7,7 @@ ENV = os.getenv('FLASK_ENV', 'production')
 app = create_app(ENV)
 
 ADMIN_EMAIL = 'admin@reformery.com'
-ADMIN_PASSWORD = 'AdminSeguro2025!'  # cambia aquí a la que quieras
+ADMIN_PASSWORD = 'Admin2025!'  # cambia aquí a la que quieras
 
 with app.app_context():
     u = User.query.filter_by(email=ADMIN_EMAIL).first()
