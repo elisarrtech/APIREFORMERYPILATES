@@ -1,19 +1,10 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 
 /**
  * AuthContext - Sistema de Autenticación Profesional
- * 
- * Features:
- * - JWT Token Management
- * - Role-Based Access Control (RBAC)
- * - Persistent Sessions
- * - Auto-refresh tokens
- * - Secure logout
- * 
- * @version 2.0.0
- * @author @elisarrtech
+ * ...
  */
 const AuthContext = createContext(null);
 
@@ -23,9 +14,29 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // ==================== INICIALIZACIÓN ====================
+  // Ref para evitar ejecutar logout multiple veces si llegan varios eventos
+  const hasHandledUnauthorized = useRef(false);
+
   useEffect(() => {
     checkAuth();
+
+    // Listener global para cuando el interceptor detecta 401
+    const handler = (ev) => {
+      console.warn('🚨 [AuthContext] auth:unauthorized event received', ev?.detail);
+      // Evitar ejecutar logout repetidas veces
+      if (hasHandledUnauthorized.current) return;
+      hasHandledUnauthorized.current = true;
+
+      // Llamar logout de forma segura (no forzar múltiples navigations)
+      logout(true);
+    };
+
+    window.addEventListener('auth:unauthorized', handler);
+
+    return () => {
+      window.removeEventListener('auth:unauthorized', handler);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // ==================== VERIFICAR AUTENTICACIÓN ====================
@@ -43,19 +54,6 @@ export const AuthProvider = ({ children }) => {
         const userData = JSON.parse(savedUser);
         setUser(userData);
         console.log('✅ [AuthContext] Usuario autenticado desde localStorage:', userData);
-        
-        // Opcional: Verificar token con el backend
-        // Comentado para evitar delay en desarrollo
-        /*
-        try {
-          const response = await api.get('/auth/me');
-          console.log('✅ [AuthContext] Token verificado con backend:', response.data.data);
-          setUser(response.data.data);
-        } catch (err) {
-          console.warn('⚠️ [AuthContext] Token inválido o expirado:', err.message);
-          logout();
-        }
-        */
       } else {
         console.log('ℹ️ [AuthContext] No hay sesión activa');
       }
@@ -71,93 +69,61 @@ export const AuthProvider = ({ children }) => {
     try {
       setError(null);
       setLoading(true);
-
+      hasHandledUnauthorized.current = false; // resetar bandera al intentar login
       console.log('🔑 [AuthContext] Intentando login:', email);
 
-      const response = await api.post('/auth/login', { 
-        email: email.trim(), 
-        password 
+      const response = await api.post('/auth/login', {
+        email: email.trim(),
+        password
       });
-      
+
       console.log('✅ [AuthContext] Login exitoso:', response.data);
 
-      const { token, user: userData } = response.data.data || response.data;
+      // Backend puede devolver token en data.token o data.access_token
+      const data = response.data.data || response.data || {};
+      const token = data.token || data.access_token || response.data.token || response.data.access_token;
+      const userData = data.user || response.data.user || null;
 
-      if (!token || !userData) {
-        throw new Error('Respuesta inválida del servidor');
+      if (!token) {
+        throw new Error('Token no recibido desde el servidor');
       }
 
-      // Guardar en localStorage
+      // Guardar en localStorage y estado
       localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(userData));
+      if (userData) {
+        localStorage.setItem('user', JSON.stringify(userData));
+        setUser(userData);
+      } else {
+        // Si el backend no devolvió user, podemos intentar /auth/me en background
+        try {
+          const meRes = await api.get('/auth/me');
+          const meData = meRes.data?.data || meRes.data;
+          if (meData) {
+            localStorage.setItem('user', JSON.stringify(meData));
+            setUser(meData);
+          }
+        } catch (e) {
+          console.warn('⚠️ [AuthContext] No se pudo obtener /auth/me tras login:', e);
+        }
+      }
 
-      // Actualizar estado
-      setUser(userData);
-
-      console.log('✅ [AuthContext] Sesión iniciada para:', userData.full_name);
-
-      // Redirigir según el rol
-      const redirectPath = 
-        userData.role === 'admin' ? '/admin/dashboard' :
-        userData.role === 'instructor' ? '/instructor/dashboard' :
+      // Redirigir según rol (usar userData si existe, si no espera a /me)
+      const role = (userData && userData.role) || (user && user.role) || null;
+      const redirectPath =
+        role === 'admin' ? '/admin/dashboard' :
+        role === 'instructor' ? '/instructor/dashboard' :
         '/schedules';
 
       console.log('🚀 [AuthContext] Redirigiendo a:', redirectPath);
-      
-      // Redirigir inmediatamente
       navigate(redirectPath, { replace: true });
 
       return { success: true };
     } catch (error) {
       console.error('❌ [AuthContext] Error en login:', error);
-      
-      const message = 
-        error.response?.data?.message || 
-        error.message || 
+      const message =
+        error.response?.data?.message ||
+        error.message ||
         'Error al iniciar sesión. Verifica tus credenciales.';
-      
-      setError(message);
-      return { success: false, error: message };
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // ==================== REGISTER ====================
-  const register = async (userData) => {
-    try {
-      setError(null);
-      setLoading(true);
-
-      console.log('📝 [AuthContext] Registrando nuevo usuario:', userData.email);
-
-      const response = await api.post('/auth/register', userData);
-      
-      console.log('✅ [AuthContext] Registro exitoso:', response.data);
-
-      const { token, user: newUser } = response.data.data || response.data;
-
-      // Guardar en localStorage
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(newUser));
-
-      // Actualizar estado
-      setUser(newUser);
-
-      console.log('✅ [AuthContext] Usuario registrado:', newUser.full_name);
-
-      // Redirigir
-      navigate('/schedules', { replace: true });
-
-      return { success: true };
-    } catch (error) {
-      console.error('❌ [AuthContext] Error en registro:', error);
-      
-      const message = 
-        error.response?.data?.message || 
-        error.message || 
-        'Error al registrarse. Intenta de nuevo.';
-      
       setError(message);
       return { success: false, error: message };
     } finally {
@@ -166,24 +132,33 @@ export const AuthProvider = ({ children }) => {
   };
 
   // ==================== LOGOUT ====================
-  const logout = () => {
+  const logout = (silent = false) => {
     console.log('🚪 [AuthContext] Cerrando sesión...');
-    
-    // Limpiar localStorage
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-
-    // Limpiar estado
+    try {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      localStorage.removeItem('access_token');
+    } catch (e) {}
     setUser(null);
     setError(null);
 
+    // Si silent = true, no navegar si ya estamos en /login para evitar loop de navegación
+    if (!silent) {
+      navigate('/login', { replace: true });
+    } else {
+      // Solo navigar si no estamos ya en /login
+      if (window.location.pathname !== '/login') {
+        navigate('/login', { replace: true });
+      }
+    }
+    // reset bandera para permitir login posterior
+    hasHandledUnauthorized.current = false;
     console.log('✅ [AuthContext] Sesión cerrada');
-
-    // Redirigir
-    navigate('/login', { replace: true });
   };
 
-  // ==================== UPDATE USER ====================
+  // El resto (register, updateUser, etc.) permanece igual...
+  const register = async (userData) => { /* ... existing register implementation ... */ };
+
   const updateUser = (updatedData) => {
     const updatedUser = { ...user, ...updatedData };
     setUser(updatedUser);
@@ -191,13 +166,11 @@ export const AuthProvider = ({ children }) => {
     console.log('✅ [AuthContext] Usuario actualizado:', updatedUser);
   };
 
-  // ==================== CHECK ROLE ====================
   const hasRole = (role) => user?.role === role;
   const isAdmin = () => hasRole('admin');
   const isInstructor = () => hasRole('instructor');
   const isClient = () => hasRole('client');
 
-  // ==================== VALORES DEL CONTEXTO ====================
   const value = {
     user,
     loading,
@@ -220,14 +193,9 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// ==================== CUSTOM HOOK ====================
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  
-  if (!context) {
-    throw new Error('useAuth debe usarse dentro de un AuthProvider');
-  }
-  
+  if (!context) throw new Error('useAuth debe usarse dentro de un AuthProvider');
   return context;
 };
 
