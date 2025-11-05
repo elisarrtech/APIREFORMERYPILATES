@@ -83,59 +83,60 @@ with app.app_context():
         print("✅ Database tables created")
         # seed users, clases, paquetes, etc. (se mantiene lógica existente)
         
-        # ==================== USUARIOS ====================
-        from app.models.user import User
-        from werkzeug.security import generate_password_hash
-        
-        # Admin
-        admin = User.query.filter_by(email='admin@reformery.com').first()
-        if not admin:
-            admin = User(
-                email='admin@reformery.com',
-                password_hash=generate_password_hash('admin123'),
-                full_name='Admin Reformery',
-                phone='1234567890',
-                role='admin',
-                active=True
-            )
-            db.session.add(admin)
-            print("✅ Admin user created")
-        else:
-            print("✅ Admin user already exists")
-        
-        # Client
-        client = User.query.filter_by(email='client@reformery.com').first()
-        if not client:
-            client = User(
-                email='client@reformery.com',
-                password_hash=generate_password_hash('client123'),
-                full_name='Cliente Demo',
-                phone='1234567890',
-                role='client',
-                active=True
-            )
-            db.session.add(client)
-            print("✅ Client user created")
-        else:
-            print("✅ Client user already exists")
-        
-        # Instructor
-        instructor = User.query.filter_by(email='instructor@reformery.com').first()
-        if not instructor:
-            instructor = User(
-                email='instructor@reformery.com',
-                password_hash=generate_password_hash('instructor123'),
-                full_name='Instructor Demo',
-                phone='1234567890',
-                role='instructor',
-                active=True
-            )
-            db.session.add(instructor)
-            print("✅ Instructor user created")
-        else:
-            print("✅ Instructor user already exists")
-        
-        db.session.commit()
+           # ==================== USUARIOS ====================
+    from app.models.user import User
+    from werkzeug.security import generate_password_hash
+
+    # Admin
+    admin = User.query.filter_by(email='admin@reformery.com').first()
+    if not admin:
+        admin = User(
+            email='admin@reformery.com',
+            full_name='Admin Reformery',
+            phone='1234567890',
+            role='admin',
+            active=True
+        )
+        # Use helper to set password (ensures consistent hashing)
+        admin.set_password('admin123')
+        db.session.add(admin)
+        print("✅ Admin user created")
+    else:
+        print("✅ Admin user already exists")
+    
+    # Client
+    client = User.query.filter_by(email='client@reformery.com').first()
+    if not client:
+        client = User(
+            email='client@reformery.com',
+            full_name='Cliente Demo',
+            phone='1234567890',
+            role='client',
+            active=True
+        )
+        client.set_password('client123')
+        db.session.add(client)
+        print("✅ Client user created")
+    else:
+        print("✅ Client user already exists")
+    
+    # Instructor
+    instructor = User.query.filter_by(email='instructor@reformery.com').first()
+    if not instructor:
+        instructor = User(
+            email='instructor@reformery.com',
+            full_name='Instructor Demo',
+            phone='1234567890',
+            role='instructor',
+            active=True
+        )
+        instructor.set_password('instructor123')
+        db.session.add(instructor)
+        print("✅ Instructor user created")
+    else:
+        print("✅ Instructor user already exists")
+    
+    db.session.commit()
         
         # ==================== CLASES ====================
         from app.models.pilates_class import PilatesClass
