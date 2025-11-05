@@ -24,34 +24,34 @@ const ROOT = ((API_BASE_URL?.toString().trim()) || (import.meta?.env?.VITE_API_U
  * - Si usas Netlify proxy: deja API_BASE_URL vacío y usa '/api' por defecto.
  * - Si quieres apuntar directo a Railway/Heroku, define API_BASE_URL en env.
  */
+// ... encabezado e imports (igual que en tu repo) ...
+
+// Derivar baseURL desde VITE_API_URL o API_BASE_URL
 const deriveBaseURL = () => {
   try {
-    // Usa primero API_BASE_URL (si existe) o VITE_API_URL
     const root =
       (API_BASE_URL && API_BASE_URL.toString().trim()) ||
       (import.meta?.env?.VITE_API_URL || "").toString().trim();
 
     if (root) {
-      let base = root.replace(/\/+$/, "");       // quita '/' final
+      let base = root.replace(/\/+$/, ""); // quita '/' final
       // si NO termina ya en /api o /api/vX, agrega /api/v1
       if (!/\/api(\/v\d+)?$/i.test(base)) base += "/api/v1";
       return base;
     }
-  } catch (_) {
-    /* ignore */
-  }
-  // Fallback para quien use proxy de Netlify (no es tu caso ahora)
+  } catch (_) {}
   return "/api";
 };
 
-// Use deriveBaseURL() to construct axios baseURL (prevents double /api/v1 or missing prefix)
 const baseURL = deriveBaseURL();
 
 const api = axios.create({
-  baseURL,          // ahora será: <VITE_API_URL>/api/v1  o '/api' si proxy
-  headers: { 'Content-Type': 'application/json' },
-  timeout: DEFAULT_TIMEOUT,
+  baseURL, // ej: https://apireformerypilates-production.up.railway.app/api/v1
+  headers: { "Content-Type": "application/json" },
+  timeout: 30000,
 });
+
+
  
 /* ===========================
    Auth token helpers
