@@ -192,5 +192,10 @@ def create_app(config_name='development'):
         print("✅ Database seeded successfully")
     
     print(f"✅ Flask app created successfully in {config_name} mode")
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}, 200
+
     
     return app
