@@ -2,6 +2,13 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
 
+# Optional: import passlib only if you add it to requirements
+try:
+    from passlib.context import CryptContext
+    pwd_context = CryptContext(schemes=["bcrypt", "pbkdf2_sha256"], deprecated="auto")
+except Exception:
+    pwd_context = None
+
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -18,13 +25,31 @@ class User(db.Model):
         if password is None:
             self.password_hash = None
         else:
+            # Use werkzeug to generate (compatible with seed)
             self.password_hash = generate_password_hash(password)
 
     def check_password(self, password: str) -> bool:
         try:
             if not self.password_hash:
                 return False
-            return check_password_hash(self.password_hash, password)
+            # First attempt: werkzeug (pbkdf2:sha256, scrypt, etc. supported)
+            try:
+                if check_password_hash(self.password_hash, password):
+                    return True
+            except Exception as e:
+                # continue to try other methods
+                print("⚠️ werkzeug check failed:", str(e))
+
+            # Second attempt: passlib (bcrypt or pbkdf2) if available
+            if pwd_context is not None:
+                try:
+                    # passlib's verify returns True/False and handles many schemes
+                    return pwd_context.verify(password, self.password_hash)
+                except Exception as e:
+                    print("⚠️ passlib verify failed:", str(e))
+
+            # If nothing matched, return False
+            return False
         except Exception as e:
             print(f"❌ Error checking password: {str(e)}")
             return False
