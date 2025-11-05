@@ -14,13 +14,11 @@ def verify_password(stored_hash: str, password: str) -> bool:
     if not stored_hash:
         return False
     ph = stored_hash.strip()
-    # Intentar werkzeug primero
     try:
         if check_password_hash(ph, password):
             return True
     except Exception as e:
         print(f"⚠️ werkzeug verify raised: {e}")
-    # Intentar passlib si está disponible
     if pwd_context is not None:
         try:
             return pwd_context.verify(password, ph)
