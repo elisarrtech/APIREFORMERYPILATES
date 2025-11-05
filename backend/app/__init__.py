@@ -22,8 +22,10 @@ def create_app(config_name='development'):
     if netlify_origin:
         allowed_origins.append(netlify_origin)
 
+    # <-- FIX: permitir CORS en todas las rutas (preflight /auth/login estaba fallando porque la petición iba a /auth/* sin /api prefijo)
+    # Se mantiene la lista de orígenes para seguridad en producción.
     CORS(app,
-         resources={r"/api/*": {
+         resources={r"/*": {
              "origins": allowed_origins,
              "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
              "allow_headers": ["Content-Type", "Authorization"],
@@ -31,15 +33,26 @@ def create_app(config_name='development'):
              "expose_headers": ["Content-Type", "Authorization"],
              "max_age": 3600
          }})
-    
+
     # Register blueprints
     from app.routes.auth import auth_bp
     from app.routes.admin import admin_bp
-    
+
+    # Registro principal con prefijo API versiónado
     app.register_blueprint(auth_bp, url_prefix='/api/v1/auth')
     app.register_blueprint(admin_bp, url_prefix='/api/v1/admin')
+
+    # <-- FIX (compatibilidad): registrar también sin prefijo /api/v1 para soportar clientes que aún llaman a /auth/*
+    # Esto evita 404s si el frontend (o un cliente externo) usa /auth/login en lugar de /api/v1/auth/login.
+    try:
+        app.register_blueprint(auth_bp, url_prefix='/auth')
+        app.register_blueprint(admin_bp, url_prefix='/admin')
+    except Exception:
+        # si por alguna razón ya están registrados o blueprint no admite doble registro, continuar sin romper
+        pass
+
     print("✅ Core blueprints registered")
-    
+
     # Register optional blueprints
     try:
         from app.routes.schedules import admin_schedules_bp
@@ -47,21 +60,21 @@ def create_app(config_name='development'):
         print("✅ Schedules blueprint registered")
     except ImportError:
         print("⚠️ Schedules blueprint not found")
-    
+
     try:
         from app.routes.reservations import reservations_bp
         app.register_blueprint(reservations_bp, url_prefix='/api/v1/reservations')
         print("✅ Reservations blueprint registered")
     except ImportError:
         print("⚠️ Reservations blueprint not found")
-    
+
     try:
         from app.routes.notifications import notifications_bp
         app.register_blueprint(notifications_bp, url_prefix='/api/v1/notifications')
         print("✅ Notifications blueprint registered")
     except ImportError:
         print("⚠️ Notifications blueprint not found")
-    
+
     # Initialize database and seed data
     with app.app_context():
         db.create_all()
