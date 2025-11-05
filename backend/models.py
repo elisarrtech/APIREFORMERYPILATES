@@ -109,6 +109,7 @@ class UserPackage(db.Model):
     used_classes = db.Column(db.Integer, default=0, nullable=False)
     remaining_classes = db.Column(db.Integer, nullable=False)
     status = db.Column(db.String(20), default='active', nullable=False, index=True)
+    reason = db.Column(db.String(200), default='', nullable=True)  # <-- Aquí agregas el motivo del ajuste/bono
     
     # Constraints
     __table_args__ = (

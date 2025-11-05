@@ -38,28 +38,34 @@ import {
 /**
  * AdminDashboard - Panel de Administración REFORMERY
  * Arquitectura empresarial con separación de responsabilidades
- * @version 3.0.0 - DISEÑO SAGE MEJORADO + LÓGICA COMPLETA
+ * @version 3.0.0 - DISEÑO SAGE MEJORADO + LÓGICA COMPLETA + Bonos Regalo
  * @author @elisarrtech
  */
 const AdminDashboard = () => {
   const { user } = useAuth();
-  
+
   // State Management
-  const { 
-    stats, 
-    users, 
-    instructors, 
-    packages, 
-    classes, 
-    schedules, 
-    loading, 
-    error, 
-    refetch 
+  const {
+    stats,
+    users: initialUsers,
+    instructors,
+    packages,
+    classes,
+    schedules,
+    loading,
+    error,
+    refetch
   } = useAdminData();
+
+  const [users, setUsers] = useState(initialUsers);
+
+  useEffect(() => {
+    setUsers(initialUsers); // Sincroniza cuando cambian los datos globales
+  }, [initialUsers]);
 
   const [activeTab, setActiveTab] = useState(TABS.OVERVIEW);
   const [notification, setNotification] = useState({ type: '', message: '' });
-  
+
   const [dashboardData, setDashboardData] = useState({
     totalUsers: 0,
     activePackages: 0,
@@ -68,7 +74,7 @@ const AdminDashboard = () => {
     totalReservations: 0,
     totalRevenue: 0
   });
-  
+
   // Modals
   const packageModal = useModal();
   const userModal = useModal();
@@ -90,13 +96,9 @@ const AdminDashboard = () => {
    */
   const loadDashboardData = async () => {
     try {
-      console.log('🔄 [DASHBOARD] Cargando estadísticas adicionales del servidor...');
-      
       const response = await api.get('/admin/stats');
-      
       if (response.data.success) {
         const serverStats = response.data.data;
-        
         setDashboardData({
           totalUsers: serverStats.users?.total || 0,
           activePackages: serverStats.packages?.active || 0,
@@ -105,11 +107,9 @@ const AdminDashboard = () => {
           totalReservations: serverStats.reservations?.total || 0,
           totalRevenue: serverStats.revenue?.total || 0
         });
-        
-        console.log('✅ [DASHBOARD] Estadísticas cargadas correctamente:', serverStats);
       }
     } catch (error) {
-      console.warn('⚠️ [DASHBOARD] No se pudieron cargar stats adicionales:', error.message);
+      // Puedes mostrar una notificación de error si lo requieres
     }
   };
 
@@ -127,7 +127,6 @@ const AdminDashboard = () => {
   };
 
   const handleEditPackage = (pkg) => {
-    console.log('📝 [AdminDashboard] Abriendo modal de edición de paquete:', pkg);
     packageModal.open(pkg);
   };
 
@@ -169,7 +168,6 @@ const AdminDashboard = () => {
   };
 
   const handleEditUser = (user) => {
-    console.log('📝 [AdminDashboard] Abriendo modal de edición de usuario:', user);
     userModal.open(user);
   };
 
@@ -197,6 +195,19 @@ const AdminDashboard = () => {
     }
   };
 
+  // ==================== ADVANCED USER FILTERS & BONOS ====================
+  const handleApplyFilters = async (filters) => {
+    const filteredUsers = await adminService.getUsers(filters);
+    setUsers(filteredUsers); // Esto sí actualiza la tabla
+  };
+
+  // Agregar clase extra (bono/regalo, cumpleaños)
+  const handleAddExtraClass = async (userPackageId, amount, reason) => {
+    await adminService.addExtraClasses(userPackageId, amount, reason);
+    refetch();
+    showNotification('success', 'Clase de regalo agregada exitosamente');
+  };
+
   // ==================== CLASS HANDLERS ====================
   const handleCreateClass = async (classData) => {
     try {
@@ -211,7 +222,6 @@ const AdminDashboard = () => {
   };
 
   const handleEditClass = (classItem) => {
-    console.log('📝 [AdminDashboard] Abriendo modal de edición de clase:', classItem);
     classModal.open(classItem);
   };
 
@@ -253,7 +263,6 @@ const AdminDashboard = () => {
   };
 
   const handleEditSchedule = (schedule) => {
-    console.log('📝 [AdminDashboard] Abriendo modal de edición de horario:', schedule);
     scheduleModal.open(schedule);
   };
 
@@ -336,7 +345,6 @@ const AdminDashboard = () => {
       <Navbar />
 
       <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        
         {/* Header - DISEÑO SAGE */}
         <div className="mb-8 bg-gradient-to-r from-sage-600 to-sage-700 rounded-2xl shadow-xl p-8 text-white">
           <div className="flex items-center justify-between">
@@ -353,11 +361,11 @@ const AdminDashboard = () => {
               <p className="text-sm text-sage-200">Bienvenido</p>
               <p className="text-lg font-bold">{user?.full_name}</p>
               <p className="text-xs text-sage-300 mt-1">
-                {new Date().toLocaleDateString('es-MX', { 
-                  weekday: 'long', 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
+                {new Date().toLocaleDateString('es-MX', {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
                 })}
               </p>
             </div>
@@ -367,8 +375,8 @@ const AdminDashboard = () => {
         {/* Notifications */}
         {notification.message && (
           <div className={`mb-6 px-6 py-4 rounded-xl shadow-lg border-l-4 animate-slideUp ${
-            notification.type === 'success' 
-              ? 'bg-green-50 border-green-500 text-green-800' 
+            notification.type === 'success'
+              ? 'bg-green-50 border-green-500 text-green-800'
               : 'bg-red-50 border-red-500 text-red-800'
           }`}>
             <div className="flex items-center justify-between">
@@ -384,7 +392,7 @@ const AdminDashboard = () => {
                 )}
                 <p className="font-bold">{notification.message}</p>
               </div>
-              <button 
+              <button
                 onClick={() => setNotification({ type: '', message: '' })}
                 className="text-gray-500 hover:text-gray-700"
               >
@@ -427,8 +435,8 @@ const AdminDashboard = () => {
 
         {/* Tab Content */}
         {activeTab === TABS.OVERVIEW && (
-          <Overview 
-            statistics={stats} 
+          <Overview
+            statistics={stats}
             dashboardData={dashboardData}
             onCreateUser={() => userModal.open()}
             onCreatePackage={() => packageModal.open()}
@@ -443,6 +451,8 @@ const AdminDashboard = () => {
             onCreateUser={() => userModal.open()}
             onEditUser={handleEditUser}
             onToggleStatus={handleToggleUserStatus}
+            onApplyFilters={handleApplyFilters}
+            onAddExtraClass={handleAddExtraClass}
           />
         )}
 
@@ -508,7 +518,7 @@ const AdminDashboard = () => {
         classData={classModal.data}
         isEdit={!!classModal.data}
       />
-      
+
       <ScheduleModal
         isOpen={scheduleModal.isOpen}
         onClose={scheduleModal.close}

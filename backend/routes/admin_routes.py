@@ -759,7 +759,63 @@ def assign_instructor(schedule_id):
     except Exception as e:
         db.session.rollback()
         return jsonify({'success': False, 'error': 'server_error', 'message': 'Error al asignar instructor'}), 500
+    
+    
+# ============================================================================
+# FILTROS AVANZADOS DESDE PANEL ADMIN USUARIOS
+# ============================================================================
+# Filtros avanzados en /users
+@bp.route('/users', methods=['GET'])
+@jwt_required()
+@role_required('admin')
+def get_all_users():
+    """
+    Obtiene todos los usuarios con filtros avanzados: role, email, name, active, created_at
+    """
+    role = request.args.get('role')
+    email = request.args.get('email')
+    name = request.args.get('name')
+    active = request.args.get('active')
+    created_at = request.args.get('created_at')
+    query = User.query
+    if role:
+        query = query.filter_by(role=role)
+    if email:
+        query = query.filter(User.email.ilike(f"%{email}%"))
+    if name:
+        query = query.filter(User.full_name.ilike(f"%{name}%"))
+    if active is not None:
+        query = query.filter_by(active=bool(int(active)))
+    if created_at:
+        # Ejemplo: filtrar por usuarios creados después de cierta fecha
+        query = query.filter(User.created_at >= created_at)
+    users = query.order_by(User.created_at.desc()).all()
+    return jsonify({'success': True, 'data': [u.to_dict() for u in users]})
 
+# --- Ajustar clases extra de regalo ---
+@bp.route('/user-packages/<int:user_package_id>/adjust-classes', methods=['PATCH'])
+@jwt_required()
+@role_required('admin')
+def adjust_package_classes(user_package_id):
+    """
+    Asigna o quita clases de un paquete de alumno (para bonos, regalos, etc)
+    Body: { "delta": 1, "reason": "Bono cumpleaños" }
+    """
+    data = request.get_json()
+    delta = int(data.get('delta', 0))
+    reason = data.get('reason', '')
+    if delta == 0:
+        return jsonify({'success': False, 'message': 'Debes especificar la cantidad a ajustar'}), 400
+    user_package = UserPackage.query.get(user_package_id)
+    if not user_package:
+        return jsonify({'success': False, 'message': 'Paquete no encontrado'}), 404
+    user_package.remaining_classes = max(0, user_package.remaining_classes + delta)
+    user_package.used_classes = user_package.total_classes - user_package.remaining_classes
+    if reason:
+        user_package.reason = reason
+    user_package.update_status()
+    db.session.commit()
+    return jsonify({'success': True, 'data': user_package.to_dict()})
 
 # ============================================================================
 # ENDPOINTS ADICIONALES DE SOPORTE

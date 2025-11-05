@@ -1,12 +1,68 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { getRoleColor, getStatusColor } from '../../utils/helpers';
 import { USER_ROLE_LABELS } from '../../utils/constants';
 
 /**
  * Componente profesional de gestión de usuarios
- * Tabla optimizada con acciones CRUD
+ * Tabla optimizada con acciones CRUD y bonos/regalos
  */
-const UsersManagement = ({ users, onCreateUser, onEditUser, onToggleStatus }) => {
+const UsersManagement = ({
+  users,
+  onCreateUser,
+  onEditUser,
+  onToggleStatus,
+  onApplyFilters,
+  onAddExtraClass,
+}) => {
+  // --- Filtros avanzados ---
+  const [filters, setFilters] = useState({
+    role: '',
+    email: '',
+    name: '',
+    active: '',
+    created_at: '',
+  });
+
+  const handleFilterChange = (e) => {
+    setFilters({ ...filters, [e.target.name]: e.target.value });
+  };
+
+  const handleApplyFilters = () => {
+    onApplyFilters(filters);
+  };
+
+  // --- Modal para agregar bono ---
+  const [showBonusModal, setShowBonusModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [bonusAmount, setBonusAmount] = useState(1);
+  const [bonusReason, setBonusReason] = useState('Bono de regalo');
+  const [loadingBonus, setLoadingBonus] = useState(false);
+  const [errorBonus, setErrorBonus] = useState('');
+
+  const openBonusModal = (user) => {
+    setSelectedUser(user);
+    setBonusAmount(1);
+    setBonusReason('');
+    setErrorBonus('');
+    setShowBonusModal(true);
+  };
+
+  const handleBonusSubmit = async () => {
+    if (bonusAmount < 1) {
+      setErrorBonus('Debes agregar al menos 1 clase.');
+      return;
+    }
+    setLoadingBonus(true);
+    try {
+      await onAddExtraClass(selectedUser.active_package_id, bonusAmount, bonusReason);
+      setShowBonusModal(false);
+    } catch (e) {
+      setErrorBonus('Error al agregar clases, intenta de nuevo.');
+    } finally {
+      setLoadingBonus(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -23,6 +79,58 @@ const UsersManagement = ({ users, onCreateUser, onEditUser, onToggleStatus }) =>
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
           Crear Usuario
+        </button>
+      </div>
+
+      {/* Filtros Avanzados */}
+      <div className="mb-4 flex gap-3 flex-wrap">
+        <input
+          name="name"
+          placeholder="Nombre"
+          value={filters.name}
+          onChange={handleFilterChange}
+          className="border px-3 py-2 rounded"
+        />
+        <input
+          name="email"
+          placeholder="Email"
+          value={filters.email}
+          onChange={handleFilterChange}
+          className="border px-3 py-2 rounded"
+        />
+        <select
+          name="role"
+          value={filters.role}
+          onChange={handleFilterChange}
+          className="border px-3 py-2 rounded"
+        >
+          <option value="">Todos</option>
+          <option value="client">Cliente</option>
+          <option value="instructor">Instructor</option>
+          <option value="admin">Admin</option>
+        </select>
+        <select
+          name="active"
+          value={filters.active}
+          onChange={handleFilterChange}
+          className="border px-3 py-2 rounded"
+        >
+          <option value="">Estado</option>
+          <option value="1">Activo</option>
+          <option value="0">Inactivo</option>
+        </select>
+        <input
+          name="created_at"
+          type="date"
+          value={filters.created_at}
+          onChange={handleFilterChange}
+          className="border px-3 py-2 rounded"
+        />
+        <button
+          onClick={handleApplyFilters}
+          className="bg-primary-600 text-white px-4 py-2 rounded hover:bg-primary-700"
+        >
+          Filtrar
         </button>
       </div>
 
@@ -104,6 +212,14 @@ const UsersManagement = ({ users, onCreateUser, onEditUser, onToggleStatus }) =>
                       >
                         {user.active ? '🚫 Desactivar' : '✅ Activar'}
                       </button>
+                      {user.has_active_package &&
+                        <button
+                          onClick={() => openBonusModal(user)}
+                          className="text-indigo-600 hover:text-indigo-900 font-semibold transition-colors"
+                        >
+                          🎁 Agregar Clase Extra
+                        </button>
+                      }
                     </td>
                   </tr>
                 ))
@@ -112,6 +228,60 @@ const UsersManagement = ({ users, onCreateUser, onEditUser, onToggleStatus }) =>
           </table>
         </div>
       </div>
+
+      {/* Modal de bono/clase extra */}
+      {showBonusModal && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-40">
+          <div className="bg-white rounded-xl shadow-xl p-8 w-full max-w-sm relative">
+            <button
+              className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-xl"
+              onClick={() => setShowBonusModal(false)}
+              aria-label="Cerrar modal"
+            >&times;</button>
+            <h3 className="text-lg font-bold mb-4">Agregar Clases de Regalo</h3>
+            <p className="mb-2 text-gray-700">
+              Usuario: <span className="font-semibold">{selectedUser?.full_name}</span>
+            </p>
+            <input
+              type="number"
+              min={1}
+              value={bonusAmount}
+              onChange={e => setBonusAmount(parseInt(e.target.value, 10) || 1)}
+              className="border px-3 py-2 rounded w-full mb-2"
+              placeholder="Cantidad de clases"
+              disabled={loadingBonus}
+            />
+            <input
+              type="text"
+              value={bonusReason}
+              onChange={e => setBonusReason(e.target.value)}
+              className="border px-3 py-2 rounded w-full mb-4"
+              placeholder="Motivo (ej: bono cumpleaños, promoción, etc.)"
+              disabled={loadingBonus}
+            />
+            {errorBonus && (
+              <div className="text-red-500 mb-2 text-sm font-semibold">{errorBonus}</div>
+            )}
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={handleBonusSubmit}
+                disabled={loadingBonus}
+                className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 disabled:opacity-60"
+              >
+                {loadingBonus ? 'Agregando...' : 'Agregar'}
+              </button>
+              <button
+                onClick={() => setShowBonusModal(false)}
+                disabled={loadingBonus}
+                className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300 disabled:opacity-60"
+              >
+                Cancelar
+              </button>
+            </div>
+            <p className="mt-2 text-xs text-gray-500">Este ajuste quedará registrado como bono/regalo para el usuario.</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

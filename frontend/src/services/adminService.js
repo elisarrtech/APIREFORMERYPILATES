@@ -1,29 +1,15 @@
-// frontend/src/services/adminService.js
 import api from './api';
 
-const BASE_URL = '/admin';  // ✅ CORREGIDO
+const BASE_URL = '/admin';
 
 /**
  * AdminService - Servicio profesional para operaciones administrativas
- * 
- * Arquitectura:
- * - Service Layer Pattern
- * - Error Handling robusto
- * - Logging detallado
- * - Retry logic para fallos temporales
- * - Caching de respuestas
- * 
  * @class AdminService
  * @version 2.0.0
  * @author @elisarrtech
  */
 class AdminService {
-  
   // ==================== STATISTICS ====================
-  /**
-   * Obtiene estadísticas generales del sistema
-   * @returns {Promise<Object>} Estadísticas del dashboard
-   */
   async getStatistics() {
     try {
       console.log('📊 [AdminService] Obteniendo estadísticas...');
@@ -38,14 +24,20 @@ class AdminService {
 
   // ==================== USERS ====================
   /**
-   * Obtiene lista de usuarios
-   * @param {string|null} role - Filtrar por rol (opcional)
-   * @returns {Promise<Array>} Lista de usuarios
+   * Obtiene lista de usuarios con filtros avanzados
+   * @param {Object} filters - { role, email, name, active, created_at }
    */
-  async getUsers(role = null) {
+  async getUsers(filters = {}) {
     try {
-      console.log(`👥 [AdminService] Obteniendo usuarios${role ? ` (rol: ${role})` : ''}...`);
-      const url = role ? `${BASE_URL}/users?role=${role}` : `${BASE_URL}/users`;
+      let params = [];
+      const { role, email, name, active, created_at } = filters;
+      if (role) params.push(`role=${role}`);
+      if (email) params.push(`email=${encodeURIComponent(email)}`);
+      if (name) params.push(`name=${encodeURIComponent(name)}`);
+      if (active !== undefined && active !== '') params.push(`active=${active ? 1 : 0}`);
+      if (created_at) params.push(`created_at=${created_at}`);
+      const url = params.length > 0 ? `${BASE_URL}/users?${params.join('&')}` : `${BASE_URL}/users`;
+      console.log(`👥 [AdminService] Obteniendo usuarios con filtros:`, filters);
       const response = await api.get(url);
       console.log(`✅ [AdminService] ${response.data.data?.length || 0} usuarios obtenidos`);
       return response.data.data || [];
@@ -55,11 +47,6 @@ class AdminService {
     }
   }
 
-  /**
-   * Crea un nuevo usuario
-   * @param {Object} userData - Datos del usuario
-   * @returns {Promise<Object>} Usuario creado
-   */
   async createUser(userData) {
     console.log('➕ [AdminService] Creando usuario:', userData.email);
     const response = await api.post('/auth/register', userData);
@@ -67,12 +54,6 @@ class AdminService {
     return response.data;
   }
 
-  /**
-   * Actualiza un usuario existente
-   * @param {number} userId - ID del usuario
-   * @param {Object} userData - Datos a actualizar
-   * @returns {Promise<Object>} Usuario actualizado
-   */
   async updateUser(userId, userData) {
     console.log(`✏️ [AdminService] Actualizando usuario ID: ${userId}`);
     const response = await api.put(`${BASE_URL}/users/${userId}`, userData);
@@ -80,12 +61,6 @@ class AdminService {
     return response.data;
   }
 
-  /**
-   * Alterna el estado activo/inactivo de un usuario
-   * @param {number} userId - ID del usuario
-   * @param {boolean} currentStatus - Estado actual
-   * @returns {Promise<Object>} Usuario actualizado
-   */
   async toggleUserStatus(userId, currentStatus) {
     console.log(`🔄 [AdminService] Cambiando estado usuario ID: ${userId}`);
     const response = await api.put(`${BASE_URL}/users/${userId}`, {
@@ -95,11 +70,15 @@ class AdminService {
     return response.data;
   }
 
+  // Agregar clase extra (bono/regalo/cumpleaños)
+  async addExtraClasses(userPackageId, delta, reason = '') {
+    console.log(`🎁 [AdminService] Agregando ${delta} clases extra al paquete ${userPackageId} por motivo: "${reason}"`);
+    const response = await api.patch(`${BASE_URL}/user-packages/${userPackageId}/adjust-classes`, { delta, reason });
+    console.log('✅ [AdminService] Clases extra agregadas');
+    return response.data;
+  }
+
   // ==================== CLASSES ====================
-  /**
-   * Obtiene lista de clases
-   * @returns {Promise<Array>} Lista de clases
-   */
   async getClasses() {
     try {
       console.log('🏋️ [AdminService] Obteniendo clases...');
@@ -112,11 +91,6 @@ class AdminService {
     }
   }
 
-  /**
-   * Crea una nueva clase
-   * @param {Object} classData - Datos de la clase
-   * @returns {Promise<Object>} Clase creada
-   */
   async createClass(classData) {
     console.log('➕ [AdminService] Creando clase:', classData.name);
     const response = await api.post(`${BASE_URL}/classes`, classData);
@@ -124,12 +98,6 @@ class AdminService {
     return response.data;
   }
 
-  /**
-   * Actualiza una clase existente
-   * @param {number} classId - ID de la clase
-   * @param {Object} classData - Datos a actualizar
-   * @returns {Promise<Object>} Clase actualizada
-   */
   async updateClass(classId, classData) {
     console.log(`✏️ [AdminService] Actualizando clase ID: ${classId}`);
     const response = await api.put(`${BASE_URL}/classes/${classId}`, classData);
@@ -137,12 +105,6 @@ class AdminService {
     return response.data;
   }
 
-  /**
-   * Alterna el estado activo/inactivo de una clase
-   * @param {number} classId - ID de la clase
-   * @param {boolean} currentStatus - Estado actual
-   * @returns {Promise<Object>} Clase actualizada
-   */
   async toggleClassStatus(classId, currentStatus) {
     console.log(`🔄 [AdminService] Cambiando estado clase ID: ${classId}`);
     const response = await api.put(`${BASE_URL}/classes/${classId}`, {
@@ -153,10 +115,6 @@ class AdminService {
   }
 
   // ==================== PACKAGES ====================
-  /**
-   * Obtiene lista de paquetes
-   * @returns {Promise<Array>} Lista de paquetes
-   */
   async getPackages() {
     try {
       console.log('📦 [AdminService] Obteniendo paquetes...');
@@ -169,11 +127,6 @@ class AdminService {
     }
   }
 
-  /**
-   * Crea un nuevo paquete
-   * @param {Object} packageData - Datos del paquete
-   * @returns {Promise<Object>} Paquete creado
-   */
   async createPackage(packageData) {
     console.log('➕ [AdminService] Creando paquete:', packageData.name);
     const response = await api.post(`${BASE_URL}/packages`, packageData);
@@ -181,12 +134,6 @@ class AdminService {
     return response.data;
   }
 
-  /**
-   * Actualiza un paquete existente
-   * @param {number} packageId - ID del paquete
-   * @param {Object} packageData - Datos a actualizar
-   * @returns {Promise<Object>} Paquete actualizado
-   */
   async updatePackage(packageId, packageData) {
     console.log(`✏️ [AdminService] Actualizando paquete ID: ${packageId}`);
     const response = await api.put(`${BASE_URL}/packages/${packageId}`, packageData);
@@ -194,12 +141,6 @@ class AdminService {
     return response.data;
   }
 
-  /**
-   * Alterna el estado activo/inactivo de un paquete
-   * @param {number} packageId - ID del paquete
-   * @param {boolean} currentStatus - Estado actual
-   * @returns {Promise<Object>} Paquete actualizado
-   */
   async togglePackageStatus(packageId, currentStatus) {
     console.log(`🔄 [AdminService] Cambiando estado paquete ID: ${packageId}`);
     const response = await api.put(`${BASE_URL}/packages/${packageId}`, {
@@ -210,10 +151,6 @@ class AdminService {
   }
 
   // ==================== SCHEDULES ====================
-  /**
-   * Obtiene lista de horarios
-   * @returns {Promise<Array>} Lista de horarios
-   */
   async getSchedules() {
     try {
       console.log('📅 [AdminService] Obteniendo horarios...');
@@ -226,11 +163,6 @@ class AdminService {
     }
   }
 
-  /**
-   * Crea un nuevo horario
-   * @param {Object} scheduleData - Datos del horario
-   * @returns {Promise<Object>} Horario creado
-   */
   async createSchedule(scheduleData) {
     console.log('➕ [AdminService] Creando horario');
     const response = await api.post(`${BASE_URL}/schedules`, scheduleData);
@@ -238,12 +170,6 @@ class AdminService {
     return response.data;
   }
 
-  /**
-   * Actualiza un horario existente
-   * @param {number} scheduleId - ID del horario
-   * @param {Object} scheduleData - Datos a actualizar
-   * @returns {Promise<Object>} Horario actualizado
-   */
   async updateSchedule(scheduleId, scheduleData) {
     console.log(`✏️ [AdminService] Actualizando horario ID: ${scheduleId}`);
     const response = await api.put(`${BASE_URL}/schedules/${scheduleId}`, scheduleData);
@@ -251,9 +177,6 @@ class AdminService {
     return response.data;
   }
 
-  /**
-   * Cancel schedule
-   */
   async cancelSchedule(scheduleId) {
     console.log(`❌ [AdminService] Cancelando horario ID: ${scheduleId}`);
     const response = await api.delete(`${BASE_URL}/schedules/${scheduleId}`);
@@ -350,12 +273,7 @@ class AdminService {
   }
 
   // ==================== HELPERS ====================
-  /**
-   * Retorna estadísticas por defecto en caso de error
-   * @returns {Object} Estadísticas vacías
-   */
   getDefaultStats() {
-    console.log('⚠️ [AdminService] Retornando estadísticas por defecto');
     return {
       users: { total: 0, clients: 0, instructors: 0, active: 0 },
       packages: { total: 0, active: 0, assigned: 0 },
@@ -368,18 +286,17 @@ class AdminService {
   /**
    * Carga paralela de todos los datos del dashboard
    * Optimizado para máximo rendimiento con Promise.allSettled
-   * 
+   *
    * @returns {Promise<Object>} Todos los datos del dashboard
    */
   async fetchAllData() {
     console.log('🚀 [AdminService] Iniciando carga paralela de datos...');
-    
     const startTime = performance.now();
-    
+
     const [stats, users, instructors, packages, classes, schedules] = await Promise.allSettled([
       this.getStatistics(),
       this.getUsers(),
-      this.getUsers('instructor'),
+      this.getUsers({ role: 'instructor' }),
       this.getPackages(),
       this.getClasses(),
       this.getSchedules()
@@ -399,8 +316,5 @@ class AdminService {
   }
 }
 
-// Singleton instance
 const adminServiceInstance = new AdminService();
-
-// Export default
 export default adminServiceInstance;
