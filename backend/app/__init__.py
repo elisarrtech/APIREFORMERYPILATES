@@ -1,10 +1,5 @@
 # backend/app/__init__.py
-"""
-Application Factory Pattern - REFORMERY
-@version 3.0.0 - PRODUCTION READY
-@author @elisarrtech
-"""
-
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
@@ -15,31 +10,27 @@ db = SQLAlchemy()
 jwt = JWTManager()
 
 def create_app(config_name='development'):
-    """
-    Create and configure Flask application
-    """
     app = Flask(__name__)
-    
-    # Load configuration
     app.config.from_object(config[config_name])
-    print(f"✅ Configuration loaded: {config_name}")
-    
-    # Initialize extensions
+
     db.init_app(app)
     jwt.init_app(app)
-    print("✅ Extensions initialized")
-    
-    # Configure CORS
-    CORS(app, 
+
+    # ➕ Origen de Netlify desde variable de entorno (sin quitar localhost)
+    netlify_origin = os.getenv("NETLIFY_ORIGIN")  # ej: https://tu-sitio.netlify.app
+    allowed_origins = ["http://localhost:5173", "http://127.0.0.1:5173"]
+    if netlify_origin:
+        allowed_origins.append(netlify_origin)
+
+    CORS(app,
          resources={r"/api/*": {
-             "origins": ["http://localhost:5173", "http://127.0.0.1:5173"],
+             "origins": allowed_origins,
              "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
              "allow_headers": ["Content-Type", "Authorization"],
              "supports_credentials": True,
              "expose_headers": ["Content-Type", "Authorization"],
              "max_age": 3600
          }})
-    print("✅ CORS configured")
     
     # Register blueprints
     from app.routes.auth import auth_bp
