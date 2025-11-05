@@ -22,8 +22,7 @@ def create_app(config_name='development'):
     if netlify_origin:
         allowed_origins.append(netlify_origin)
 
-    # FIX: aplicar CORS a todas las rutas (responde OPTIONS y añade Access-Control-Allow-*).
-    # Se mantiene la lista de orígenes para seguridad en producción.
+    # Aplicar CORS a todas las rutas para asegurar respuesta correcta a OPTIONS
     CORS(
         app,
         resources={r"/*": {
@@ -43,16 +42,13 @@ def create_app(config_name='development'):
     app.register_blueprint(auth_bp, url_prefix='/api/v1/auth')
     app.register_blueprint(admin_bp, url_prefix='/api/v1/admin')
 
-    # Compatibilidad: registrar también sin prefijo para clientes que todavía usan /auth
-    # Evita 404 en clientes que llaman /auth/login
+    # Compatibilidad: registrar también sin prefijo para clientes antiguos que usan /auth
     try:
         app.register_blueprint(auth_bp, url_prefix='/auth')
         app.register_blueprint(admin_bp, url_prefix='/admin')
     except Exception:
         # no romper si ya está registrado o si blueprint no permite doble registro
         pass
-
-    print("✅ Core blueprints registered")
     
 
     # Register optional blueprints
