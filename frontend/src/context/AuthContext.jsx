@@ -128,7 +128,7 @@ export const AuthProvider = ({ children }) => {
     try {
       setError(null);
       setLoading(true);
-
+      
       console.log('📝 [AuthContext] Registrando nuevo usuario:', userData.email);
 
       const response = await api.post('/auth/register', userData);
