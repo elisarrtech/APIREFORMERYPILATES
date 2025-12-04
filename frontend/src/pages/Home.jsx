@@ -281,116 +281,85 @@ const Home = () => {
         </div>
       </section>
 
-      {/* SECCIÓN: Nuestras Clases */}
-      <section id="clases-section" className="py-20 bg-gradient-to-br from-sage-50 to-white">        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-800 mb-4">
-              Nuestras Clases
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Descubre nuestra variedad de clases diseñadas para todos los niveles
-            </p>
-          </div>
+      { /* =================== SECCIÓN: Clases (REEMPLAZAR BLOQUE DE classesInfo.map) =================== */ }
+<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+  {classesInfo.map((classItem, index) => (
+    <div
+      key={index}
+      className="class-card group cursor-pointer transform transition-all hover:scale-105 hover:shadow-2xl relative"
+    >
+      {/* Imagen + overlay oscuro consistente */}
+      <div className="absolute inset-0">
+        <img
+          src={classItem.image}
+          alt={classItem.name}
+          className="w-full h-full object-cover"
+          loading="lazy"
+        />
+        {/* overlay oscuro (usará estilos .image-overlay del CSS) */}
+        <div className="image-overlay" />
+      </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-            {classesInfo.map((classItem, index) => (
-              <div
-                key={index}
-                className="relative h-64 rounded-2xl overflow-hidden shadow-lg group cursor-pointer transform transition-all hover:scale-105 hover:shadow-2xl"
-              >
-                <div className="absolute inset-0 bg-gray-800">
-                  <img
-                    src={classItem.image}
-                    alt={classItem.name}
-                    className="w-full h-full object-cover opacity-70 group-hover:opacity-80 transition-opacity duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-sage-900/80 via-sage-900/50 to-sage-900/30"></div>
-                </div>
+      {/* Contenido por encima del overlay */}
+      <div className="card-content relative h-full p-6 flex flex-col justify-between">
+        <div>
+          <h3 className="title text-2xl font-extrabold mb-3">{classItem.name}</h3>
+          <p className="excerpt text-sm leading-relaxed opacity-95">{classItem.description}</p>
+        </div>
 
-                <div className="relative h-full p-6 flex flex-col justify-between text-white">
-                  <div>
-                    <h3 className="text-2xl font-extrabold mb-3">{classItem.name}</h3>
-                    <p className="text-sm leading-relaxed opacity-90">{classItem.description}</p>
-                  </div>
-                  <div className="flex items-center text-sage-300 font-semibold">
-                    <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform duration-300" />
-                    <span className="ml-2">Ver más</span>
-                  </div>
-                </div>
-              </div>
-            ))}
+        <div className="mt-4 flex items-center gap-3">
+          <a href={`/classes/${classItem.slug || index}`} className="link-more inline-flex items-center gap-2 font-semibold">
+            <ArrowRight size={18} /> <span>Ver más</span>
+          </a>
+          {/* Si quieres un botón CTA dentro de la tarjeta */}
+          <button className="ml-auto btn-outline hidden md:inline-flex items-center gap-2">
+            Reservar
+          </button>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
+        
+     { /* =================== SECCIÓN: Paquetes (REEMPLAZAR BLOQUE de packages.map) =================== */ }
+<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+  {packages.map((pkg) => (
+    <div key={pkg.id} className={`plan-card ${pkg.popular ? 'border-2 border-white' : ''} transition-all duration-300 ease-in-out flex flex-col group text-center relative`}>
+      {pkg.popular && (
+        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+          <div className="bg-white text-sage-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide flex items-center gap-1 shadow-lg">
+            <Star size={12} fill="currentColor" /> Más Popular
           </div>
         </div>
-      </section>
+      )}
 
-      {/* SECCIÓN: Paquetes */}
-      <section id="paquetes-section" className="py-20 bg-gradient-to-br from-sage-600 to-sage-700">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">
-              Elige tu Plan de Clases
-            </h2>
-            <p className="text-sage-100 max-w-2xl mx-auto">
-              Encuentra el paquete perfecto para tu ritmo de entrenamiento
-            </p>
-          </div>
+      <div className="mb-4">
+        <div className="text-5xl font-extrabold text-gray-900">{pkg.classes}</div>
+        <div className="text-sm text-gray-600 uppercase tracking-wide">CLASE{pkg.classes > 1 ? 'S' : ''}</div>
+      </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-            {packages.map((pkg) => (
-              <div
-                key={pkg.id}
-                className={`bg-white/10 backdrop-blur-sm border-2 ${
-                  pkg.popular ? 'border-white' : 'border-white/20'
-                } rounded-2xl p-8 text-white hover:bg-white/20 transition-all duration-300 ease-in-out flex flex-col group text-center relative`}
-              >
-                {pkg.popular && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                    <div className="bg-white text-sage-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide flex items-center gap-1 shadow-lg">
-                      <Star size={12} fill="currentColor" />
-                      Más Popular
-                    </div>
-                  </div>
-                )}
+      <div className="mb-6">
+        <div className="plan-price">{pkg.price}</div>
+        <div className="text-sm text-gray-500">{pkg.validity ? `Vigencia: ${pkg.validity} días` : ''}</div>
+      </div>
 
-                <div className="text-4xl md:text-5xl font-extrabold mb-2 text-white drop-shadow-md group-hover:scale-110 transition-transform whitespace-pre-line">
-                  {pkg.displayTitle}
-                </div>
+      <ul className="mb-6 text-left flex-1 space-y-2">
+        {(pkg.features || []).map((f, i) => (
+          <li key={i} className="text-sm text-gray-600 flex items-start gap-2">
+            <span className="mt-1 text-green-600">✓</span>
+            <span>{f}</span>
+          </li>
+        ))}
+      </ul>
 
-                <div className="text-sm uppercase tracking-wider mb-2 font-medium text-white/80">
-                  {pkg.name.startsWith('Clase') ? 'CLASE' : 'PAQUETE'}
-                </div>
-
-                <div className="text-3xl md:text-4xl font-extrabold mb-2">{pkg.price}</div>
-
-                <div className="text-sm opacity-80 mb-4 font-medium">
-                  Vigencia: {pkg.validity} días
-                </div>
-
-                <div className="border-t border-white/20 my-4"></div>
-
-                <div className="mb-6 space-y-2">
-                  {pkg.features.map((feature, idx) => (
-                    <div
-                      key={idx}
-                      className="text-sm font-medium flex items-center justify-center gap-2"
-                    >
-                      <Check size={16} />
-                      {feature}
-                    </div>
-                  ))}
-                </div>
-
-                <button
-                  onClick={handleReserveClick}
-                  className="w-full bg-white text-sage-700 py-3 rounded-xl font-bold hover:bg-sage-50 transition-all duration-300 uppercase tracking-wide transform hover:scale-[1.02] shadow-lg"
-                >
-                  Comprar Paquete
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <div className="mt-4">
+        <button className="plan-cta w-full inline-flex items-center justify-center">
+          Comprar
+        </button>
+      </div>
+    </div>
+  ))}
+</div>
 
       {/* CTA FINAL */}
       <section className="py-20 bg-white">
