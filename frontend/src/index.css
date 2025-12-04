@@ -4,231 +4,30 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import branding rules */
+@import "./styles/branding.css";
+
 /* =========================
-   Variables CSS (colors)
+   Global small overrides (high specificity only when necessary)
    ========================= */
-:root{
-  /* Branding tokens (ajusta los hex si prefieres otros) */
-  --brand-lilac: #E1DBE1;
-  --brand-orange: #DC6D27;
-  --brand-teal: #1B3D4E;    /* usado para headers / botones principales */
-  --brand-brown: #944E22;
-  --brand-success: #2A6130; /* verde para CTA de planes */
 
-  /* background gradient stops (usados en body) */
-  --bg-start: #f9faf9; /* very light */
-  --bg-mid: #ffffff;
-  --bg-end: #f3f6f2;   /* light sage-ish */
-
-  --text-dark: #102021;
-}
-
-/* ==================== BASE LAYER ==================== */
-@layer base {
-  *, *::before, *::after {
-    @apply antialiased;
-  }
-
-  html, body {
-    height: 100%;
-  }
-
-  body {
-    font-family: 'Inter', system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
-    color: var(--text-dark);
-    /* use CSS gradient so we don't rely on Tailwind color tokens */
-    background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-mid) 50%, var(--bg-end) 100%);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  h1,h2,h3,h4,h5,h6 { @apply font-bold tracking-tight; }
-
-  h1 { @apply text-4xl lg:text-5xl; }
-  h2 { @apply text-3xl lg:text-4xl; }
-  h3 { @apply text-2xl lg:text-3xl; }
-
-  input, textarea, select { @apply outline-none; }
-}
-
-/* ==================== COMPONENTS LAYER ==================== */
-@layer components {
-  /* Buttons - use CSS vars instead of Tailwind color tokens */
-  .btn-primary {
-    @apply px-6 py-3 text-white font-bold rounded-xl uppercase tracking-wide transition-all duration-300 transform shadow-lg;
-    background-color: var(--brand-teal) !important;
-  }
-  .btn-primary:hover { background-color: color-mix(in srgb, var(--brand-teal) 80%, black 20%) !important; transform: translateY(-1px); }
-
-  .btn-secondary {
-    @apply px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold rounded-xl uppercase tracking-wide transition-all duration-300;
-  }
-
-  .btn-outline {
-    @apply px-6 py-3 bg-transparent font-bold rounded-xl uppercase tracking-wide transition-all duration-300;
-    border: 2px solid var(--brand-teal) !important;
-    color: var(--brand-teal) !important;
-  }
-  .btn-outline:hover {
-    background-color: var(--brand-teal) !important;
-    color: #fff !important;
-  }
-
-  .btn-danger {
-    @apply px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl uppercase tracking-wide transition-all duration-300 transform;
-  }
-
-  /* Card base */
-  .card { @apply bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden; }
-  .card-header { @apply px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-white to-transparent; }
-  .card-body { @apply p-6; }
-
-  /* Inputs */
-  .input-field { @apply w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 transition-all duration-200; }
-  .input-field-with-icon { @apply pl-12; }
-
-  /* Badges */
-  .badge { @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide; }
-
-  /* small utility animations */
-  .animate-fade-in-up { animation: fadeInUp 0.5s ease-out both; }
-}
-
-/* ==================== BRANDING + PLAN CARD RULES ==================== */
-/* Use more specific rules and CSS variables to avoid missing Tailwind tokens */
-
-/* Plan card dark style (restores big white number + green CTA) */
-.plan-card-dark {
-  position: relative;
-  border-radius: 1rem;
-  overflow: hidden;
-  min-height: 260px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 2.2rem 1.5rem;
-  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-  border: 1px solid rgba(255,255,255,0.06);
-  backdrop-filter: blur(6px);
-  box-shadow: 0 14px 40px rgba(16,32,33,0.06);
-  color: #fff;
-}
-
-.plan-card-dark .plan-top {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  align-items: center;
-}
-
-.plan-display {
-  font-weight: 900;
-  font-size: 3.5rem;
-  line-height: 1;
-  color: #fff;
-  text-transform: uppercase;
-  letter-spacing: -0.02em;
-  text-align: center;
-  text-shadow: 0 12px 30px rgba(0,0,0,0.25);
-}
-
-.plan-sub { font-size: .85rem; color: rgba(255,255,255,0.9); font-weight:700; margin-top:-6px; text-transform:uppercase; }
-.plan-price { font-size: 1.6rem; font-weight:800; color:#fff; margin-top:.25rem; text-shadow:0 6px 18px rgba(0,0,0,0.18); }
-.plan-desc { color: rgba(255,255,255,0.9); }
-
-/* CTA verde - use brand-success */
-.plan-cta {
-  background: var(--brand-success) !important;
-  color: #fff !important;
-  padding: .72rem 1rem;
-  border-radius: .6rem;
-  font-weight: 800;
-  box-shadow: 0 10px 26px rgba(42,97,48,0.18);
-  transition: transform .12s, box-shadow .12s, background .12s;
-  border: none !important;
-  width: 100%;
-}
-.plan-cta:hover { background: color-mix(in srgb, var(--brand-success) 88%, black 12%) !important; transform: translateY(-2px) !important; }
-
-/* Force visible text in plans */
-.plan-section .plan-card-dark * { color: inherit !important; }
-
-/* ==================== OVERLAYS / LEGIBILITY FIXES ==================== */
-/* Match many overlay naming patterns - use !important to ensure legibility */
-[class*="overlay"],
-.card::after,
-.card .card-overlay,
-.image-overlay,
-.overlay,
-.thumbnail-overlay,
-.hero .image-overlay {
-  content: "" !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background: linear-gradient(180deg, rgba(10,20,22,0.55) 0%, rgba(10,20,22,0.35) 40%, rgba(255,255,255,0.02) 100%) !important;
-  pointer-events: none !important;
-  z-index: 1 !important;
-}
-
-/* Ensure card content sits above overlays */
-.card .card-content,
-.class-card .card-content,
-.card .card-text,
-.class-card .title,
-.class-card .excerpt {
-  position: relative !important;
-  z-index: 2 !important;
-  color: #fff !important;
-  text-shadow: 0 6px 18px rgba(0,0,0,0.35) !important;
-}
-
-/* Allow explicit light-card */
-.card.light::after,
-.card.light .image-overlay,
-.card.light .overlay { background: none !important; }
-.card.light .card-content { color: var(--text-dark) !important; text-shadow: none !important; }
-
-/* ==================== PRINCIPLES ==================== */
-.principle-icon svg { color: var(--brand-teal); stroke: currentColor; fill: none; }
-.principle-title {
-  margin-top: 0.5rem;
-  font-style: italic;
-  font-weight: 700;
-  color: var(--brand-teal);
-  font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 1rem;
-  line-height: 1;
-  letter-spacing: 0.01em;
-}
-@media (min-width: 1024px) {
-  .principle-title { font-size: 1.05rem; }
-  .principle-icon { width: 72px; height: 72px; }
-}
-
-/* ==================== UTILITIES & HELPERS ==================== */
+/* Ensure our semantic button classes are used if components don't set them */
 .btn-primary, .btn-outline, .btn-neutral { display:inline-flex; align-items:center; justify-content:center; }
 
-/* Whatsapp floating button default positioning */
+/* Force outline visibility for keyboard users */
+:focus-visible { outline: 3px solid rgba(27,61,78,0.12); outline-offset: 3px; }
+
+/* WhatsApp floating button fallback */
 .fab-whatsapp { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index:60; width:64px; height:64px; display:flex; align-items:center; justify-content:center; border-radius:999px; background:var(--brand-success); color:#fff; box-shadow:0 8px 26px rgba(42,97,48,0.24); }
 
-/* Accessibility focus */
-button:focus, a:focus { outline: 3px solid rgba(27,61,78,0.12); outline-offset: 3px; }
+/* Debug helper: add .force-contrast to a container to enforce white text over overlays */
+.force-contrast .card * { color: #fff !important; }
 
-/* Debug helpers */
-.no-overlay [class*="overlay"], .no-overlay::after { background: none !important; }
-
-/* Responsive */
+/* Small responsive helper for plan display */
 @media (max-width: 640px) {
-  .plan-display { font-size: 2.8rem !important; }
-  .plan-card-dark { padding: 1.6rem 1rem !important; }
+  .plan-display { font-size: 2.4rem !important; }
 }
 
-/* Safety for plan text display */
-.plan-card-dark .plan-display,
-.plan-card-dark .plan-price,
-.plan-card-dark .plan-sub { color: #fff !important; text-shadow: 0 6px 18px rgba(0,0,0,0.25) !important; }
-
-/* ==================== ANIMATIONS ==================== */
-@keyframes fadeInUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
-.animate-ping { animation: ping 2s cubic-bezier(0,0,0.2,1) infinite; }
-@keyframes ping { 0%{ transform:scale(1); opacity:0.2 } 50%{ transform:scale(1.2); opacity:0.1 } 100%{ transform:scale(1.5); opacity:0 } }
+/* Final fallback: if some element still gets invisible text, this will show it in dev only */
+/* Remove in production if not needed */
+/* .dev-show-contrast * { color: #fff !important; } */
