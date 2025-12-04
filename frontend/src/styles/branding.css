@@ -1,149 +1,203 @@
-/* frontend/src/styles/branding.css
-   Branding variables y reglas específicas para:
-   - Plan cards (oscuro)
-   - Overrides de overlays / tarjetas
-   - Principles
-   Mantener solo reglas de branding aquí para que index.css solo importe.
-*/
-
 :root{
-  --brand-success: #2A6130;
-  --color-teal: #1B3D4E;
-  --plan-overlay: rgba(255,255,255,0.04);
+  /* Branding tokens */
+  --brand-teal: #1B3D4E;     /* primary / header accents */
+  --brand-success: #2A6130;  /* packages CTA (verde) */
+  --brand-cta: #DC6D27;      /* optional accent (orange) */
+  --text-dark: #102021;
+  --muted-1: rgba(0,0,0,0.06);
 }
 
-/* ---------- Plan cards (oscuro) ---------- */
+/* =========================
+   Buttons (accessible)
+   ========================= */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding: .75rem 1.25rem;
+  border-radius: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #ffffff !important;
+  background-color: var(--brand-teal) !important;
+  box-shadow: 0 10px 28px rgba(16,32,33,0.06);
+  transition: transform .12s ease, box-shadow .12s ease, background-color .12s ease;
+}
+.btn-primary:hover {
+  background-color: color-mix(in srgb, var(--brand-teal) 85%, black 15%) !important;
+  transform: translateY(-2px);
+}
+.btn-primary:disabled,
+.btn-primary[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Outline (uses brand-teal for stroke and hover fill) */
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding: .65rem 1.05rem;
+  border-radius: .75rem;
+  font-weight: 700;
+  background: transparent !important;
+  color: var(--brand-teal) !important;
+  border: 2px solid var(--brand-teal) !important;
+  transition: background-color .12s ease, color .12s ease, transform .12s ease;
+}
+.btn-outline:hover {
+  background: var(--brand-teal) !important;
+  color: #fff !important;
+  transform: translateY(-1px);
+}
+
+/* Neutral button */
+.btn-neutral {
+  @apply bg-white text-gray-800;
+  padding: .62rem 1rem;
+  border-radius: .75rem;
+  border: 1px solid rgba(16,32,33,0.06);
+}
+
+/* Focus states (accessibility) */
+.btn-primary:focus, .btn-outline:focus, .plan-cta:focus {
+  outline: 3px solid rgba(27,61,78,0.12);
+  outline-offset: 3px;
+}
+
+/* =========================
+   Plan cards (dark, legible)
+   ========================= */
 .plan-card-dark {
   position: relative;
-  border-radius: 1rem;
-  overflow: hidden;
+  border-radius: 16px;
+  overflow: visible; /* inner panel may overflow visually */
   min-height: 260px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 2.2rem 1.5rem;
-  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-  border: 1px solid rgba(255,255,255,0.06);
-  backdrop-filter: blur(6px);
+  padding: 1.25rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(16,32,33,0.04);
   box-shadow: 0 14px 40px rgba(16,32,33,0.06);
-  color: #FFFFFF;
+  color: var(--text-dark);
 }
 
+/* interior dark panel behind the big number / price */
 .plan-card-dark .plan-top {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  align-items: center;
+  width: calc(100% - 2rem);
+  margin: 0.5rem auto 0 auto;
+  background: rgba(0,0,0,0.16);
+  color: #fff;
+  padding: 1rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+  backdrop-filter: blur(4px);
 }
 
+/* big number + subtitle + price */
 .plan-display {
   font-weight: 900;
-  font-size: 3.5rem;
+  font-size: 3.2rem;
   line-height: 1;
   color: #fff;
   text-transform: uppercase;
   letter-spacing: -0.02em;
-  text-align: center;
-  text-shadow: 0 12px 30px rgba(0,0,0,0.25);
+  text-shadow: 0 10px 26px rgba(0,0,0,0.36);
 }
-
-.plan-sub { font-size: .85rem; color: rgba(255,255,255,0.9); font-weight:700; margin-top:-6px; text-transform:uppercase; }
-.plan-price { font-size: 1.6rem; font-weight:800; color:#fff; margin-top:.25rem; text-shadow:0 6px 18px rgba(0,0,0,0.18); }
-.plan-desc { color: rgba(255,255,255,0.9); }
-
-/* CTA verde */
-.plan-cta {
-  background: var(--brand-success);
+.plan-sub {
+  font-size: .82rem;
+  color: rgba(255,255,255,0.95);
+  font-weight: 700;
+  margin-top: .25rem;
+  text-transform: uppercase;
+}
+.plan-price {
+  font-size: 1.4rem;
+  font-weight: 800;
   color: #fff;
-  padding: .72rem 1rem;
+  margin-top: .4rem;
+  text-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+.plan-desc { color: rgba(255,255,255,0.88); font-size:.95rem; }
+
+/* plan CTA — strong green, full width */
+.plan-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: .7rem 1rem;
   border-radius: .6rem;
   font-weight: 800;
-  box-shadow: 0 10px 26px rgba(42,97,48,0.18);
-  transition: transform .12s, box-shadow .12s, background .12s;
-  border: none;
   width: 100%;
+  background: var(--brand-success) !important;
+  color: #fff !important;
+  box-shadow: 0 10px 26px rgba(42,97,48,0.18);
+  border: none;
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
 }
-.plan-cta:hover { background:#255325; transform: translateY(-2px); box-shadow:0 16px 36px rgba(42,97,48,0.22); }
+.plan-cta:hover { background: color-mix(in srgb, var(--brand-success) 88%, black 12%) !important; transform: translateY(-2px); }
 
-/* Forzar contraste dentro de la sección plan */
-.plan-section .plan-card-dark * { color: inherit !important; }
-
-/* ---------- Overlays y tarjetas ---------- */
-/* Forzar overlay oscuro para las variantes que mencionamos */
-[class*="overlay"], .card::after {
-  background: linear-gradient(180deg, rgba(10,20,22,0.55) 0%, rgba(10,20,22,0.35) 40%, rgba(255,255,255,0.02) 100%) !important;
+/* if old overlays exist inside plan card, hide them (only here) */
+.plan-card-dark [class*="overlay"], .plan-card-dark::after {
+  display: none !important;
 }
-.card .card-content, .class-card .card-content {
-  z-index: 2;
+
+/* responsive tweaks */
+@media (max-width: 640px) {
+  .plan-display { font-size: 2.4rem; }
+  .plan-card-dark .plan-top { padding: .8rem; width: calc(100% - 1.2rem); }
+}
+
+/* =========================
+   Global overlays / card-content
+   ========================= */
+/* Dark overlay default for images/cards so text above is readable */
+[class*="overlay"],
+.card::after,
+.image-overlay,
+.overlay,
+.thumbnail-overlay,
+.hero .image-overlay {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background: linear-gradient(180deg, rgba(10,20,22,0.56) 0%, rgba(10,20,22,0.36) 40%, rgba(255,255,255,0.02) 100%) !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+/* card content above the overlay */
+.card .card-content,
+.class-card .card-content {
   position: relative;
+  z-index: 2;
   color: #fff !important;
   text-shadow: 0 6px 18px rgba(0,0,0,0.35) !important;
 }
 
-/* ---------- Principles styles ---------- */
-.principle-icon svg { color: var(--color-teal); stroke: currentColor; fill: none; }
+/* allow explicit light cards */
+.card.light::after,
+.card.light .image-overlay { background: none !important; }
+.card.light .card-content { color: var(--text-dark) !important; text-shadow: none !important; }
+
+/* =========================
+   Principles (icons + title)
+   ========================= */
+.principle-icon svg { color: var(--brand-teal); stroke: currentColor; fill: none; }
 .principle-title {
   margin-top: 0.5rem;
   font-style: italic;
   font-weight: 700;
-  color: var(--color-teal);
+  color: var(--brand-teal);
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 1rem;
   line-height: 1;
-  letter-spacing: 0.01em;
-}
-@media (min-width: 1024px) {
-  .principle-title { font-size: 1.05rem; }
-  .principle-icon { width: 72px; height: 72px; }
 }
 
-/* Pequeño helper para troubleshooting si algo lo oculta */
+/* small helper */
 .no-overlay [class*="overlay"], .no-overlay::after { background: none !important; }
-
-
-.plan-card-dark {
-  /* base sutil ya existente, mantenemos pero reforzamos */
-  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)) !important;
-  color: #fff !important;
-}
-
-/* Panel interior oscuro detrás del contenido principal (número, subtítulo, precio) */
-.plan-card-dark .plan-top {
-  background: rgba(0,0,0,0.18);        /* fondo semitransparente oscuro */
-  padding: 1.25rem;                    /* espacio interior */
-  border-radius: 12px;                 /* redondeo dentro de la tarjeta */
-  width: calc(100% - 2rem);            /* dejar algo de margen lateral */
-  margin: 0.5rem auto 0 auto;          /* centrar el panel dentro de la tarjeta */
-  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-  backdrop-filter: blur(4px);          /* efecto frosted */
-}
-
-/* Asegurar que los textos principales sean blancos y con sombra para contraste */
-.plan-card-dark .plan-display,
-.plan-card-dark .plan-price,
-.plan-card-dark .plan-sub {
-  color: #fff !important;
-  text-shadow: 0 8px 22px rgba(0,0,0,0.35) !important;
-}
-
-/* Si hay overlays blancas dentro de la tarjeta que laven el contenido, ocultarlas sólo en .plan-card-dark */
-.plan-card-dark [class*="overlay"],
-.plan-card-dark::after {
-  display: none !important;
-}
-
-/* CTA: forzar visibilidad y contraste */
-.plan-card-dark .plan-cta {
-  background: var(--brand-success) !important;
-  color: #fff !important;
-  box-shadow: 0 10px 26px rgba(42,97,48,0.18);
-}
-
-/* Ajustes móviles */
-@media (max-width: 640px) {
-  .plan-card-dark .plan-top {
-    padding: 0.9rem;
-    width: calc(100% - 1.2rem);
-  }
-  .plan-display { font-size: 2.4rem; }
-}
