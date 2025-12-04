@@ -1,50 +1,30 @@
 import React from "react";
 
 /**
- * Logo component (usa los nombres de archivos existentes en public/images/)
- *
- * Variants soportadas (mapeo a nombres reales que muestras en las capturas):
- * - nombre_azul       -> /images/LogoNombre_Azul.png
- * - nombre_blanco     -> /images/LogoNombre_Blanco.png
- * - nombre_cafe       -> /images/LogoNombre_Cafe.png
- * - nombre_naranja    -> /images/LogoNombre_Naranja.png
- * - icon_azul         -> /images/Logo_Azul.png
- * - icon_blanco       -> /images/Logo_Blanco.png
- * - icon_cafe         -> /images/Logo_Cafe.png
- * - icon_naranja      -> /images/Logo_Naranja.png
- * - icon_verde        -> /images/Logo_Verde.png
- * - ollin             -> /images/Logo_Ollin.png
- * - conNombreOllin    -> /images/Logo%20con%20Nombre_Ollin.png  (url-encoded)
- *
- * default: 'nombre_azul'
+ * Logo component
+ * - variant: 'icon' | 'withText' | 'image' (default 'image')
+ * - image: filename in /public/images (default LogoNombre_Azul.png)
+ * - size: css size for text-logo base (px) or 'md'|'lg' etc.
  */
-export default function Logo({ variant = "nombre_azul", className = "", alt = "OL-LIN Estudio Fitness" }) {
-  const map = {
-    nombre_azul: "/images/LogoNombre_Azul.png",
-    nombre_blanco: "/images/LogoNombre_Blanco.png",
-    nombre_cafe: "/images/LogoNombre_Cafe.png",
-    nombre_naranja: "/images/LogoNombre_Naranja.png",
+export default function Logo({ variant = "image", image = "LogoNombre_Azul.png", size = 48, className = "", alt = "OL-LIN" }) {
+  const src = `/images/${image}`;
 
-    icon_azul: "/images/Logo_Azul.png",
-    icon_blanco: "/images/Logo_Blanco.png",
-    icon_cafe: "/images/Logo_Cafe.png",
-    icon_naranja: "/images/Logo_Naranja.png",
-    icon_verde: "/images/Logo_Verde.png",
+  if (variant === "withText") {
+    // Ajustar variable CSS del tamaño
+    const style = { ["--logo-base-size"]: `${size}px` };
+    return (
+      <div className={`flex items-center gap-3 ${className}`} style={style}>
+        <img src={src} alt={alt} className="header-logo-img" loading="lazy" decoding="async" />
+        <div className="logo-text">
+          <span className="logo-main">OL-LIN</span>
+          <span className="logo-sub">Estudio Fitness</span>
+        </div>
+      </div>
+    );
+  }
 
-    ollin: "/images/Logo_Ollin.png",
-    // Archivo con espacio en el nombre — referenciado url-encoded
-    conNombreOllin: "/images/Logo%20con%20Nombre_Ollin.png",
-  };
-
-  const src = map[variant] || map.nombre_azul;
-
+  // variant image or icon
   return (
-    <img
-      src={src}
-      alt={alt}
-      className={className}
-      loading="lazy"
-      decoding="async"
-    />
+    <img src={src} alt={alt} className={`${className} header-logo-img`} loading="lazy" decoding="async" />
   );
 }
