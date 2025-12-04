@@ -5,6 +5,8 @@ import Navbar from '../components/layout/Navbar';
 import AuthModal from '../components/auth/AuthModal';
 import userPackageService from '../services/userPackageService';
 import { Calendar, ArrowRight, Check, Star, Users, Dumbbell } from 'lucide-react';
+import Principles from '../components/Principles';
+
 
 const Home = () => {
   const { isAuthenticated, user } = useAuth();
@@ -188,6 +190,7 @@ const Home = () => {
         </section>
 
       {/* SECCIÓN: 6 PRINCIPIOS */}
+      Principles >
       <section id="quienes-somos-section" className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 max-w-3xl mx-auto">
@@ -206,6 +209,7 @@ const Home = () => {
           </div>
         </div>
       </section>
+      <Principles />
 
       { /* =================== SECCIÓN: Clases (REEMPLAZAR BLOQUE DE classesInfo.map) =================== */ }
       <section className="py-20 bg-white">
