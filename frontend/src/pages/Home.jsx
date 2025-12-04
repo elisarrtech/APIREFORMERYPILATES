@@ -26,7 +26,9 @@ const Home = () => {
       if (hasActivePackages) {
         navigate('/schedules');
       } else {
-        alert('⚠️ No tienes paquetes activos.\n\nPara reservar una clase, primero debes comprar un paquete.\n\n📦 Elige tu paquete abajo.');
+        alert(
+          '⚠️ No tienes paquetes activos.\n\nPara reservar una clase, primero debes comprar un paquete.\n\n📦 Elige tu paquete abajo.'
+        );
         const packagesSection = document.getElementById('paquetes-section');
         if (packagesSection) packagesSection.scrollIntoView({ behavior: 'smooth' });
       }
@@ -75,8 +77,8 @@ const Home = () => {
 
               {/* IMAGEN */}
               <div className="w-full lg:w-[52%] relative">
-                <div className="absolute -left-4 top-1/4 w-1 h-32 bg-gradient-to-b from-sage-500 to-sage-700 opacity-30 rounded-full hidden lg:block"></div>
-                <div className="absolute -right-4 bottom-1/4 w-1 h-24 bg-gradient-to-b from-sage-700 to-sage-500 opacity-20 rounded-full hidden lg:block"></div>
+                <div className="absolute -left-4 top-1/4 w-1 h-32 bg-gradient-to-b from-sage-500 to-sage-700 opacity-30 rounded-full hidden lg:block" />
+                <div className="absolute -right-4 bottom-1/4 w-1 h-24 bg-gradient-to-b from-sage-700 to-sage-500 opacity-20 rounded-full hidden lg:block" />
 
                 <div className="relative group">
                   <div className="absolute -inset-4 bg-gradient-to-br from-sage-500/10 to-sage-700/5 rounded-3xl blur-2xl opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
@@ -169,8 +171,10 @@ const Home = () => {
           </div>
 
           <Principles />
+        </div>
+      </section>
 
-      { /* =================== SECCIÓN: Clases (REEMPLAZAR BLOQUE DE classesInfo.map) =================== */ }
+      {/* SECCIÓN: Clases */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -184,7 +188,6 @@ const Home = () => {
                 key={index}
                 className="class-card group cursor-pointer transform transition-all hover:scale-105 hover:shadow-2xl relative"
               >
-                {/* Imagen + overlay oscuro consistente */}
                 <div className="absolute inset-0">
                   <img src={classItem.image} alt={classItem.name} className="w-full h-full object-cover" loading="lazy" />
                   <div className="image-overlay" aria-hidden />
@@ -209,66 +212,65 @@ const Home = () => {
         </div>
       </section>
 
-    {/* =================== SECCIÓN: Paquetes (restaurada versión oscura con textos grandes blancos) =================== */}
-<section id="paquetes-section" className="py-20 bg-gradient-to-br from-sage-600 to-sage-700 plan-section">
-  <div className="container mx-auto px-4">
-    <div className="text-center mb-12">
-      <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">Elige tu Plan de Clases</h2>
-      <p className="text-sage-100 max-w-2xl mx-auto">Encuentra el paquete perfecto para tu ritmo de entrenamiento</p>
-    </div>
-
-    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-      {packages.map((pkg) => (
-        <div
-          key={pkg.id}
-          className={`plan-card-dark transition-all duration-300 ease-in-out flex flex-col group text-center relative`}
-          role="region"
-          aria-label={`Paquete ${pkg.name}`}
-        >
-          {pkg.popular && (
-            <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
-              <div className="bg-white text-sage-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide flex items-center gap-1 shadow-lg">
-                <Star size={12} fill="currentColor" /> Más Popular
-              </div>
-            </div>
-          )}
-
-          <div className="plan-top">
-            <div className="plan-display">{pkg.displayTitle}</div>
-            <div className="plan-sub"> {pkg.classes > 1 ? 'PAQUETE' : 'CLASE'}</div>
-            <div className="plan-price mt-2">{pkg.price}</div>
-            {pkg.validity && <div className="plan-desc mt-2 text-sm">Vigencia: {pkg.validity} días</div>}
+      {/* SECCIÓN: Paquetes */}
+      <section id="paquetes-section" className="py-20 bg-gradient-to-br from-sage-600 to-sage-700 plan-section">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">Elige tu Plan de Clases</h2>
+            <p className="text-sage-100 max-w-2xl mx-auto">Encuentra el paquete perfecto para tu ritmo de entrenamiento</p>
           </div>
 
-          <ul className="mb-6 text-left mt-6 flex-1 px-2 space-y-2">
-            {(pkg.features || []).map((f, i) => (
-              <li key={i} className="text-sm text-white flex items-start gap-3">
-                <span className="mt-1 text-white bg-white/10 rounded-full w-6 h-6 flex items-center justify-center text-xs">✓</span>
-                <span>{f}</span>
-              </li>
-            ))}
-          </ul>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+            {packages.map((pkg) => (
+              <div
+                key={pkg.id}
+                className={`plan-card-dark transition-all duration-300 ease-in-out flex flex-col group text-center relative`}
+                role="region"
+                aria-label={`Paquete ${pkg.name}`}
+              >
+                {pkg.popular && (
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
+                    <div className="bg-white text-sage-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide flex items-center gap-1 shadow-lg">
+                      <Star size={12} fill="currentColor" /> Más Popular
+                    </div>
+                  </div>
+                )}
 
-          <div className="mt-4">
-            <button
-              className="plan-cta"
-              onClick={() => {
-                if (!isAuthenticated) {
-                  setAuthModalOpen(true);
-                } else {
-                  // navega o abre modal de compra — reemplaza segun tu lógica
-                  navigate('/schedules');
-                }
-              }}
-            >
-              Comprar
-            </button>
+                <div className="plan-top">
+                  <div className="plan-display">{pkg.displayTitle}</div>
+                  <div className="plan-sub"> {pkg.classes > 1 ? 'PAQUETE' : 'CLASE'}</div>
+                  <div className="plan-price mt-2">{pkg.price}</div>
+                  {pkg.validity && <div className="plan-desc mt-2 text-sm">Vigencia: {pkg.validity} días</div>}
+                </div>
+
+                <ul className="mb-6 text-left mt-6 flex-1 px-2 space-y-2">
+                  {(pkg.features || []).map((f, i) => (
+                    <li key={i} className="text-sm text-white flex items-start gap-3">
+                      <span className="mt-1 text-white bg-white/10 rounded-full w-6 h-6 flex items-center justify-center text-xs">✓</span>
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-4">
+                  <button
+                    className="plan-cta"
+                    onClick={() => {
+                      if (!isAuthenticated) {
+                        setAuthModalOpen(true);
+                      } else {
+                        navigate('/schedules');
+                      }
+                    }}
+                  >
+                    Comprar
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-      ))}
-    </div>
-  </div>
-</section>
+      </section>
 
       {/* CTA FINAL */}
       <section className="py-20 bg-white">
