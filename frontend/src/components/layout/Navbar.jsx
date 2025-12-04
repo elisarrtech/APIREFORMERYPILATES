@@ -3,7 +3,6 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Menu, X, User, LogOut, ChevronDown } from 'lucide-react';
 import { FaFacebookF, FaInstagram } from 'react-icons/fa';
-import Logo from '../Logo';
 
 /**
  * Navbar Component - OL LIN (isotipo a la izquierda + texto al lado)
@@ -57,8 +56,14 @@ const Navbar = () => {
           <div className="flex items-center justify-between h-20">
             {/* Logo (isotipo azul sin nombre) + texto a la derecha */}
             <Link to="/" className="flex items-center gap-3">
-              {/* Uso el componente Logo y la variante del isotipo azul */}
-              <Logo variant="Logo_Azul.png" size="lg" className="flex-shrink-0" alt="OL LIN logo" />
+              {/* Usamos el asset LogoNombre_Azul.png y lo limitamos para que quede proporcionado dentro del header h-20 */}
+              <img
+                src="/images/LogoNombre_Azul.png"
+                alt="OL-LIN Estudio Fitness"
+                className="h-12 sm:h-14 md:h-14 lg:h-16 w-auto object-contain"
+                loading="lazy"
+                decoding="async"
+              />
               {/* Texto al lado del isotipo - visible en sm+ */}
               <div className="hidden sm:flex flex-col leading-none">
                 <div className="text-lg lg:text-xl font-extrabold text-gray-800 tracking-tight">OL LIN</div>
