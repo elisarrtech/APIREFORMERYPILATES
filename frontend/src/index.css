@@ -1,125 +1,102 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* ---------- Ajustes visuales para sección PAQUETES (restaurar look oscuro) ---------- */
+/* Pega esto al final de tu src/index.css o en src/styles/branding.css */
 
-/* Importo branding (si ya lo tienes) */
-@import "./styles/branding.css";
-
-/* ================= layer components (Tailwind procesará en el orden correcto) ================ */
-@layer components {
-  :root{
-    --color-lilac: #E1DBE1;
-    --color-orange: #DC6D27;
-    --color-teal: #1B3D4E;
-    --color-brown: #944E22;
-    --color-green: #2A6130;
-
-    --brand: var(--color-teal);
-    --brand-cta: var(--color-orange);
-    --brand-success: var(--color-green);
-    --text-dark: #102021;
-  }
-
-  /* Botones (base) */
-  .btn-primary {
-    @apply text-white font-bold rounded-lg;
-    background-color: var(--brand-cta);
-    padding: .65rem 1.2rem;
-    box-shadow: 0 8px 22px rgba(27,61,78,0.08);
-    transition: transform .12s, box-shadow .12s, background-color .12s;
-  }
-  .btn-primary:hover { background-color:#c25620; transform:translateY(-2px); }
-
-  .btn-outline {
-    @apply rounded-lg font-bold;
-    color: var(--brand);
-    border: 2px solid var(--brand);
-    padding: .6rem 1rem;
-    background: transparent;
-  }
-  .btn-outline:hover { color:#fff; background:var(--brand); }
-
-  .btn-neutral {
-    @apply bg-white text-gray-800 rounded-lg;
-    padding: .6rem 1rem;
-    border: 1px solid rgba(16,32,33,0.06);
-  }
-
-  /* Cards / class cards / plan cards (bases) */
-  .card { position: relative; overflow:hidden; border-radius: 1rem; background:#fff; }
-  .class-card { position:relative; overflow:hidden; border-radius:1rem; min-height:220px; padding:1.25rem; display:flex; align-items:flex-start; box-shadow:0 8px 30px rgba(16,32,33,0.04); }
-  .plan-card { @apply bg-white rounded-xl p-6; border:1px solid rgba(16,32,33,0.06); box-shadow:0 10px 28px rgba(16,32,33,0.04); color:var(--text-dark); }
-
-  /* Overlay oscuro por defecto (mejor legibilidad) - aplicado con alta especificidad */
-  .card::after,
-  .card .card-overlay,
-  .class-card::after,
-  .class-card .image-overlay,
-  .image-overlay,
-  .overlay,
-  .thumbnail-overlay,
-  .hero .image-overlay,
-  .hero-overlay {
-    content: "" !important;
-    position: absolute !important;
-    inset: 0 !important;
-    background: linear-gradient(180deg, rgba(10,20,22,0.60) 0%, rgba(10,20,22,0.35) 45%, rgba(255,255,255,0.02) 100%) !important;
-    pointer-events: none !important;
-    z-index: 1 !important;
-  }
-
-  /* Contenido de tarjeta por encima */
-  .card .card-content,
-  .class-card .card-content,
-  .card .card-text,
-  .class-card .title,
-  .class-card .excerpt {
-    position: relative !important;
-    z-index: 2 !important;
-    color: #ffffff !important;
-    text-shadow: 0 6px 18px rgba(0,0,0,0.35) !important;
-  }
-
-  /* Si una tarjeta está marcada como 'light' la dejaremos clara */
-  .card.light::after, .card.light .image-overlay, .card.light .overlay { background: none !important; }
-  .card.light .card-content { color: var(--text-dark) !important; text-shadow: none !important; }
-
-  /* Planes: acento verde y botones */
-  .plan-card .plan-price { color: var(--brand-success) !important; font-weight:800; font-size:1.9rem; }
-  .plan-card .plan-cta { background: var(--brand-success) !important; color: #fff !important; padding:.55rem 1rem; border-radius:.6rem; font-weight:700; }
-  .plan-card .plan-cta:hover { background:#255325 !important; }
-
-  /* WhatsApp FAB */
-  .fab-whatsapp { background: var(--brand-success) !important; color:#fff !important; width:64px; height:64px; border-radius:999px; box-shadow:0 8px 26px rgba(42,97,48,0.24); display:flex; align-items:center; justify-content:center; }
-
-  /* Asegurar contraste en hero buttons si están ocultos */
-  .hero .btn-primary, .hero .btn-outline, .hero button {
-    z-index: 6 !important;
-    color: #fff !important;
-  }
+:root{
+  --brand-success: #2A6130;   /* verde de la paleta */
+  --brand-teal: #1B3D4E;      /* teal */
+  --plan-overlay: rgba(255,255,255,0.04);
 }
 
-/* =============== base global =============== */
-@layer base {
-  html, body {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: var(--text-dark);
-    background: white;
-  }
-  h1,h2,h3 { color: var(--text-dark); }
+/* Contenedor de la sección de paquetes (mantén el fondo oscuro en el section) */
+.plan-section {
+  /* No hace falta aquí, la sección tendrá bg-gradient en el JSX */
 }
 
-/* =================== Overrides fuertes finales (si algo sigue oculto) =================== */
-/* Estas reglas buscan clases comunes de overlay y forzan visibilidad del texto y botones */
-[class*="overlay"] { /* cualquier clase que contenga 'overlay' */
-  background: linear-gradient(180deg, rgba(10,20,22,0.60) 0%, rgba(10,20,22,0.35) 45%, rgba(255,255,255,0.02) 100%) !important;
+/* Plan card estilo oscuro (muestra el texto grande blanco) */
+.plan-card-dark {
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2.2rem 1.5rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 14px 40px rgba(16,32,33,0.06);
+  color: #FFFFFF;
 }
-.card * { color: #fff !important; } /* Forzar texto blanco dentro de .card */
-.class-card * { color: #fff !important; }
-.plan-card * { color: inherit !important; } /* planes siguen texto oscuro por defecto excepto plan-price y plan-cta */
 
-button.btn-primary, .btn-primary { background: var(--brand-cta) !important; color: #fff !important; }
-button.btn-outline, .btn-outline { border-color: var(--brand) !important; color: var(--brand) !important; background: transparent !important; }
+/* Si quieres que el contenedor parezca más transparente, usa bg-white/10 pero aquí uso subtle */
+.plan-card-dark .plan-top {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  align-items: center;
+}
 
-/* Small helper para depuración temporal: añadir .no-overlay a un contenedor para desactivar overlays */
-.no-overlay [class*="overlay"], .no-overlay::after { background: none !important; }
+/* Texto grande y blanco (el que tenías) */
+.plan-display {
+  font-weight: 900;
+  font-size: 3.5rem; /* ajusta si necesitas más/menos */
+  line-height: 1;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  text-align: center;
+  text-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+
+/* Subtítulo (CLASE / PAQUETE) */
+.plan-sub {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.9);
+  font-weight: 700;
+  margin-top: -6px;
+  text-transform: uppercase;
+}
+
+/* Price */
+.plan-price {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #fff;
+  margin-top: 0.25rem;
+  text-shadow: 0 6px 18px rgba(0,0,0,0.18);
+}
+
+/* CTA del plan: verde visible */
+.plan-cta {
+  background: var(--brand-success);
+  color: #fff;
+  padding: .72rem 1rem;
+  border-radius: .6rem;
+  font-weight: 800;
+  box-shadow: 0 10px 26px rgba(42,97,48,0.18);
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+  border: none;
+  width: 100%;
+}
+.plan-cta:hover {
+  background: #255325;
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px rgba(42,97,48,0.22);
+}
+
+/* Make sure the smaller description text on dark card is readable */
+.plan-card-dark .plan-desc {
+  color: rgba(255,255,255,0.9);
+  font-size: 0.95rem;
+}
+
+/* If any global overlay was hiding content, ensure plan area shows text:
+   higher specificity for text inside plan section */
+.plan-section .plan-card-dark * { color: inherit !important; }
+
+/* For accessibility: ensure buttons on dark backgrounds have focus outline */
+.plan-cta:focus {
+  outline: 3px solid rgba(42,97,48,0.18);
+  outline-offset: 3px;
+}
