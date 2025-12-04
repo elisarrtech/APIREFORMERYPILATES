@@ -2,28 +2,128 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "./styles/branding.css";
+/* Branding + overrides integrados en @layer components para que Tailwind los procese */
+@layer components {
+  :root{
+    --color-lilac: #E1DBE1;
+    --color-orange: #DC6D27;
+    --color-teal: #1B3D4E;
+    --color-brown: #944E22;
+    --color-green: #2A6130;
 
-/* Aseguramos que los botones primarios/outline usen las clases globales si algún componente no los asigna */
-.btn-primary, .btn-outline, .btn-neutral { display: inline-flex; align-items: center; justify-content: center; }
+    --brand: var(--color-teal);
+    --brand-cta: var(--color-orange);
+    --brand-success: var(--color-green);
+    --text-dark: #102021;
+  }
 
-/* Corrige overlay blanco en secciones que antes ocultaban tarjetas */
-.hero .image-overlay, .card .image-overlay {
-  /* Reemplazamos overlay claro por overlay oscuro para legibilidad */
-  background: linear-gradient(180deg, rgba(10,20,22,0.45) 0%, rgba(10,20,22,0.25) 40%, rgba(255,255,255,0.02) 100%);
+  /* Buttons */
+  .btn-primary {
+    @apply text-white font-bold rounded-lg;
+    background-color: var(--brand-cta);
+    padding: .65rem 1.2rem;
+    box-shadow: 0 8px 22px rgba(27,61,78,0.08);
+    transition: transform .12s, box-shadow .12s, background-color .12s;
+  }
+  .btn-primary:hover {
+    background-color: #c25620;
+    transform: translateY(-2px);
+    box-shadow: 0 14px 32px rgba(27,61,78,0.12);
+  }
+
+  .btn-outline {
+    @apply rounded-lg font-bold;
+    color: var(--brand);
+    border: 2px solid var(--brand);
+    padding: .6rem 1rem;
+    background: transparent;
+    transition: background-color .12s, color .12s, transform .12s;
+  }
+  .btn-outline:hover {
+    color: #fff;
+    background: var(--brand);
+    transform: translateY(-1px);
+  }
+
+  .btn-neutral {
+    @apply bg-white text-gray-800 rounded-lg;
+    padding: .6rem 1rem;
+    border: 1px solid rgba(16,32,33,0.06);
+  }
+
+  /* Card overlays: oscuro en la parte superior -> transparente abajo (mejor legibilidad) */
+  .card::after,
+  .image-overlay {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(10,20,22,0.55) 0%, rgba(10,20,22,0.35) 40%, rgba(255,255,255,0.02) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Contenido de tarjeta por encima del overlay */
+  .card .card-content,
+  .class-card .card-content {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    text-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  }
+
+  /* Si la tarjeta NO debe overlay (tarjeta clara) */
+  .card.light::after, .card.light .image-overlay { background: none; }
+  .card.light .card-content { color: var(--text-dark); text-shadow: none; }
+
+  /* Class cards */
+  .class-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    min-height: 220px;
+    display: flex;
+    align-items: flex-start;
+    padding: 1.25rem;
+    box-shadow: 0 8px 30px rgba(16,32,33,0.04);
+  }
+  .class-card .title { @apply text-xl font-extrabold; color: #fff; }
+  .class-card .excerpt { color: rgba(255,255,255,0.92); }
+
+  /* Plan cards */
+  .plan-card {
+    @apply bg-white rounded-xl p-6;
+    border: 1px solid rgba(16,32,33,0.06);
+    box-shadow: 0 10px 28px rgba(16,32,33,0.04);
+    color: var(--text-dark);
+  }
+  .plan-card .plan-price { color: var(--brand-success); font-weight: 800; font-size: 1.8rem; }
+  .plan-card .plan-cta { background: var(--brand-success); color: #fff; padding: .5rem 1rem; border-radius: .6rem; font-weight: 700; }
+  .plan-card .plan-cta:hover { background: #255325; }
+
+  /* WhatsApp FAB */
+  .fab-whatsapp { background: var(--brand-success); color: #fff; width: 64px; height:64px; border-radius:999px; box-shadow:0 8px 26px rgba(42,97,48,0.24); display:flex; align-items:center; justify-content:center; }
+
+  /* Force contrast rules when otras hojas las sobreescriben */
+  .force-contrast .btn-primary, .force-contrast .btn-outline { z-index: 5; }
 }
 
-/* Asegura que el texto dentro de los thumbnails sea visible */
-.card .card-text, .class-card .title, .class-card .excerpt {
-  color: #fff !important;
-  text-shadow: 0 4px 18px rgba(0,0,0,0.35);
+/* global base */
+@layer base {
+  html, body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: var(--text-dark);
+    background: white;
+  }
+
+  /* Asegura titular visible en secciones claras */
+  h1,h2,h3 { color: var(--text-dark); }
 }
 
-/* Planes: que los títulos no queden lavados */
-.plan-section .section-title { color: var(--text-dark); }
-
-/* Force contrast for CTA outline buttons that were disappearing */
-button.btn-outline, .btn-outline {
-  border-color: var(--brand);
-  color: var(--brand);
+/* Small utility for debugging overlays (usa esta clase en un contenedor si el texto se está ocultando) */
+.no-light-overlay .card::after, .no-light-overlay .image-overlay {
+  background: linear-gradient(180deg, rgba(10,20,22,0.45) 0%, rgba(10,20,22,0.25) 60%, rgba(255,255,255,0.03) 100%);
 }
+
+/* Fallbacks - por si aún hay reglas inline o especificidades mayores:
+   aumenta especificidad donde sea estrictamente necesario (ejemplo urgentísimo) */
+.card .card-content.important { color: #fff !important; }
