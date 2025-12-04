@@ -1,22 +1,40 @@
-:root{
-  --brand: #0D4854;
+:root {
+  /* Branding */
+  --brand-primary: #0D4854;
   --brand-dark: #0B2E34;
-  --brand-light: #F7F6F4;
-  --brown: #8A4A27;
-  --orange: #E4691C;
-  --orange-soft: #F2A65A;
-  --green: #1E6A3C;
+  --brand-light: #E9E6EA;
+
+  /* Logo variants */
+  --logo-black: #000000;
+  --logo-light: #E9E6EA;
+
+  /* Accents */
+  --accent-brown: #8A4A27;
+  --accent-orange: #E4691C;
+  --accent-orange-soft: #F2A65A;
+  --accent-green: #1E6A3C;
+
+  /* Neutrals */
+  --neutral-bg: #F7F6F4;
   --text-on-dark: #FFFFFF;
 }
 
-/* Ejemplos */
-.btn-primary{
-  background-color: var(--orange);
+/* Ejemplos rápidos de utilidades que puedes usar en CSS no-Tailwind */
+.btn-cta {
+  background-color: var(--accent-orange);
   color: var(--text-on-dark);
   border-radius: 0.5rem;
   padding: 0.6rem 1rem;
+  transition: background-color 150ms ease;
 }
-.header{
-  background-color: var(--brand);
+.btn-cta:hover {
+  background-color: var(--accent-orange-soft);
+}
+.header-dark {
+  background-color: var(--brand-primary);
   color: var(--text-on-dark);
+}
+.logo-light {
+  filter: none;
+  /* diseñado para usar la versión clara del logo sobre fondos oscuros */
 }
