@@ -101,8 +101,7 @@
   outline-offset: 3px;
 }
 
-
-/* Principios: estilo de íconos y títulos */
+/* Principles styles */
 .principle-icon svg { color: var(--color-teal, #1B3D4E); stroke: currentColor; fill: none; }
 .principle-title {
   margin-top: 0.5rem;
@@ -110,14 +109,13 @@
   font-weight: 700;
   color: var(--color-teal, #1B3D4E);
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  /* tamaño similar al screenshot, responsive */
   font-size: 1rem;
   line-height: 1;
   letter-spacing: 0.01em;
 }
-
-/* Ajustes responsivos */
 @media (min-width: 1024px) {
   .principle-title { font-size: 1.05rem; }
   .principle-icon { width: 72px; height: 72px; }
 }
+
+
