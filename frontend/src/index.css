@@ -100,3 +100,24 @@
   outline: 3px solid rgba(42,97,48,0.18);
   outline-offset: 3px;
 }
+
+
+/* Principios: estilo de íconos y títulos */
+.principle-icon svg { color: var(--color-teal, #1B3D4E); stroke: currentColor; fill: none; }
+.principle-title {
+  margin-top: 0.5rem;
+  font-style: italic;
+  font-weight: 700;
+  color: var(--color-teal, #1B3D4E);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* tamaño similar al screenshot, responsive */
+  font-size: 1rem;
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+
+/* Ajustes responsivos */
+@media (min-width: 1024px) {
+  .principle-title { font-size: 1.05rem; }
+  .principle-icon { width: 72px; height: 72px; }
+}
