@@ -58,7 +58,7 @@ const Navbar = () => {
             <Link to="/" className="flex items-center gap-3">
               {/* Usamos el asset LogoNombre_Azul.png y lo limitamos para que quede proporcionado dentro del header h-20 */}
               <img
-                src="/images/LogoNombre_Azul.png"
+                src="/images/Logo_Azul.png"
                 alt="OL-LIN Estudio Fitness"
                 className="h-12 sm:h-14 md:h-14 lg:h-16 w-auto object-contain"
                 loading="lazy"
