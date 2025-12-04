@@ -3,11 +3,10 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Menu, X, User, LogOut, ChevronDown } from 'lucide-react';
 import { FaFacebookF, FaInstagram } from 'react-icons/fa';
-import Logo from '../Logo';
 
 /**
- * Navbar Component - OL-LIN (solo isotipo en el header)
- * @version 1.2.1
+ * Navbar Component - OL-LIN (isotipo en el header: LogoNombre_Azul.png)
+ * @version 1.2.2
  */
 const Navbar = () => {
   const { isAuthenticated, user, logout } = useAuth();
@@ -59,9 +58,15 @@ const Navbar = () => {
       <nav className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 shadow-sm z-50">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between h-20">
-            {/* Solo isotipo (logo) sin texto */}
+            {/* Solo isotipo (LogoNombre_Azul.png) */}
             <Link to="/" className="flex items-center">
-              <Logo variant="icon_azul" className="w-10 h-10 object-contain" alt="OL-LIN logo" />
+              <img
+                src="/images/LogoNombre_Azul.png"
+                alt="OL-LIN Estudio Fitness"
+                className="w-10 h-10 object-contain"
+                loading="lazy"
+                decoding="async"
+              />
             </Link>
 
             {/* Desktop Menu */}
@@ -109,6 +114,7 @@ const Navbar = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 text-gray-700 hover:border-sage-600 hover:text-sage-600 transition-all duration-200"
+                aria-label="Facebook"
               >
                 <FaFacebookF size={16} />
               </a>
@@ -117,6 +123,7 @@ const Navbar = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 text-gray-700 hover:border-sage-600 hover:text-sage-600 transition-all duration-200"
+                aria-label="Instagram"
               >
                 <FaInstagram size={18} />
               </a>
@@ -126,6 +133,8 @@ const Navbar = () => {
                   <button
                     onClick={() => setAccountMenuOpen(!accountMenuOpen)}
                     className="flex items-center gap-2 px-6 py-2.5 bg-white border-2 border-gray-800 rounded-full text-gray-800 font-semibold text-sm uppercase tracking-wide hover:bg-gray-800 hover:text-white transition-all duration-200"
+                    aria-haspopup="true"
+                    aria-expanded={accountMenuOpen}
                   >
                     <User size={18} />
                     MI CUENTA
@@ -133,7 +142,7 @@ const Navbar = () => {
                   </button>
 
                   {accountMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-200 py-2 animate-fade-in">
+                    <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-200 py-2 animate-fade-in" role="menu">
                       <div className="px-4 py-3 border-b border-gray-100">
                         <p className="text-sm font-semibold text-gray-800">{user?.full_name || 'Usuario'}</p>
                         <p className="text-xs text-gray-500">{user?.email}</p>
