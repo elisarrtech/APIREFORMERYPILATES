@@ -3,10 +3,11 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Menu, X, User, LogOut, ChevronDown } from 'lucide-react';
 import { FaFacebookF, FaInstagram } from 'react-icons/fa';
+import Logo from '../Logo';
 
 /**
- * Navbar Component - Reformery Pilates Studio
- * @version 1.1.0 - ÉLITE MUNDIAL
+ * Navbar Component - Reformery Pilates Studio (actualizado a OL-LIN)
+ * @version 1.2.0
  * @author @elisarrtech
  */
 const Navbar = () => {
@@ -64,12 +65,13 @@ const Navbar = () => {
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between h-20">
             
-            <Link to="/" className="flex items-center gap-2">
-              <div className="text-2xl lg:text-3xl font-bold text-gray-800 tracking-tight">
-                Reformery
-              </div>
-              <div className="hidden sm:block text-xs text-gray-600 uppercase tracking-wider">
-                Pilates Studio
+            <Link to="/" className="flex items-center gap-3">
+              {/* Logo oficial + texto OL-LIN */}
+              {/* Uso variant nombre_azul ya que el fondo es blanco; ajusta si quieres otra variante */}
+              <Logo variant="nombre_azul" className="w-12 h-12 object-contain" alt="OL-LIN logo" />
+              <div className="hidden sm:flex flex-col leading-none">
+                <div className="text-xl lg:text-2xl font-extrabold text-gray-800 tracking-tight">OL-LIN</div>
+                <div className="text-xs text-gray-600 italic uppercase tracking-wider">Estudio Fitness</div>
               </div>
             </Link>
 
