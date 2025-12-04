@@ -30,8 +30,8 @@ const Footer = () => {
           {/* Column 1: Brand & Description */}
           <div className="space-y-4">
             <div>
-              <h3 className="text-3xl font-bold text-white mb-2">Reformery</h3>
-              <p className="text-sm text-sage-300 uppercase tracking-wider">Pilates Studio</p>
+              <h3 className="text-3xl font-bold text-white mb-2">OL-LIN</h3>
+              <p className="text-sm text-sage-300 uppercase tracking-wider">Estudio Fitness</p>
             </div>
             <p className="text-gray-300 text-sm leading-relaxed">
               Transforma tu cuerpo y mente con nuestras clases de Pilates Reformer. 
