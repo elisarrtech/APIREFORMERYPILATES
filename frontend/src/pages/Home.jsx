@@ -133,19 +133,19 @@ const Home = () => {
                     onClick={handleReserveClick}
                     disabled={checkingPackages}
                     aria-disabled={checkingPackages}
-                    className="inline-flex items-center justify-center px-8 py-4 bg-sage-600 text-white rounded-xl font-bold text-base uppercase tracking-wider hover:bg-sage-700 transform hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="btn-primary"
                   >
                     <Calendar className="mr-2" size={20} />
                     {checkingPackages ? 'Verificando...' : 'RESERVA TU CLASE'}
                   </button>
 
                   {!isAuthenticated ? (
-                    <button onClick={() => setAuthModalOpen(true)} className="inline-flex items-center justify-center px-8 py-4 border-2 border-sage-600 text-sage-700 rounded-xl font-bold text-base uppercase tracking-wider hover:bg-sage-50 transform hover:scale-[1.02] transition-all duration-300">
+                    <button onClick={() => setAuthModalOpen(true)} className="btn-outline">
                       INICIAR SESIÓN
                       <ArrowRight className="ml-2" size={20} />
                     </button>
                   ) : (
-                    <Link to={ user?.role === 'admin' ? '/admin/dashboard' : user?.role === 'instructor' ? '/instructor/dashboard' : '/client/dashboard' } className="inline-flex items-center justify-center px-8 py-4 border-2 border-sage-600 text-sage-700 rounded-xl font-bold text-base uppercase tracking-wider hover:bg-sage-50 transform hover:scale-[1.02] transition-all duration-300">
+                    <Link to={ user?.role === 'admin' ? '/admin/dashboard' : user?.role === 'instructor' ? '/instructor/dashboard' : '/client/dashboard' } className="btn-outline">
                       MI PANEL
                       <ArrowRight className="ml-2" size={20} />
                     </Link>
@@ -209,11 +209,11 @@ const Home = () => {
       </section>
 
       {/* SECCIÓN: Paquetes */}
-      <section id="paquetes-section" className="py-20 bg-gradient-to-br from-sage-600 to-sage-700 plan-section">
+      <section id="paquetes-section" className="py-20 plan-section">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">Elige tu Plan de Clases</h2>
-            <p className="text-sage-100 max-w-2xl mx-auto">Encuentra el paquete perfecto para tu ritmo de entrenamiento</p>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-800 mb-4">Elige tu Plan de Clases</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">Encuentra el paquete perfecto para tu ritmo de entrenamiento</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
@@ -285,7 +285,7 @@ const Home = () => {
               onClick={handleReserveClick}
               disabled={checkingPackages}
               aria-disabled={checkingPackages}
-              className="inline-flex items-center gap-3 bg-sage-600 text-white px-12 py-4 rounded-xl text-lg font-bold hover:bg-sage-700 transform transition-all uppercase tracking-wide hover:scale-[1.02] shadow-lg hover:shadow-xl disabled:opacity-50"
+              className="btn-primary"
             >
               <Calendar size={24} />
               {checkingPackages ? 'Verificando...' : 'Reserva tu Primera Clase'}
