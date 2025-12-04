@@ -7,7 +7,6 @@ import React from "react";
 export default function Principles() {
   const items = [
     { key: "flow", title: "flow", svg: (
-      // simple wave icon
       <svg viewBox="0 0 24 24" className="w-10 h-10" aria-hidden>
         <path d="M2 12c4-6 8 6 14 0 4-4 6 4 8 4" stroke="currentColor" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
@@ -49,7 +48,9 @@ export default function Principles() {
     <section aria-labelledby="principles-title" className="py-16 bg-white">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center mb-8">
-          <p className="text-gray-600">En el que te ayudaremos a través del movimiento a conectar con tu centro, y lograr que el cuerpo y mente trabajen en sinergia para lograr cualquier reto de nuestra vida diaria.</p>
+          <p className="text-gray-600">
+            En el que te ayudaremos a través del movimiento a conectar con tu centro, y lograr que el cuerpo y mente trabajen en sinergia para lograr cualquier reto de nuestra vida diaria.
+          </p>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 max-w-6xl mx-auto items-center">
