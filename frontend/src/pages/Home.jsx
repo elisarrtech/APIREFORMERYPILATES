@@ -4,9 +4,8 @@ import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/layout/Navbar';
 import AuthModal from '../components/auth/AuthModal';
 import userPackageService from '../services/userPackageService';
-import { Calendar, ArrowRight, Check, Star, Users, Dumbbell } from 'lucide-react';
+import { Calendar, ArrowRight, Dumbbell, Star } from 'lucide-react';
 import Principles from '../components/Principles';
-
 
 const Home = () => {
   const { isAuthenticated, user } = useAuth();
@@ -25,15 +24,11 @@ const Home = () => {
       const hasActivePackages = await userPackageService.hasActivePackages();
 
       if (hasActivePackages) {
-        // CORRECCIÓN: ruta plural /schedules
         navigate('/schedules');
       } else {
         alert('⚠️ No tienes paquetes activos.\n\nPara reservar una clase, primero debes comprar un paquete.\n\n📦 Elige tu paquete abajo.');
-        
         const packagesSection = document.getElementById('paquetes-section');
-        if (packagesSection) {
-          packagesSection.scrollIntoView({ behavior: 'smooth' });
-        }
+        if (packagesSection) packagesSection.scrollIntoView({ behavior: 'smooth' });
       }
     } catch (error) {
       console.error('Error verificando paquetes:', error);
@@ -43,9 +38,7 @@ const Home = () => {
     }
   };
 
-  const handleCloseAuthModal = () => {
-    setAuthModalOpen(false);
-  };
+  const handleCloseAuthModal = () => setAuthModalOpen(false);
 
   const packages = [
     { id: 1, name: 'Clase Muestra', classes: 1, displayTitle: '1', price: '$150', validity: 10, features: ['1 Clase Reformery'], popular: false },
@@ -72,41 +65,35 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      
+
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-sage-50 font-sans">
-        
+
         {/* HERO SECTION */}
         <section className="relative min-h-screen">
           <div className="container mx-auto px-6 lg:px-12 h-full">
             <div className="flex flex-col lg:flex-row items-center justify-between min-h-screen py-12 lg:py-0 gap-12 lg:gap-16">
-              
+
               {/* IMAGEN */}
               <div className="w-full lg:w-[52%] relative">
                 <div className="absolute -left-4 top-1/4 w-1 h-32 bg-gradient-to-b from-sage-500 to-sage-700 opacity-30 rounded-full hidden lg:block"></div>
                 <div className="absolute -right-4 bottom-1/4 w-1 h-24 bg-gradient-to-b from-sage-700 to-sage-500 opacity-20 rounded-full hidden lg:block"></div>
 
                 <div className="relative group">
-                  <div className="absolute -inset-4 bg-gradient-to-br from-sage-500/10 to-sage-700/5 rounded-3xl blur-2xl opacity-60 group-hover:opacity-80 transition-opacity duration-500"></div>
-                  
+                  <div className="absolute -inset-4 bg-gradient-to-br from-sage-500/10 to-sage-700/5 rounded-3xl blur-2xl opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
                   <div className="relative rounded-2xl lg:rounded-3xl overflow-hidden shadow-2xl border-2 border-sage-200">
                     <div className="aspect-[4/5] lg:aspect-[3/4]">
-                      <img
-                        src="/images/pilateshome.png"
-                        alt="Clase de Pilates en grupo"
-                        className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
-                        loading="lazy"
-                      />
+                      <img src="/images/pilateshome.png" alt="Clase de Pilates en grupo" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105" loading="lazy" />
                       <div className="absolute inset-0 bg-gradient-to-t from-sage-900/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" aria-hidden />
                     </div>
-                    
+
                     <div className="absolute bottom-6 left-6 right-6">
                       <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-sage-200">
                         <p className="text-sage-700 font-bold text-sm uppercase tracking-wider flex items-center gap-2">
-                          <Dumbbell size={16} />
-                          OL-LIN
+                          <Dumbbell size={16} /> OL-LIN
                         </p>
                       </div>
                     </div>
+
                   </div>
                 </div>
               </div>
@@ -115,23 +102,17 @@ const Home = () => {
               <div className="w-full lg:w-[48%] space-y-8">
                 <div className="space-y-4">
                   <div className="inline-block">
-                    <span className="text-sm uppercase tracking-[0.3em] text-sage-600 font-semibold mb-3 block">
-                      Bienvenido a
-                    </span>
+                    <span className="text-sm uppercase tracking-[0.3em] text-sage-600 font-semibold mb-3 block">Bienvenido a</span>
                   </div>
                   <h1 className="text-5xl lg:text-7xl font-light text-gray-800 leading-tight">
                     OL-LIN
-                    <span className="block text-3xl lg:text-5xl text-sage-600 mt-2 italic font-medium">
-                      Estudio Fitness
-                    </span>
+                    <span className="block text-3xl lg:text-5xl text-sage-600 mt-2 italic font-medium">Estudio Fitness</span>
                   </h1>
                 </div>
 
                 <p className="text-lg lg:text-xl text-gray-600 leading-relaxed font-light max-w-xl">
                   Clases para cualquier nivel de entrenamiento.
-                  <span className="block mt-3 text-sage-700 font-medium">
-                    Descubre la fuerza que hay en ti.
-                  </span>
+                  <span className="block mt-3 text-sage-700 font-medium">Descubre la fuerza que hay en ti.</span>
                 </p>
 
                 <div className="grid grid-cols-3 gap-6 py-6 border-y border-sage-200">
@@ -159,26 +140,14 @@ const Home = () => {
                     <Calendar className="mr-2" size={20} />
                     {checkingPackages ? 'Verificando...' : 'RESERVA TU CLASE'}
                   </button>
-                  
+
                   {!isAuthenticated ? (
-                    <button
-                      onClick={() => setAuthModalOpen(true)}
-                      className="inline-flex items-center justify-center px-8 py-4 border-2 border-sage-600 text-sage-700 rounded-xl font-bold text-base uppercase tracking-wider hover:bg-sage-50 transform hover:scale-[1.02] transition-all duration-300"
-                    >
+                    <button onClick={() => setAuthModalOpen(true)} className="inline-flex items-center justify-center px-8 py-4 border-2 border-sage-600 text-sage-700 rounded-xl font-bold text-base uppercase tracking-wider hover:bg-sage-50 transform hover:scale-[1.02] transition-all duration-300">
                       INICIAR SESIÓN
                       <ArrowRight className="ml-2" size={20} />
                     </button>
                   ) : (
-                    <Link
-                      to={
-                        user?.role === 'admin' 
-                          ? '/admin/dashboard' 
-                          : user?.role === 'instructor' 
-                          ? '/instructor/dashboard' 
-                          : '/client/dashboard'
-                      }
-                      className="inline-flex items-center justify-center px-8 py-4 border-2 border-sage-600 text-sage-700 rounded-xl font-bold text-base uppercase tracking-wider hover:bg-sage-50 transform hover:scale-[1.02] transition-all duration-300"
-                    >
+                    <Link to={ user?.role === 'admin' ? '/admin/dashboard' : user?.role === 'instructor' ? '/instructor/dashboard' : '/client/dashboard' } className="inline-flex items-center justify-center px-8 py-4 border-2 border-sage-600 text-sage-700 rounded-xl font-bold text-base uppercase tracking-wider hover:bg-sage-50 transform hover:scale-[1.02] transition-all duration-300">
                       MI PANEL
                       <ArrowRight className="ml-2" size={20} />
                     </Link>
@@ -190,26 +159,16 @@ const Home = () => {
         </section>
 
       {/* SECCIÓN: 6 PRINCIPIOS */}
-      Principles >
-      <section id="quienes-somos-section" className="py-20 bg-white">
+      <section id="principles-section" className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-800 mb-6">
-              Somos un espacio de entrenamiento
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-800 mb-6">Somos un espacio de entrenamiento</h2>
             <p className="text-lg text-gray-600 max-w-4xl mx-auto font-medium">
-              En el que te ayudaremos a través del movimiento a conectar con tu centro, y lograr que
-              el cuerpo y mente trabajen en sinergia para lograr cualquier reto de nuestra vida diaria.
+              En el que te ayudaremos a través del movimiento a conectar con tu centro, y lograr que el cuerpo y mente trabajen en sinergia para lograr cualquier reto de nuestra vida diaria.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
-            {/* ...principles markup (sin cambios) */}
-            {/* mantiene las seis tarjetas SVG tal como en tu versión */}
-          </div>
-        </div>
-      </section>
-      <Principles />
+          <Principles />
 
       { /* =================== SECCIÓN: Clases (REEMPLAZAR BLOQUE DE classesInfo.map) =================== */ }
       <section className="py-20 bg-white">
