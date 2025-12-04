@@ -1,52 +1,101 @@
-/* Branding variables y ajustes de contraste (paleta provista) */
+/* frontend/src/styles/branding.css
+   Branding variables y reglas específicas para:
+   - Plan cards (oscuro)
+   - Overrides de overlays / tarjetas
+   - Principles
+   Mantener solo reglas de branding aquí para que index.css solo importe.
+*/
+
 :root{
-  --color-lilac: #E1DBE1;
-  --color-orange: #DC6D27;
+  --brand-success: #2A6130;
   --color-teal: #1B3D4E;
-  --color-brown: #944E22;
-  --color-green: #2A6130;
-
-  --brand: var(--color-teal);
-  --brand-cta: var(--color-orange);
-  --brand-success: var(--color-green);
-  --brand-muted: #f7faf8;
-  --text-dark: #102021;
+  --plan-overlay: rgba(255,255,255,0.04);
 }
 
-/* ---------- Buttons ---------- */
-.btn-primary {
-  background-color: var(--brand-cta) !important;
-  color: #ffffff !important;
-  border: none !important;
-  box-shadow: 0 8px 22px rgba(27,61,78,0.08);
-  padding: .7rem 1.25rem;
-  border-radius: .75rem;
+/* ---------- Plan cards (oscuro) ---------- */
+.plan-card-dark {
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2.2rem 1.5rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 14px 40px rgba(16,32,33,0.06);
+  color: #FFFFFF;
+}
+
+.plan-card-dark .plan-top {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.plan-display {
+  font-weight: 900;
+  font-size: 3.5rem;
+  line-height: 1;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  text-align: center;
+  text-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+
+.plan-sub { font-size: .85rem; color: rgba(255,255,255,0.9); font-weight:700; margin-top:-6px; text-transform:uppercase; }
+.plan-price { font-size: 1.6rem; font-weight:800; color:#fff; margin-top:.25rem; text-shadow:0 6px 18px rgba(0,0,0,0.18); }
+.plan-desc { color: rgba(255,255,255,0.9); }
+
+/* CTA verde */
+.plan-cta {
+  background: var(--brand-success);
+  color: #fff;
+  padding: .72rem 1rem;
+  border-radius: .6rem;
+  font-weight: 800;
+  box-shadow: 0 10px 26px rgba(42,97,48,0.18);
+  transition: transform .12s, box-shadow .12s, background .12s;
+  border: none;
+  width: 100%;
+}
+.plan-cta:hover { background:#255325; transform: translateY(-2px); box-shadow:0 16px 36px rgba(42,97,48,0.22); }
+
+/* Forzar contraste dentro de la sección plan */
+.plan-section .plan-card-dark * { color: inherit !important; }
+
+/* ---------- Overlays y tarjetas ---------- */
+/* Forzar overlay oscuro para las variantes que mencionamos */
+[class*="overlay"], .card::after {
+  background: linear-gradient(180deg, rgba(10,20,22,0.55) 0%, rgba(10,20,22,0.35) 40%, rgba(255,255,255,0.02) 100%) !important;
+}
+.card .card-content, .class-card .card-content {
+  z-index: 2;
+  position: relative;
+  color: #fff !important;
+  text-shadow: 0 6px 18px rgba(0,0,0,0.35) !important;
+}
+
+/* ---------- Principles styles ---------- */
+.principle-icon svg { color: var(--color-teal); stroke: currentColor; fill: none; }
+.principle-title {
+  margin-top: 0.5rem;
+  font-style: italic;
   font-weight: 700;
-  transition: transform .12s ease, box-shadow .12s ease, background-color .12s ease;
+  color: var(--color-teal);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1;
+  letter-spacing: 0.01em;
 }
-.btn-primary:hover { background-color: #c25620 !important; transform: translateY(-2px); }
-
-.btn-outline {
-  background: transparent !important;
-  color: var(--brand) !important;
-  border: 2px solid var(--brand) !important;
-  padding: .62rem 1.1rem;
-  border-radius: .75rem;
-  font-weight: 700;
+@media (min-width: 1024px) {
+  .principle-title { font-size: 1.05rem; }
+  .principle-icon { width: 72px; height: 72px; }
 }
-.btn-outline:hover { background: var(--brand) !important; color:#fff !important; }
 
-/* ---------- Cards / Overlays ---------- */
-/* Base .card y overlay (si varios componentes usan distintas clases, hemos añadido overrides en index.css) */
-.card { position: relative; overflow: hidden; border-radius: 1rem; background: #fff; }
-.card .card-overlay, .card::after { content:""; position:absolute; inset:0; background: linear-gradient(180deg, rgba(10,20,22,0.55) 0%, rgba(10,20,22,0.35) 40%, rgba(255,255,255,0.02) 100%); pointer-events:none; z-index:1; }
-.card .card-content { position:relative; z-index:2; color:#fff; }
-
-/* Plan card */
-.plan-card { background:#fff; border-radius:16px; border:1px solid rgba(16,32,33,0.06); padding:1.2rem; box-shadow:0 10px 28px rgba(16,32,33,0.04); color:var(--text-dark); }
-.plan-card .plan-price { color: var(--brand-success); font-size:1.9rem; font-weight:800; }
-.plan-card .plan-cta { background: var(--brand-success); color:#fff; padding:.55rem 1rem; border-radius:.6rem; font-weight:700; }
-.plan-card .plan-cta:hover { background:#255325; }
-
-/* WhatsApp FAB */
-.fab-whatsapp { background: var(--brand-success) !important; color:#fff !important; box-shadow:0 8px 26px rgba(42,97,48,0.24); border-radius:999px; width:64px; height:64px; display:flex; align-items:center; justify-content:center; }
+/* Pequeño helper para troubleshooting si algo lo oculta */
+.no-overlay [class*="overlay"], .no-overlay::after { background: none !important; }
