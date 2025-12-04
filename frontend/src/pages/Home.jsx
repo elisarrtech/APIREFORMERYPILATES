@@ -18,17 +18,13 @@ const Home = () => {
       setAuthModalOpen(true);
       return;
     }
-
     try {
       setCheckingPackages(true);
       const hasActivePackages = await userPackageService.hasActivePackages();
-
       if (hasActivePackages) {
         navigate('/schedules');
       } else {
-        alert(
-          '⚠️ No tienes paquetes activos.\n\nPara reservar una clase, primero debes comprar un paquete.\n\n📦 Elige tu paquete abajo.'
-        );
+        alert('⚠️ No tienes paquetes activos.\n\nPara reservar una clase, primero debes comprar un paquete.\n\n📦 Elige tu paquete abajo.');
         const packagesSection = document.getElementById('paquetes-section');
         if (packagesSection) packagesSection.scrollIntoView({ behavior: 'smooth' });
       }
