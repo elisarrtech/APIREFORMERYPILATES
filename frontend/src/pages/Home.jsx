@@ -246,52 +246,66 @@ const Home = () => {
         </div>
       </section>
 
-     { /* =================== SECCIÓN: Paquetes (REEMPLAZAR BLOQUE de packages.map) =================== */ }
-      <section id="paquetes-section" className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-800 mb-4">Elige tu Plan de Clases</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Encuentra el paquete perfecto para tu ritmo de entrenamiento</p>
+    {/* =================== SECCIÓN: Paquetes (restaurada versión oscura con textos grandes blancos) =================== */}
+<section id="paquetes-section" className="py-20 bg-gradient-to-br from-sage-600 to-sage-700 plan-section">
+  <div className="container mx-auto px-4">
+    <div className="text-center mb-12">
+      <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">Elige tu Plan de Clases</h2>
+      <p className="text-sage-100 max-w-2xl mx-auto">Encuentra el paquete perfecto para tu ritmo de entrenamiento</p>
+    </div>
+
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+      {packages.map((pkg) => (
+        <div
+          key={pkg.id}
+          className={`plan-card-dark transition-all duration-300 ease-in-out flex flex-col group text-center relative`}
+          role="region"
+          aria-label={`Paquete ${pkg.name}`}
+        >
+          {pkg.popular && (
+            <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
+              <div className="bg-white text-sage-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide flex items-center gap-1 shadow-lg">
+                <Star size={12} fill="currentColor" /> Más Popular
+              </div>
+            </div>
+          )}
+
+          <div className="plan-top">
+            <div className="plan-display">{pkg.displayTitle}</div>
+            <div className="plan-sub"> {pkg.classes > 1 ? 'PAQUETE' : 'CLASE'}</div>
+            <div className="plan-price mt-2">{pkg.price}</div>
+            {pkg.validity && <div className="plan-desc mt-2 text-sm">Vigencia: {pkg.validity} días</div>}
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-            {packages.map((pkg) => (
-              <div key={pkg.id} className={`plan-card ${pkg.popular ? 'border-2 border-white' : ''} transition-all duration-300 ease-in-out flex flex-col group text-center relative`}>
-                {pkg.popular && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                    <div className="bg-white text-sage-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide flex items-center gap-1 shadow-lg">
-                      <Star size={12} fill="currentColor" /> Más Popular
-                    </div>
-                  </div>
-                )}
-
-                <div className="mb-4">
-                  <div className="text-5xl font-extrabold text-gray-900">{pkg.classes}</div>
-                  <div className="text-sm text-gray-600 uppercase tracking-wide">CLASE{pkg.classes > 1 ? 'S' : ''}</div>
-                </div>
-
-                <div className="mb-6">
-                  <div className="plan-price">{pkg.price}</div>
-                  <div className="text-sm text-gray-500">{pkg.validity ? `Vigencia: ${pkg.validity} días` : ''}</div>
-                </div>
-
-                <ul className="mb-6 text-left flex-1 space-y-2">
-                  {(pkg.features || []).map((f, i) => (
-                    <li key={i} className="text-sm text-gray-600 flex items-start gap-2">
-                      <span className="mt-1 text-green-600">✓</span>
-                      <span>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="mt-4">
-                  <button className="plan-cta w-full inline-flex items-center justify-center">Comprar</button>
-                </div>
-              </div>
+          <ul className="mb-6 text-left mt-6 flex-1 px-2 space-y-2">
+            {(pkg.features || []).map((f, i) => (
+              <li key={i} className="text-sm text-white flex items-start gap-3">
+                <span className="mt-1 text-white bg-white/10 rounded-full w-6 h-6 flex items-center justify-center text-xs">✓</span>
+                <span>{f}</span>
+              </li>
             ))}
+          </ul>
+
+          <div className="mt-4">
+            <button
+              className="plan-cta"
+              onClick={() => {
+                if (!isAuthenticated) {
+                  setAuthModalOpen(true);
+                } else {
+                  // navega o abre modal de compra — reemplaza segun tu lógica
+                  navigate('/schedules');
+                }
+              }}
+            >
+              Comprar
+            </button>
           </div>
         </div>
-      </section>
+      ))}
+    </div>
+  </div>
+</section>
 
       {/* CTA FINAL */}
       <section className="py-20 bg-white">
