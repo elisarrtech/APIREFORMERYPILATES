@@ -197,7 +197,7 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-gray-400 text-sm text-center md:text-left">
               <p className="flex items-center justify-center md:justify-start gap-1">
-                © {currentYear} <span className="font-bold text-white">Reformery Pilates Studio</span>. 
+                © {currentYear} <span className="font-bold text-white">OL-LIN Estudio Fitness</span>. 
                 Todos los derechos reservados.
               </p>
             </div>
