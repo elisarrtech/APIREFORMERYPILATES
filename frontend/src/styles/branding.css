@@ -99,3 +99,51 @@
 
 /* Pequeño helper para troubleshooting si algo lo oculta */
 .no-overlay [class*="overlay"], .no-overlay::after { background: none !important; }
+
+
+.plan-card-dark {
+  /* base sutil ya existente, mantenemos pero reforzamos */
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)) !important;
+  color: #fff !important;
+}
+
+/* Panel interior oscuro detrás del contenido principal (número, subtítulo, precio) */
+.plan-card-dark .plan-top {
+  background: rgba(0,0,0,0.18);        /* fondo semitransparente oscuro */
+  padding: 1.25rem;                    /* espacio interior */
+  border-radius: 12px;                 /* redondeo dentro de la tarjeta */
+  width: calc(100% - 2rem);            /* dejar algo de margen lateral */
+  margin: 0.5rem auto 0 auto;          /* centrar el panel dentro de la tarjeta */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+  backdrop-filter: blur(4px);          /* efecto frosted */
+}
+
+/* Asegurar que los textos principales sean blancos y con sombra para contraste */
+.plan-card-dark .plan-display,
+.plan-card-dark .plan-price,
+.plan-card-dark .plan-sub {
+  color: #fff !important;
+  text-shadow: 0 8px 22px rgba(0,0,0,0.35) !important;
+}
+
+/* Si hay overlays blancas dentro de la tarjeta que laven el contenido, ocultarlas sólo en .plan-card-dark */
+.plan-card-dark [class*="overlay"],
+.plan-card-dark::after {
+  display: none !important;
+}
+
+/* CTA: forzar visibilidad y contraste */
+.plan-card-dark .plan-cta {
+  background: var(--brand-success) !important;
+  color: #fff !important;
+  box-shadow: 0 10px 26px rgba(42,97,48,0.18);
+}
+
+/* Ajustes móviles */
+@media (max-width: 640px) {
+  .plan-card-dark .plan-top {
+    padding: 0.9rem;
+    width: calc(100% - 1.2rem);
+  }
+  .plan-display { font-size: 2.4rem; }
+}
