@@ -6,9 +6,8 @@ import { FaFacebookF, FaInstagram } from 'react-icons/fa';
 import Logo from '../Logo';
 
 /**
- * Navbar Component - Reformery Pilates Studio (actualizado a OL-LIN)
- * @version 1.2.0
- * @author @elisarrtech
+ * Navbar Component - OL-LIN (solo isotipo en el header)
+ * @version 1.2.1
  */
 const Navbar = () => {
   const { isAuthenticated, user, logout } = useAuth();
@@ -44,15 +43,11 @@ const Navbar = () => {
       navigate('/');
       setTimeout(() => {
         const element = document.getElementById(sectionId);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+        if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 100);
     } else {
       const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
     setMobileMenuOpen(false);
   };
@@ -64,15 +59,9 @@ const Navbar = () => {
       <nav className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 shadow-sm z-50">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between h-20">
-            
-            <Link to="/" className="flex items-center gap-3">
-              {/* Logo oficial + texto OL-LIN */}
-              {/* Uso variant nombre_azul ya que el fondo es blanco; ajusta si quieres otra variante */}
-              <Logo variant="nombre_azul" className="w-12 h-12 object-contain" alt="OL-LIN logo" />
-              <div className="hidden sm:flex flex-col leading-none">
-                <div className="text-xl lg:text-2xl font-extrabold text-gray-800 tracking-tight">OL-LIN</div>
-                <div className="text-xs text-gray-600 italic uppercase tracking-wider">Estudio Fitness</div>
-              </div>
+            {/* Solo isotipo (logo) sin texto */}
+            <Link to="/" className="flex items-center">
+              <Logo variant="icon_azul" className="w-10 h-10 object-contain" alt="OL-LIN logo" />
             </Link>
 
             {/* Desktop Menu */}
@@ -95,7 +84,6 @@ const Navbar = () => {
               >
                 PLANES
               </button>
-              {/* ✅ CAMBIAR A /schedules */}
               <Link
                 to="/schedules"
                 className={`text-sm font-medium uppercase tracking-wide transition-colors duration-200 ${
@@ -182,6 +170,7 @@ const Navbar = () => {
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="lg:hidden p-2 text-gray-700 hover:text-sage-600 transition-colors duration-200"
+              aria-label="Abrir menú"
             >
               {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
@@ -211,7 +200,7 @@ const Navbar = () => {
                 >
                   PLANES
                 </button>
-                {/* ✅ CAMBIAR A /schedules */}
+
                 <Link
                   to="/schedules"
                   onClick={() => setMobileMenuOpen(false)}
