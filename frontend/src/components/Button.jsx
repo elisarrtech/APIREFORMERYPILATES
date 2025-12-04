@@ -1,22 +1,16 @@
 import React from "react";
 
 /**
- * Button component — usa estilos globales branding.css para consistencia
- * Props:
- *  - variant: 'primary' | 'outline' | 'neutral'
- *  - className
+ * Button component — asegura uso de btn-* globales
  */
 export default function Button({ variant = "primary", className = "", children, ...rest }) {
   const base = "inline-flex items-center justify-center font-semibold focus:outline-none";
-  const variants = {
+  const map = {
     primary: "btn-primary",
     outline: "btn-outline",
-    neutral: "btn-neutral",
+    neutral: "btn-neutral"
   };
-
-  const classes = `${base} ${variants[variant] ?? variants.primary} ${className}`.trim();
-
-  // Solo render estándar <button> (si necesitas Link, envíame y lo extiendo)
+  const classes = `${base} ${map[variant] || map.primary} ${className}`.trim();
   return (
     <button className={classes} {...rest}>
       {children}
