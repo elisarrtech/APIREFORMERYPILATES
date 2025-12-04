@@ -1,10 +1,10 @@
 /* Branding variables y ajustes de contraste (paleta provista) */
 :root{
   --color-lilac: #E1DBE1;
-  --color-orange: #DC6D27; /* CTA principal */
-  --color-teal: #1B3D4E;   /* color principal (texto, header) */
+  --color-orange: #DC6D27;
+  --color-teal: #1B3D4E;
   --color-brown: #944E22;
-  --color-green: #2A6130;  /* color de planes / success */
+  --color-green: #2A6130;
 
   --brand: var(--color-teal);
   --brand-cta: var(--color-orange);
@@ -14,173 +14,39 @@
 }
 
 /* ---------- Buttons ---------- */
-/* Primary: CTA claro y contrastado (naranja) */
 .btn-primary {
-  background-color: var(--brand-cta);
-  color: #ffffff;
-  border: none;
+  background-color: var(--brand-cta) !important;
+  color: #ffffff !important;
+  border: none !important;
   box-shadow: 0 8px 22px rgba(27,61,78,0.08);
   padding: .7rem 1.25rem;
   border-radius: .75rem;
   font-weight: 700;
   transition: transform .12s ease, box-shadow .12s ease, background-color .12s ease;
 }
-.btn-primary:hover {
-  background-color: #c25620;
-  transform: translateY(-2px);
-  box-shadow: 0 14px 32px rgba(27,61,78,0.12);
-}
+.btn-primary:hover { background-color: #c25620 !important; transform: translateY(-2px); }
 
-/* Outline / Secondary: borde con color principal (teal) y texto visible */
 .btn-outline {
-  background: transparent;
-  color: var(--brand);
-  border: 2px solid var(--brand);
+  background: transparent !important;
+  color: var(--brand) !important;
+  border: 2px solid var(--brand) !important;
   padding: .62rem 1.1rem;
   border-radius: .75rem;
   font-weight: 700;
-  transition: background-color .12s ease, color .12s ease, transform .12s ease;
 }
-.btn-outline:hover {
-  background: var(--brand);
-  color: #fff;
-  transform: translateY(-1px);
-}
-
-/* Secondary neutral slightly visible */
-.btn-neutral {
-  background: #ffffff;
-  color: var(--text-dark);
-  border: 1px solid rgba(16,32,33,0.06);
-  padding: .6rem 1rem;
-  border-radius: .75rem;
-}
+.btn-outline:hover { background: var(--brand) !important; color:#fff !important; }
 
 /* ---------- Cards / Overlays ---------- */
-/* Las tarjetas con imagen solían usar un overlay claro que escondía el texto.
-   Cambiamos a un overlay oscuro con transparencia para mejorar contraste. */
-.card {
-  position: relative;
-  overflow: hidden;
-  border-radius: 1rem;
-  background: #fff; /* por si no hay imagen */
-}
+/* Base .card y overlay (si varios componentes usan distintas clases, hemos añadido overrides en index.css) */
+.card { position: relative; overflow: hidden; border-radius: 1rem; background: #fff; }
+.card .card-overlay, .card::after { content:""; position:absolute; inset:0; background: linear-gradient(180deg, rgba(10,20,22,0.55) 0%, rgba(10,20,22,0.35) 40%, rgba(255,255,255,0.02) 100%); pointer-events:none; z-index:1; }
+.card .card-content { position:relative; z-index:2; color:#fff; }
 
-/* Añade .card-overlay dentro de la tarjeta (o aplica :after si ya lo usas) */
-.card .card-overlay,
-.card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  /* overlay oscuro en la parte superior a transparente abajo */
-  background: linear-gradient(180deg, rgba(10,20,22,0.55) 0%, rgba(10,20,22,0.35) 40%, rgba(255,255,255,0.02) 100%);
-  pointer-events: none;
-  z-index: 1;
-}
+/* Plan card */
+.plan-card { background:#fff; border-radius:16px; border:1px solid rgba(16,32,33,0.06); padding:1.2rem; box-shadow:0 10px 28px rgba(16,32,33,0.04); color:var(--text-dark); }
+.plan-card .plan-price { color: var(--brand-success); font-size:1.9rem; font-weight:800; }
+.plan-card .plan-cta { background: var(--brand-success); color:#fff; padding:.55rem 1rem; border-radius:.6rem; font-weight:700; }
+.plan-card .plan-cta:hover { background:#255325; }
 
-/* Contenido de la tarjeta debe quedar por encima */
-.card .card-content {
-  position: relative;
-  z-index: 2;
-  color: #fff; /* texto sobre overlay debe ser blanco */
-}
-
-/* Si quieres texto oscuro sobre fondo claro (por ejemplo tarjetas sin imagen) */
-.card.light .card-content { color: var(--text-dark); }
-.card.light .card-overlay { background: none; }
-
-/* ---------- Class cards (Sección CLASES) ---------- */
-.class-card {
-  position: relative;
-  min-height: 220px;
-  display: flex;
-  align-items: flex-start;
-  padding: 1.25rem;
-  border-radius: 1rem;
-  box-shadow: 0 8px 30px rgba(16,32,33,0.04);
-}
-
-/* Título de la tarjeta grande y legible */
-.class-card .title {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: .25rem;
-}
-
-/* Descripción */
-.class-card .excerpt {
-  color: rgba(255,255,255,0.9);
-  font-size: .95rem;
-  line-height: 1.3;
-}
-
-/* Ver más (link) - aseguramos contraste */
-.class-card .link-more {
-  color: #fff;
-  opacity: 0.95;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-/* ---------- Plan cards (PAQUETES) ---------- */
-/* Plan card: fondo claro, border sutil y acento verde para precio/CTA */
-.plan-card {
-  background: #fff;
-  border-radius: 16px;
-  border: 1px solid rgba(16,32,33,0.06);
-  padding: 1.2rem;
-  box-shadow: 0 10px 28px rgba(16,32,33,0.04);
-  color: var(--text-dark);
-}
-
-.plan-card .plan-price {
-  color: var(--brand-success);
-  font-size: 1.9rem;
-  font-weight: 800;
-}
-
-.plan-card .plan-cta {
-  background: var(--brand-success);
-  color: #fff;
-  padding: 0.55rem 1rem;
-  border-radius: 0.6rem;
-  font-weight: 700;
-}
-.plan-card .plan-cta:hover {
-  background: #255325;
-}
-
-/* ---------- General utility ---------- */
-/* Botón flotante WhatsApp más visible */
-.fab-whatsapp {
-  background: var(--brand-success);
-  color: #fff;
-  box-shadow: 0 8px 26px rgba(42,97,48,0.24);
-  border-radius: 999px;
-  width: 64px;
-  height: 64px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-/* Small helper para footer contrast */
-.footer-dark {
-  background: var(--brand);
-  color: #fff;
-}
-
-/* Force contrast for headings in hero/sections */
-.section h2, .section h1 {
-  color: var(--text-dark);
-}
-
-/* ensure buttons in hero area are visible */
-.hero .btn-primary { box-shadow: 0 12px 30px rgba(27,61,78,0.09); }
-
-/* If you need to override earlier white gradients that hide content, add this helper:
-   Use .no-light-overlay on containers where text is being hidden */
-.no-light-overlay .card-overlay, .no-light-overlay::after {
-  background: linear-gradient(180deg, rgba(10,20,22,0.45) 0%, rgba(10,20,22,0.25) 60%, rgba(255,255,255,0.03) 100%);
-}
+/* WhatsApp FAB */
+.fab-whatsapp { background: var(--brand-success) !important; color:#fff !important; box-shadow:0 8px 26px rgba(42,97,48,0.24); border-radius:999px; width:64px; height:64px; display:flex; align-items:center; justify-content:center; }
