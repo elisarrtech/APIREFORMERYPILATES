@@ -44,6 +44,9 @@ module.exports = {
         orange: {
           DEFAULT: "#E4691C",
           soft: "#F2A65A"
+        },
+        neutral: {
+          bg: "#F7F6F4"
         }
       },
       borderRadius: {
@@ -56,7 +59,9 @@ module.exports = {
     },
   },
   plugins: [
-    // si usas line-clamp u otras utilidades, agrega plugins aquí
-    require('@tailwindcss/line-clamp'),
+    // Si en el futuro quieres activar plugins, instálalos con:
+    // npm i -D @tailwindcss/line-clamp
+    // y descomenta la línea siguiente:
+    // require('@tailwindcss/line-clamp'),
   ],
 }
