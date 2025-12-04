@@ -1,5 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* ---------- Ajustes visuales para sección PAQUETES (restaurar look oscuro) ---------- */
-/* Pega esto al final de tu src/index.css o en src/styles/branding.css */
 
 :root{
   --brand-success: #2A6130;   /* verde de la paleta */
@@ -118,4 +121,44 @@
   .principle-icon { width: 72px; height: 72px; }
 }
 
+/* ---------- Class Cards Section (Nuestras Clases) ---------- */
+.class-card {
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+  min-height: 320px;
+  background: #1B3D4E;
+}
 
+.class-card .image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10,20,22,0.55) 0%, rgba(10,20,22,0.35) 40%, rgba(255,255,255,0.02) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.class-card .card-content {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+}
+
+.class-card .title {
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.class-card .excerpt {
+  color: rgba(255,255,255,0.9);
+}
+
+.class-card .link-more {
+  color: #fff;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
+}
+
+.class-card .link-more:hover {
+  opacity: 0.8;
+}
