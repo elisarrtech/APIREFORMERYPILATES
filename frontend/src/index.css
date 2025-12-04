@@ -1,16 +1,29 @@
-/* Importa primero tu fuente si la necesitas, aquí usamos sistema/Helvetica (no Google font) */
-/* Tailwind directives (ya existían en tu proyecto) */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* importa branding */
 @import "./styles/branding.css";
 
-/* Ajustes base (mantener consistencia con Helvetica) */
-@layer base {
-  body {
-    @apply bg-white text-gray-900;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  }
+/* Aseguramos que los botones primarios/outline usen las clases globales si algún componente no los asigna */
+.btn-primary, .btn-outline, .btn-neutral { display: inline-flex; align-items: center; justify-content: center; }
+
+/* Corrige overlay blanco en secciones que antes ocultaban tarjetas */
+.hero .image-overlay, .card .image-overlay {
+  /* Reemplazamos overlay claro por overlay oscuro para legibilidad */
+  background: linear-gradient(180deg, rgba(10,20,22,0.45) 0%, rgba(10,20,22,0.25) 40%, rgba(255,255,255,0.02) 100%);
+}
+
+/* Asegura que el texto dentro de los thumbnails sea visible */
+.card .card-text, .class-card .title, .class-card .excerpt {
+  color: #fff !important;
+  text-shadow: 0 4px 18px rgba(0,0,0,0.35);
+}
+
+/* Planes: que los títulos no queden lavados */
+.plan-section .section-title { color: var(--text-dark); }
+
+/* Force contrast for CTA outline buttons that were disappearing */
+button.btn-outline, .btn-outline {
+  border-color: var(--brand);
+  color: var(--brand);
 }
