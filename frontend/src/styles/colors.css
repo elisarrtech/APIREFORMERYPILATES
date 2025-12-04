@@ -1,0 +1,22 @@
+:root{
+  --brand: #0D4854;
+  --brand-dark: #0B2E34;
+  --brand-light: #F7F6F4;
+  --brown: #8A4A27;
+  --orange: #E4691C;
+  --orange-soft: #F2A65A;
+  --green: #1E6A3C;
+  --text-on-dark: #FFFFFF;
+}
+
+/* Ejemplos */
+.btn-primary{
+  background-color: var(--orange);
+  color: var(--text-on-dark);
+  border-radius: 0.5rem;
+  padding: 0.6rem 1rem;
+}
+.header{
+  background-color: var(--brand);
+  color: var(--text-on-dark);
+}
