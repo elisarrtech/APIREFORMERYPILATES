@@ -1,0 +1,80 @@
+/* Branding variables y tipografía del logo */
+/* Paleta: #E1DBE1, #DC6D27, #1B3D4E, #944E22, #2A6130 */
+
+:root{
+  --color-lilac: #E1DBE1;
+  --color-orange: #DC6D27;
+  --color-teal: #1B3D4E;
+  --color-brown: #944E22;
+  --color-green: #2A6130;
+
+  /* tokens semánticos */
+  --brand: var(--color-teal);
+  --brand-cta: var(--color-orange);
+  --brand-muted: var(--color-lilac);
+  --brand-accent-2: var(--color-brown);
+  --brand-success: var(--color-green);
+
+  /* Logo sizing base (px) - puedes ajustar globalmente aquí */
+  --logo-base-size: 48px; /* OL-LIN main */
+  --logo-sub-scale: 0.34;  /* Estudio Fitness = 34% */
+}
+
+/* Tipografía global: preferencia Helvetica como pediste */
+html, body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #102021;
+}
+
+/* Logo textual: OL-LIN (bold) + Estudio Fitness (oblique) */
+/* Uso: <div class="logo-text"> <span class="logo-main">OL-LIN</span><span class="logo-sub">Estudio Fitness</span></div> */
+.logo-text {
+  display: inline-flex;
+  flex-direction: column;
+  line-height: 1;
+  gap: 0;
+  align-items: flex-start;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.logo-main {
+  font-weight: 700; /* Helvetica Bold */
+  font-style: normal;
+  font-size: var(--logo-base-size);
+  letter-spacing: -0.02em;
+  color: var(--brand);
+}
+
+.logo-sub {
+  font-weight: 400;
+  font-style: oblique 12deg; /* Helvetica Oblique approximation */
+  font-size: calc(var(--logo-base-size) * var(--logo-sub-scale));
+  color: rgba(16,32,33,0.85);
+  transform-origin: left center;
+  margin-top: 2px;
+}
+
+/* Utilities para botones y CTAs usando la paleta */
+.btn-brand {
+  background-color: var(--brand-cta);
+  color: #ffffff;
+}
+.btn-brand:hover { background-color: #c65c21; }
+
+/* Fondo neutral para secciones */
+.section-neutral {
+  background: linear-gradient(180deg, #ffffff 0%, var(--brand-muted) 100%);
+}
+
+/* Algunos ajustes visuales recomendados */
+.header-logo-img {
+  max-height: 56px;
+  width: auto;
+  display: block;
+}
+
+/* Asegurar que logo no desborde hero cuando es grande */
+.hero .logo-overlay {
+  max-width: 48%;
+  pointer-events: none;
+}
