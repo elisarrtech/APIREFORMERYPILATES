@@ -1,50 +1,179 @@
+/* Google font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* Tailwind layers */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Import branding variables and component styles */
-@import "./styles/branding.css";
+/* ==================== BASE STYLES ==================== */
+@layer base {
+  /* global antialiasing and box-model pseudo elements */
+  *, *::before, *::after {
+    @apply antialiased;
+  }
 
-/* ==========================================================================
-   Global overrides & utility helpers
-   These rules are intended to be minimal and complementary to branding.css.
-   Keep general layout, accessibility and important overrides here.
-   ========================================================================== */
+  :root {
+    /* tokens - usados por CSS manual también */
+    --brand-success: #2A6130;
+    --color-teal: #1B3D4E;
+    --text-dark: #102021;
+  }
 
-/* Ensure custom button utility classes are always displayed as flex for centering */
-.btn-primary,
-.btn-outline,
-.btn-neutral {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  body {
+    font-family: 'Inter', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    /* usa la paleta sage (debe existir en tailwind.config.js) */
+    @apply bg-gradient-to-br from-gray-50 via-white to-sage-50 text-gray-800;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+  }
+
+  h1 { @apply text-4xl lg:text-5xl; }
+  h2 { @apply text-3xl lg:text-4xl; }
+  h3 { @apply text-2xl lg:text-3xl; }
+  h4 { @apply text-xl lg:text-2xl; }
+
+  input, textarea, select {
+    @apply outline-none;
+  }
 }
 
-/* Basic reset for images used as decorative backgrounds */
-img {
-  display: block;
-  max-width: 100%;
+/* ==================== COMPONENT STYLES ==================== */
+@layer components {
+  /* Buttons */
+  .btn-primary {
+    /* Tailwind utilities for appearance */
+    @apply px-6 py-3 text-white font-bold rounded-xl uppercase tracking-wide transition-all duration-300 transform shadow-lg;
+    /* En caso de conflictos, forzamos color de fondo */
+    background-color: theme('colors.sage.600') !important;
+  }
+  .btn-primary:hover { background-color: theme('colors.sage.700') !important; transform: translateY(-1px); }
+
+  .btn-secondary {
+    @apply px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold rounded-xl uppercase tracking-wide transition-all duration-300;
+  }
+
+  .btn-outline {
+    /* Outline uses sage color */
+    @apply px-6 py-3 bg-transparent border-2 text-sage-600 font-bold rounded-xl uppercase tracking-wide transition-all duration-300;
+    border-color: theme('colors.sage.600') !important;
+    color: theme('colors.sage.600') !important;
+  }
+  .btn-outline:hover {
+    background-color: theme('colors.sage.600') !important;
+    color: #fff !important;
+  }
+
+  .btn-danger {
+    @apply px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl uppercase tracking-wide transition-all duration-300 transform;
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden;
+  }
+
+  .card-header { @apply px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-sage-50 to-white; }
+  .card-body { @apply p-6; }
+
+  /* Inputs */
+  .input-field {
+    @apply w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:bg-white transition-all duration-200;
+  }
+  .input-field-with-icon { @apply pl-12; }
+
+  /* Badges */
+  .badge { @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide; }
+  .badge-success { @apply bg-green-100 text-green-700; }
+  .badge-error   { @apply bg-red-100 text-red-700; }
+  .badge-warning { @apply bg-yellow-100 text-yellow-700; }
+  .badge-info    { @apply bg-blue-100 text-blue-700; }
+  .badge-sage    { @apply bg-sage-100 text-sage-700; }
+
+  /* Stats Cards */
+  .stat-card { @apply bg-gradient-to-br from-white to-sage-50 rounded-2xl shadow-lg transition-all duration-300 p-6 border border-sage-100; }
+
+  /* Sidebar / Navbar / utilities from your file kept */
+  .sidebar { @apply fixed left-0 top-0 h-full w-64 bg-gradient-to-b from-sage-800 to-sage-900 text-white shadow-2xl z-40 transition-transform duration-300; }
+  .sidebar-item { @apply flex items-center gap-3 px-6 py-4 text-sage-100 hover:bg-sage-700 hover:text-white transition-all duration-200 cursor-pointer; }
+  .sidebar-item-active { @apply bg-sage-700 text-white border-l-4 border-white; }
+
+  .navbar { @apply fixed top-0 right-0 left-0 lg:left-64 h-16 bg-white border-b border-gray-200 shadow-sm z-30 flex items-center justify-between px-6; }
+
+  /* Scrollbar styling left as-is */
+  .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: #8ba88d; border-radius: 10px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #6b8e6f; }
+
+  .spinner { @apply w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin; }
+  .spinner-sage { border-color: transparent; border-top-color: theme('colors.sage.600'); }
+
+  .animate-fade-in-up { animation: fadeInUp 0.5s ease-out both; }
 }
 
-/* Force hero CTAs to be above overlays when present */
-.hero .btn-primary,
-.hero .btn-outline,
-.hero button {
-  z-index: 6 !important;
+/* ==================== BRANDING OVERRIDES & PLAN CARDS ==================== */
+/* These rules are slightly more specific and use !important when necessary
+   to override other component styles that were hiding colors. */
+.plan-section { /* nothing required here; section has gradient in JSX */ }
+
+/* Dark-style plan card (restores big white number, green CTA) */
+.plan-card-dark {
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2.2rem 1.5rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)) !important;
+  border: 1px solid rgba(255,255,255,0.06) !important;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 14px 40px rgba(16,32,33,0.06);
+  color: #FFFFFF !important;
+}
+
+.plan-card-dark .plan-top { display:flex; flex-direction:column; gap:.25rem; align-items:center; }
+
+.plan-display {
+  font-weight: 900;
+  font-size: 3.5rem;
+  line-height: 1;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  text-align: center;
+  text-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+
+.plan-sub { font-size:.85rem; color: rgba(255,255,255,0.9); font-weight:700; margin-top:-6px; text-transform:uppercase; }
+.plan-price { font-size:1.6rem; font-weight:800; color:#fff; margin-top:.25rem; text-shadow:0 6px 18px rgba(0,0,0,0.18); }
+.plan-desc { color: rgba(255,255,255,0.9); }
+
+/* CTA verde - force with !important to override other rules */
+.plan-cta {
+  background: var(--brand-success) !important;
   color: #fff !important;
+  padding: .72rem 1rem;
+  border-radius: .6rem;
+  font-weight: 800;
+  box-shadow: 0 10px 26px rgba(42,97,48,0.18);
+  transition: transform .12s, box-shadow .12s, background .12s;
+  border: none !important;
+  width: 100%;
 }
+.plan-cta:hover { background:#255325 !important; transform: translateY(-2px) !important; box-shadow:0 16px 36px rgba(42,97,48,0.22) !important; }
 
-/* Small helpers for debug / emergency fixes */
-.force-contrast .btn-primary,
-.force-contrast .btn-outline,
-.force-contrast .card * {
-  color: #fff !important;
-  border-color: rgba(255,255,255,0.85) !important;
-}
+/* Force visibility of plan text inside plan-section if some other style hides it */
+.plan-section .plan-card-dark * { color: inherit !important; }
 
-/* If any component applies a light/white overlay that hides text,
-   these rules prioritize a dark overlay for legibility. The selectors
-   cover many common overlay class name patterns. */
+/* ==================== OVERLAYS & CARD CONTENT (legibility fixes) ==================== */
+/* Cover many overlay naming patterns to avoid white gradients hiding text */
 [class*="overlay"],
 .card::after,
 .card .card-overlay,
@@ -60,7 +189,7 @@ img {
   z-index: 1 !important;
 }
 
-/* Ensure card content appears above overlays and is readable */
+/* Ensure card content sits above overlay */
 .card .card-content,
 .class-card .card-content,
 .card .card-text,
@@ -72,78 +201,53 @@ img {
   text-shadow: 0 6px 18px rgba(0,0,0,0.35) !important;
 }
 
-/* Light-card variant (explicit override for cards that must stay light) */
+/* Allow explicit light cards */
 .card.light::after,
 .card.light .image-overlay,
-.card.light .overlay {
-  background: none !important;
+.card.light .overlay { background: none !important; }
+.card.light .card-content { color: var(--text-dark) !important; text-shadow: none !important; }
+
+/* ==================== PRINCIPLES STYLES ==================== */
+.principle-icon svg { color: var(--color-teal); stroke: currentColor; fill: none; }
+.principle-title {
+  margin-top: 0.5rem;
+  font-style: italic;
+  font-weight: 700;
+  color: var(--color-teal);
+  font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1;
+  letter-spacing: 0.01em;
 }
-.card.light .card-content {
-  color: var(--text-dark) !important;
-  text-shadow: none !important;
+@media (min-width: 1024px) {
+  .principle-title { font-size: 1.05rem; }
+  .principle-icon { width: 72px; height: 72px; }
 }
 
-/* Whatsapp floating button default positioning if not already provided */
-.fab-whatsapp {
-  position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
-  z-index: 60;
-  width: 64px;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  background: var(--brand-success);
-  color: #fff;
-  box-shadow: 0 8px 26px rgba(42,97,48,0.24);
-}
+/* ==================== UTILITIES & HELPERS ==================== */
+.btn-primary, .btn-outline, .btn-neutral { display:inline-flex; align-items:center; justify-content:center; }
 
-/* Accessibility: focus outlines for interactive elements */
-button:focus,
-a:focus {
-  outline: 3px solid rgba(27,61,78,0.12);
-  outline-offset: 3px;
-}
+/* Whatsapp floating button default positioning */
+.fab-whatsapp { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index:60; width:64px; height:64px; display:flex; align-items:center; justify-content:center; border-radius:999px; background:var(--brand-success); color:#fff; box-shadow:0 8px 26px rgba(42,97,48,0.24); }
 
-/* Utility to temporarily disable overlays (useful for debugging invisible text) */
-.no-overlay [class*="overlay"], .no-overlay::after {
-  background: none !important;
-}
+/* Accessibility focus */
+button:focus, a:focus { outline: 3px solid rgba(27,61,78,0.12); outline-offset: 3px; }
 
-/* Small responsive helpers */
+/* Debug helpers */
+.no-overlay [class*="overlay"], .no-overlay::after { background:none !important; }
+
+/* Responsive tweaks */
 @media (max-width: 640px) {
   .plan-display { font-size: 2.8rem !important; }
   .plan-card-dark { padding: 1.6rem 1rem !important; }
 }
 
-/* Ensure plan cards on dark background keep text visible even if other cascades exist */
-.plan-section .plan-card-dark * {
-  color: inherit !important;
-}
-
-/* Keep principles icons and titles consistent if branding didn't load */
-.principle-icon svg {
-  color: var(--color-teal, #1B3D4E);
-  stroke: currentColor;
-  fill: none;
-}
-.principle-title {
-  margin-top: 0.5rem;
-  font-style: italic;
-  font-weight: 700;
-  color: var(--color-teal, #1B3D4E);
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 1rem;
-  line-height: 1;
-  letter-spacing: 0.01em;
-}
-
-/* Final safety: if something still hides plan text, force visibility */
+/* Final safety: force plan text visibility */
 .plan-card-dark .plan-display,
 .plan-card-dark .plan-price,
-.plan-card-dark .plan-sub {
-  color: #fff !important;
-  text-shadow: 0 6px 18px rgba(0,0,0,0.25) !important;
-}
+.plan-card-dark .plan-sub { color:#fff !important; text-shadow: 0 6px 18px rgba(0,0,0,0.25) !important; }
+
+/* ==================== ANIMATIONS ==================== */
+@keyframes fadeInUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+.animate-ping { animation: ping 2s cubic-bezier(0,0,0.2,1) infinite; }
+@keyframes ping { 0%{ transform:scale(1); opacity:0.2 } 50%{ transform:scale(1.2); opacity:0.1 } 100%{ transform:scale(1.5); opacity:0 } }
