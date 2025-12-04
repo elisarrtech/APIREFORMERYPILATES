@@ -1,5 +1,3 @@
-// Extiende tu tailwind.config.js para incluir la paleta 'sage' y las otras antes definidas.
-// Esto permite clases como from-sage-50, via-sage-50, to-sage-50.
 module.exports = {
   content: [
     "./index.html",
@@ -20,39 +18,45 @@ module.exports = {
           800: "#234f3a",
           900: "#173826"
         },
+        admin: {
+          50: "#f7f9fb",
+          100: "#eef3fa",
+          600: "#2b6cb0",
+          700: "#244f86"
+        },
+        instructor: {
+          50: "#fffaf5",
+          100: "#fff0e6",
+          600: "#c4692b",
+          700: "#9a4f20"
+        },
+        client: {
+          50: "#f7fbff",
+          100: "#eef7ff",
+          600: "#1e6a3c",
+          700: "#134a2a"
+        },
         brand: {
           DEFAULT: "#0D4854",
           dark: "#0B2E34",
           light: "#E9E6EA",
         },
-        logo: {
-          black: "#000000",
-          light: "#E9E6EA",
-          dark: "#0D4854"
-        },
-        brown: {
-          DEFAULT: "#8A4A27"
-        },
         orange: {
           DEFAULT: "#E4691C",
           soft: "#F2A65A"
-        },
-        greenbrand: {
-          DEFAULT: "#1E6A3C"
-        },
-        neutral: {
-          bg: "#F7F6F4"
-        },
-        cta: "#E4691C",
-        accent: "#8A4A27"
+        }
       },
       borderRadius: {
-        'lg-xl': '0.75rem'
+        '2xl': '1rem',
+        '3xl': '1.5rem'
       },
       boxShadow: {
         'soft-lg': '0 10px 30px rgba(13,72,84,0.08)'
       }
     },
   },
-  plugins: [],
+  plugins: [
+    // si usas line-clamp u otras utilidades, agrega plugins aquí
+    require('@tailwindcss/line-clamp'),
+  ],
 }
