@@ -1,47 +1,22 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 /**
- * Reusable Button component
- *
+ * Button component — usa estilos globales branding.css para consistencia
  * Props:
- * - variant: 'primary' | 'secondary' | 'outline' (default: 'primary')
- * - to: string (si se pasa, renderiza un <Link> en lugar de <button>)
- * - className: string (clases tailwind adicionales)
- * - children
- * - ...rest (onClick, type, aria, etc.)
- *
- * Nota: No requiere dependencias externas.
+ *  - variant: 'primary' | 'outline' | 'neutral'
+ *  - className
  */
-export default function Button({
-  variant = "primary",
-  to = undefined,
-  className = "",
-  children,
-  ...rest
-}) {
-  const base =
-    "inline-flex items-center justify-center font-semibold transition-transform transform-gpu focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-60";
-
+export default function Button({ variant = "primary", className = "", children, ...rest }) {
+  const base = "inline-flex items-center justify-center font-semibold focus:outline-none";
   const variants = {
-    primary:
-      "bg-orange text-white hover:bg-orange-soft focus:ring-orange/40 shadow-sm px-4 py-2 rounded-md",
-    secondary:
-      "bg-brand text-white hover:bg-brand-dark focus:ring-brand/40 shadow-sm px-4 py-2 rounded-md",
-    outline:
-      "bg-transparent border border-brand text-brand hover:bg-brand hover:text-white focus:ring-brand/30 px-4 py-2 rounded-md",
+    primary: "btn-primary",
+    outline: "btn-outline",
+    neutral: "btn-neutral",
   };
 
   const classes = `${base} ${variants[variant] ?? variants.primary} ${className}`.trim();
 
-  if (to) {
-    return (
-      <Link to={to} className={classes} {...rest}>
-        {children}
-      </Link>
-    );
-  }
-
+  // Solo render estándar <button> (si necesitas Link, envíame y lo extiendo)
   return (
     <button className={classes} {...rest}>
       {children}
