@@ -3,10 +3,11 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Menu, X, User, LogOut, ChevronDown } from 'lucide-react';
 import { FaFacebookF, FaInstagram } from 'react-icons/fa';
+import Logo from '../Logo';
 
 /**
- * Navbar Component - OL-LIN (isotipo en el header: LogoNombre_Azul.png)
- * @version 1.2.2
+ * Navbar Component - OL LIN (isotipo a la izquierda + texto al lado)
+ * Mantiene toda la lógica original (auth, mobile menu, scroll, etc.)
  */
 const Navbar = () => {
   const { isAuthenticated, user, logout } = useAuth();
@@ -27,13 +28,9 @@ const Navbar = () => {
 
   const handleMyAccount = () => {
     const role = user?.role;
-    if (role === 'admin') {
-      navigate('/admin/dashboard');
-    } else if (role === 'instructor') {
-      navigate('/instructor/dashboard');
-    } else {
-      navigate('/client/dashboard');
-    }
+    if (role === 'admin') navigate('/admin/dashboard');
+    else if (role === 'instructor') navigate('/instructor/dashboard');
+    else navigate('/client/dashboard');
     setAccountMenuOpen(false);
   };
 
@@ -58,15 +55,15 @@ const Navbar = () => {
       <nav className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 shadow-sm z-50">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between h-20">
-            {/* Solo isotipo (LogoNombre_Azul.png) */}
-            <Link to="/" className="flex items-center">
-              <img
-                src="/images/LogoNombre_Azul.png"
-                alt="OL-LIN Estudio Fitness"
-                className="w-16 h-16 object-contain"
-                loading="lazy"
-                decoding="async"
-              />
+            {/* Logo (isotipo azul sin nombre) + texto a la derecha */}
+            <Link to="/" className="flex items-center gap-3">
+              {/* Uso el componente Logo y la variante del isotipo azul */}
+              <Logo variant="Logo_Azul.png" size="lg" className="flex-shrink-0" alt="OL LIN logo" />
+              {/* Texto al lado del isotipo - visible en sm+ */}
+              <div className="hidden sm:flex flex-col leading-none">
+                <div className="text-lg lg:text-xl font-extrabold text-gray-800 tracking-tight">OL LIN</div>
+                <div className="text-xs text-gray-600 italic">Estudio Fitness</div>
+              </div>
             </Link>
 
             {/* Desktop Menu */}
@@ -89,6 +86,7 @@ const Navbar = () => {
               >
                 PLANES
               </button>
+
               <Link
                 to="/schedules"
                 className={`text-sm font-medium uppercase tracking-wide transition-colors duration-200 ${
@@ -97,6 +95,7 @@ const Navbar = () => {
               >
                 RESERVA CLASE
               </Link>
+
               <Link
                 to="/contact"
                 className={`text-sm font-medium uppercase tracking-wide transition-colors duration-200 ${
