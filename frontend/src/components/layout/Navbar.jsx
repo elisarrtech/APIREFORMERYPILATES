@@ -66,7 +66,7 @@ const Navbar = () => {
               />
               {/* Texto al lado del isotipo - visible en sm+ */}
               <div className="hidden sm:flex flex-col leading-none">
-                <div className="text-lg lg:text-xl font-extrabold text-gray-800 tracking-tight">OL LIN</div>
+                <div className="text-lg lg:text-xl font-extrabold text-gray-800 tracking-tight">OL-LIN</div>
                 <div className="text-xs text-gray-600 italic">Estudio Fitness</div>
               </div>
             </Link>
