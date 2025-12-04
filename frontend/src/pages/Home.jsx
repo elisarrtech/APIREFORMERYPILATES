@@ -100,7 +100,7 @@ const Home = () => {
                       <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-sage-200">
                         <p className="text-sage-700 font-bold text-sm uppercase tracking-wider flex items-center gap-2">
                           <Dumbbell size={16} />
-                          REFORMERY PILATES STUDIO
+                          OL-LIN
                         </p>
                       </div>
                     </div>
@@ -117,9 +117,9 @@ const Home = () => {
                     </span>
                   </div>
                   <h1 className="text-5xl lg:text-7xl font-light text-gray-800 leading-tight">
-                    Reformery
+                    OL-LIN
                     <span className="block text-3xl lg:text-5xl text-sage-600 mt-2 italic font-medium">
-                      PILATES Studio
+                      Eestudio Fitness
                     </span>
                   </h1>
                 </div>
