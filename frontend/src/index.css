@@ -4,24 +4,17 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import branding rules */
+/* Import branding */
 @import "./styles/branding.css";
 
-/* Small global overrides */
-
-/* Ensure semantic classes are displayed correctly */
+/* Global overrides: ensure semantic classes prioritized */
 .btn-primary, .btn-outline, .btn-neutral { display:inline-flex; align-items:center; justify-content:center; }
 
-/* Keyboard focus visible */
-:focus-visible { outline: 3px solid rgba(27,61,78,0.12); outline-offset: 3px; }
+/* Keyboard focus */
+:focus-visible { outline: 3px solid rgba(27,61,78,0.12); outline-offset:3px; }
 
-/* WhatsApp fallback */
-.fab-whatsapp { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index:60; width:64px; height:64px; display:flex; align-items:center; justify-content:center; border-radius:999px; background:var(--color-green); color:#fff; box-shadow:0 8px 26px rgba(42,97,48,0.24); }
+/* small responsive patch */
+@media (max-width:640px) { .plan-display { font-size:2.4rem !important; } }
 
-/* Debug helper to force contrast in a container (use only when diagnosing.) */
-.force-contrast .card * { color: #fff !important; }
-
-/* Small responsive tweak for plan numbers */
-@media (max-width:640px) {
-  .plan-display { font-size: 2.4rem !important; }
-}
+/* Debug helper (remove in prod) */
+/* .force-contrast .card * { color:#fff !important; } */
