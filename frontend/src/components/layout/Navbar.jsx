@@ -63,7 +63,7 @@ const Navbar = () => {
               <img
                 src="/images/LogoNombre_Azul.png"
                 alt="OL-LIN Estudio Fitness"
-                className="w-10 h-10 object-contain"
+                className="w-16 h-16 object-contain"
                 loading="lazy"
                 decoding="async"
               />
