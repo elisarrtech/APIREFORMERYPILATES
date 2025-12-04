@@ -7,27 +7,21 @@
 /* Import branding rules */
 @import "./styles/branding.css";
 
-/* =========================
-   Global small overrides (high specificity only when necessary)
-   ========================= */
+/* Small global overrides */
 
-/* Ensure our semantic button classes are used if components don't set them */
+/* Ensure semantic classes are displayed correctly */
 .btn-primary, .btn-outline, .btn-neutral { display:inline-flex; align-items:center; justify-content:center; }
 
-/* Force outline visibility for keyboard users */
+/* Keyboard focus visible */
 :focus-visible { outline: 3px solid rgba(27,61,78,0.12); outline-offset: 3px; }
 
-/* WhatsApp floating button fallback */
-.fab-whatsapp { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index:60; width:64px; height:64px; display:flex; align-items:center; justify-content:center; border-radius:999px; background:var(--brand-success); color:#fff; box-shadow:0 8px 26px rgba(42,97,48,0.24); }
+/* WhatsApp fallback */
+.fab-whatsapp { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index:60; width:64px; height:64px; display:flex; align-items:center; justify-content:center; border-radius:999px; background:var(--color-green); color:#fff; box-shadow:0 8px 26px rgba(42,97,48,0.24); }
 
-/* Debug helper: add .force-contrast to a container to enforce white text over overlays */
+/* Debug helper to force contrast in a container (use only when diagnosing.) */
 .force-contrast .card * { color: #fff !important; }
 
-/* Small responsive helper for plan display */
-@media (max-width: 640px) {
+/* Small responsive tweak for plan numbers */
+@media (max-width:640px) {
   .plan-display { font-size: 2.4rem !important; }
 }
-
-/* Final fallback: if some element still gets invisible text, this will show it in dev only */
-/* Remove in production if not needed */
-/* .dev-show-contrast * { color: #fff !important; } */
