@@ -1,40 +1,35 @@
-:root {
-  /* Branding */
-  --brand-primary: #0D4854;
-  --brand-dark: #0B2E34;
+:root{
+  /* Palette original del PDF */
+  --color-lilac: #E1DBE1;
+  --color-cta:   #DC6D27;
+  --color-teal:  #1B3D4E;
+  --color-brown: #944E22;
+  --color-green: #2A6130;
+
+  /* Variables antiguas / legacy (alias para compatibilidad) */
+  --brand-primary: #1B3D4E; /* alias -> color-teal (ajusta si prefieres el #0D4854) */
+  --brand-dark: #0B2E34;    /* valor legacy; conservamos por compatibilidad */
   --brand-light: #E9E6EA;
 
-  /* Logo variants */
   --logo-black: #000000;
   --logo-light: #E9E6EA;
 
-  /* Accents */
   --accent-brown: #8A4A27;
   --accent-orange: #E4691C;
   --accent-orange-soft: #F2A65A;
   --accent-green: #1E6A3C;
 
-  /* Neutrals */
   --neutral-bg: #F7F6F4;
   --text-on-dark: #FFFFFF;
-}
 
-/* Ejemplos rápidos de utilidades que puedes usar en CSS no-Tailwind */
-.btn-cta {
-  background-color: var(--accent-orange);
-  color: var(--text-on-dark);
-  border-radius: 0.5rem;
-  padding: 0.6rem 1rem;
-  transition: background-color 150ms ease;
-}
-.btn-cta:hover {
-  background-color: var(--accent-orange-soft);
-}
-.header-dark {
-  background-color: var(--brand-primary);
-  color: var(--text-on-dark);
-}
-.logo-light {
-  filter: none;
-  /* diseñado para usar la versión clara del logo sobre fondos oscuros */
+  /* Tokens adicionales usados en branding.css */
+  --text-dark: #102021;
+  --muted-border: rgba(16,32,33,0.06);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  --shadow-soft: 0 10px 30px rgba(16,32,33,0.06);
+  --shadow-strong: 0 20px 50px rgba(16,32,33,0.12);
 }
