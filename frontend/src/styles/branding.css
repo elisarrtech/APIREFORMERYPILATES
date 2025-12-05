@@ -1,197 +1,174 @@
+/* Branding & UI system
+   Palette: #E1DBE1, #DC6D27, #1B3D4E, #944E22, #2A6130
+   Use: import this from src/index.css
+*/
+
+/* ---------------------------
+   Variables (palette + tokens)
+   --------------------------- */
 :root{
-  /* Paleta oficial (PDF) */
   --color-lilac: #E1DBE1;
-  --color-cta:   #DC6D27;  /* naranja CTA */
-  --color-teal:  #1B3D4E;  /* principal / headers */
+  --color-cta:   #DC6D27;
+  --color-teal:  #1B3D4E;
   --color-brown: #944E22;
-  --color-green: #2A6130;  /* plan CTA */
-  --bg-soft:     rgba(243,246,242,1);
+  --color-green: #2A6130;
 
   --text-dark:   #102021;
-  --muted:       rgba(16,32,33,0.06);
-  --glass-wood:  rgba(255,255,255,0.06);
-}
+  --muted-border: rgba(16,32,33,0.06);
 
-/* -------------------------------------------------------
-   DESIGN TOKENS (typography / spacing)
-   ------------------------------------------------------- */
-:root {
-  --space-xs: 0.25rem;
-  --space-sm: 0.5rem;
-  --space-md: 1rem;
-  --space-lg: 1.5rem;
-  --radius-sm: 0.5rem;
-  --radius-md: 1rem;
-  --radius-lg: 1.5rem;
-  --shadow-soft: 0 8px 24px rgba(16,32,33,0.06);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --shadow-soft: 0 10px 30px rgba(16,32,33,0.06);
   --shadow-strong: 0 20px 50px rgba(16,32,33,0.12);
 }
 
-/* -------------------------------------------------------
-   ELEVATIONS & TRANSITIONS (reusable)
-   ------------------------------------------------------- */
-.fade-up { animation: fadeInUp .6s cubic-bezier(.2,.9,.2,1) both; }
-.transition-fast { transition: all .18s ease; }
-.transition-medium { transition: all .28s cubic-bezier(.2,.9,.2,1); }
+/* -------------------------------------------------
+   Accessibility helpers
+   ------------------------------------------------- */
+:focus-visible {
+  outline: 3px solid rgba(27,61,78,0.12);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
 
-/* -------------------------------------------------------
-   BUTTONS: primary (orange), secondary (teal outline), neutral
-   Use .btn-primary, .btn-outline, .btn-neutral
-   ------------------------------------------------------- */
+/* -------------------------------------------------
+   Buttons
+   - primary: main CTA (teal)
+   - accent: alternative CTA (orange) when needed
+   - outline: border-first, on hover fills with teal
+   ------------------------------------------------- */
 .btn {
-  display:inline-flex; align-items:center; justify-content:center;
-  gap:.6rem; font-weight:700; border-radius:var(--radius-md);
-  padding:.7rem 1.1rem; text-transform:uppercase; letter-spacing: .02em;
-  cursor:pointer;
-  user-select:none;
+  display:inline-flex; align-items:center; justify-content:center; gap:.6rem;
+  padding:.7rem 1.1rem; border-radius:var(--radius-md); font-weight:700; letter-spacing:.02em;
+  text-transform:uppercase; cursor:pointer; user-select:none;
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Primary CTA (uses orange from PDF) */
+/* Primary: teal by default (high contrast white text) */
 .btn-primary {
-  @apply text-white;
-  background: linear-gradient(180deg, var(--color-cta), color-mix(in srgb, var(--color-cta) 85%, black 15%));
-  box-shadow: 0 12px 30px rgba(220,109,39,0.12);
+  background: linear-gradient(180deg, var(--color-teal), color-mix(in srgb, var(--color-teal) 88%, black 12%));
+  color: #fff !important;
+  box-shadow: var(--shadow-soft);
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s;
 }
-.btn-primary:hover { transform: translateY(-4px); box-shadow: var(--shadow-strong); }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: var(--shadow-strong); }
 .btn-primary:active { transform: translateY(-1px); }
 
-/* Outline (teal) */
+/* Accent CTA (optional) - orange */
+.btn-accent {
+  background: linear-gradient(180deg, var(--color-cta), color-mix(in srgb, var(--color-cta) 88%, black 12%));
+  color: #fff !important;
+  box-shadow: 0 12px 30px rgba(220,109,39,0.12);
+}
+.btn-accent:hover { transform: translateY(-2px); }
+
+/* Outline */
 .btn-outline {
-  background: transparent;
-  color: var(--color-teal);
-  border: 2px solid var(--color-teal);
+  background: transparent !important;
+  color: var(--color-teal) !important;
+  border: 2px solid var(--color-teal) !important;
 }
 .btn-outline:hover {
-  background: var(--color-teal); color: #fff; transform: translateY(-2px);
+  background: var(--color-teal) !important;
+  color: #fff !important;
+  transform: translateY(-1px);
 }
 
-/* Neutral */
-.btn-neutral {
+/* Disabled visual */
+.btn[disabled], .btn[aria-disabled="true"] { opacity:.55; cursor:not-allowed; transform:none; box-shadow:none; }
+
+/* -------------------------------------------------
+   Cards and class-card
+   - dark overlay default to preserve text contrast
+   ------------------------------------------------- */
+.card {
+  border-radius: var(--radius-md);
+  overflow: hidden;
   background: #fff;
-  color: var(--text-dark);
-  border: 1px solid var(--muted);
-}
-
-/* Disabled */
-.btn[disabled], .btn[aria-disabled="true"] { opacity: .52; cursor: not-allowed; transform:none; box-shadow:none; }
-
-/* Focus visible (keyboard) */
-:focus-visible { outline: 3px solid color-mix(in srgb, var(--color-teal) 12%, white 88%); outline-offset: 3px; }
-
-/* -------------------------------------------------------
-   HERO: overlay, CTA sizing, image card shadow
-   Apply .hero to container
-   ------------------------------------------------------- */
-.hero { position:relative; overflow:visible; }
-.hero .hero-inner { display:flex; gap:2rem; align-items:center; padding:4rem 0; }
-.hero .hero-image {
-  position:relative; border-radius:1.25rem; overflow:hidden;
-  box-shadow: 0 30px 60px rgba(16,32,33,0.08);
-  transform: translateZ(0);
-}
-.hero .hero-image img { width:100%; height:100%; object-fit:cover; transition: transform .7s ease; }
-.hero .hero-image .hover-layer { position:absolute; inset:0; background: linear-gradient(180deg, rgba(11,22,24,0.12), rgba(11,22,24,0.04)); pointer-events:none; transition:opacity .5s ease; opacity:0; }
-.hero .hero-image:hover img { transform:scale(1.04); }
-.hero .hero-image:hover .hover-layer { opacity:1; }
-
-/* Hero text */
-.hero .hero-cta { margin-top:1.25rem; display:flex; gap:1rem; flex-wrap:wrap; }
-
-/* -------------------------------------------------------
-   CARDS: class-card and standard card-content
-   ------------------------------------------------------- */
-.class-card {
-  position:relative; border-radius:1rem; overflow:hidden;
-  min-height:220px; padding:1.25rem; display:flex; flex-direction:column;
-  justify-content:flex-end; box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-soft);
   transition: transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s;
 }
-.class-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-strong); }
+.card:hover { transform: translateY(-8px); box-shadow: var(--shadow-strong); }
 
-/* Overlay darkens images to ensure readability */
-.class-card::after, .card::after, .image-overlay {
-  content:""; position:absolute; inset:0; pointer-events:none; z-index:1;
-  background: linear-gradient(180deg, rgba(10,20,22,0.55) 0%, rgba(10,20,22,0.35) 40%, rgba(255,255,255,0.02) 100%);
+/* dark overlay (applies to images/cards) */
+[class*="overlay"], .card::after, .image-overlay, .overlay, .thumbnail-overlay {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background: linear-gradient(180deg, rgba(10,20,22,0.56) 0%, rgba(10,20,22,0.36) 40%, rgba(255,255,255,0.02) 100%) !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
 }
 
-/* Content above overlay */
-.class-card .card-content, .card .card-content { position:relative; z-index:2; color:#fff; text-shadow: 0 6px 18px rgba(0,0,0,0.35); }
+/* content above overlay */
+.card .card-content, .class-card .card-content {
+  position: relative; z-index: 2; color: #fff !important;
+  text-shadow: 0 6px 18px rgba(0,0,0,0.35) !important;
+}
 
-/* Light variant */
-.card.light { background:#fff; }
-.card.light .card-content { color:var(--text-dark); text-shadow:none; }
-.card.light::after { display:none; }
+/* explicit opt-out for cards that should be light */
+.card.light::after, .card.light .image-overlay { background: none !important; }
+.card.light .card-content { color: var(--text-dark) !important; text-shadow: none !important; }
 
-/* -------------------------------------------------------
-   PLAN CARDS (modern glass + interior panel)
-   Use .plan-card-dark and inside .plan-top + .plan-cta
-   ------------------------------------------------------- */
-
-/* outer container subtle */
+/* -------------------------------------------------
+   Plan card: glass / frosted panel + CTA green
+   ------------------------------------------------- */
 .plan-card-dark {
-  border-radius:1rem; padding:1.25rem;
-  background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+  border-radius: 16px;
+  padding: 1.25rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
   border: 1px solid rgba(16,32,33,0.03);
   box-shadow: 0 20px 50px rgba(16,32,33,0.06);
   display:flex; flex-direction:column; justify-content:space-between;
   transition: transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s;
 }
-.plan-card-dark:hover { transform: translateY(-8px); box-shadow: var(--shadow-strong); }
+.plan-card-dark:hover { transform: translateY(-10px); box-shadow: var(--shadow-strong); }
 
-/* inner frosted panel */
-.plan-top {
+/* inner frosted panel for number/price */
+.plan-card-dark .plan-top {
+  margin: .5rem auto 0; width: calc(100% - 2rem);
   background: linear-gradient(180deg, rgba(10,20,22,0.20), rgba(10,20,22,0.14));
-  padding:1rem; border-radius:.75rem; color:#fff;
-  text-align:center; box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-  backdrop-filter: blur(6px);
+  color: #fff; padding: 1rem; border-radius: 12px; text-align:center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06); backdrop-filter: blur(6px);
 }
 
-/* layout for plan meta */
-.plan-meta { display:flex; gap:1rem; align-items:center; justify-content:center; }
+/* big number & price */
+.plan-display { font-weight:900; font-size:3.2rem; color:#fff; text-shadow: 0 10px 26px rgba(0,0,0,0.36); line-height:1; }
+.plan-sub { font-size:.82rem; color: rgba(255,255,255,0.95); font-weight:700; margin-top:.25rem; text-transform:uppercase; }
+.plan-price { font-size:1.4rem; color:#fff; font-weight:800; margin-top:.4rem; }
 
-/* CTA styling as full-width button */
+/* green CTA */
 .plan-cta {
-  display:inline-flex; gap:.5rem; align-items:center; justify-content:center;
-  padding:.72rem 1rem; border-radius:.6rem; font-weight:800;
+  padding:.72rem 1rem; border-radius:.6rem; font-weight:800; width:100%;
   background: linear-gradient(180deg, var(--color-green), color-mix(in srgb, var(--color-green) 88%, black 12%));
-  color:#fff; border:none; box-shadow: 0 10px 26px rgba(42,97,48,0.18);
+  color:#fff !important; box-shadow: 0 10px 26px rgba(42,97,48,0.18); border: none;
+  transition: transform .12s, box-shadow .12s;
 }
 .plan-cta:hover { transform: translateY(-3px); }
 
-/* ensure inner texts are white and contrasted */
-.plan-top .plan-display, .plan-top .plan-price, .plan-top .plan-sub {
-  color:#fff; text-shadow: 0 8px 24px rgba(0,0,0,0.32);
-}
+/* hide interfering white overlays only inside plan cards */
+.plan-card-dark [class*="overlay"], .plan-card-dark::after { display: none !important; }
 
-/* hide interfering overlays inside plan cards */
-.plan-card-dark [class*="overlay"], .plan-card-dark::after { display:none !important; }
+/* responsive tweak for plan number */
+@media (max-width: 640px) { .plan-display { font-size: 2.4rem; } .plan-card-dark .plan-top { padding:.8rem; width: calc(100% - 1.2rem); } }
 
-/* -------------------------------------------------------
-   GRID & RESPONSIVE utilities
-   ------------------------------------------------------- */
-.cards-grid { display:grid; gap:1.25rem; }
-@media (min-width: 768px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1024px) { .cards-grid { grid-template-columns: repeat(3, 1fr); } }
+/* -------------------------------------------------
+   Hero image interactions
+   ------------------------------------------------- */
+.hero .hero-image { border-radius: 1.25rem; overflow:hidden; box-shadow: 0 30px 60px rgba(16,32,33,0.08); transition: transform .7s; position: relative; }
+.hero .hero-image img { width:100%; height:100%; object-fit: cover; transition: transform .7s ease; }
+.hero .hero-image:hover img { transform: scale(1.04); }
+.hero .hero-image .hover-layer { position:absolute; inset:0; pointer-events:none; background: linear-gradient(180deg, rgba(11,22,24,0.12), rgba(11,22,24,0.04)); opacity:0; transition:opacity .5s; }
+.hero .hero-image:hover .hover-layer { opacity:1; }
 
-/* hero responsive */
-@media (max-width: 1024px) { .hero .hero-inner { flex-direction:column; } }
+/* -------------------------------------------------
+   Principles icons style
+   ------------------------------------------------- */
+.principle-icon svg { color: var(--color-teal); stroke: currentColor; fill: none; }
+.principle-title { margin-top:.5rem; font-style:italic; font-weight:700; color:var(--color-teal); }
 
-/* -------------------------------------------------------
-   Minor UI helpers & accessibility
-   ------------------------------------------------------- */
-.fab-whatsapp { position:fixed; right:1rem; bottom:1rem; z-index:60; width:64px; height:64px; border-radius:999px; background:var(--color-green); display:flex; align-items:center; justify-content:center; color:#fff; box-shadow: 0 10px 30px rgba(42,97,48,0.18); }
-.card .card-content .title { font-weight:800; color: #fff; }
-.link-more { color: #fff; opacity:.95; text-decoration:none; font-weight:600; }
-
-/* -------------------------------------------------------
-   Animations
-   ------------------------------------------------------- */
-@keyframes fadeInUp { from { opacity:0; transform: translateY(18px);} to { opacity:1; transform: translateY(0);} }
-@keyframes float { 0%{ transform: translateY(0);} 50%{ transform: translateY(-6px);} 100%{ transform: translateY(0);} }
-.pulse-cta { animation: float 3s ease-in-out infinite; }
-
-/* -------------------------------------------------------
-   Utility: force contrast for debugging (remove later)
-   ------------------------------------------------------- */
-.force-contrast .plan-top, .force-contrast .card-content { background: rgba(0,0,0,0.18) !important; color:#fff !important; }
+/* small helper for debugging */
+.no-overlay [class*="overlay"], .no-overlay::after { background:none !important; }
