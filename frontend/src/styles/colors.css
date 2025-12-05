@@ -1,14 +1,14 @@
 :root{
-  /* Palette original del PDF */
+  /* Palette from PDF + legacy tokens for compatibility */
   --color-lilac: #E1DBE1;
   --color-cta:   #DC6D27;
   --color-teal:  #1B3D4E;
   --color-brown: #944E22;
   --color-green: #2A6130;
 
-  /* Variables antiguas / legacy (alias para compatibilidad) */
-  --brand-primary: #1B3D4E; /* alias -> color-teal (ajusta si prefieres el #0D4854) */
-  --brand-dark: #0B2E34;    /* valor legacy; conservamos por compatibilidad */
+  /* Legacy aliases */
+  --brand-primary: #1B3D4E;
+  --brand-dark: #0B2E34;
   --brand-light: #E9E6EA;
 
   --logo-black: #000000;
@@ -22,7 +22,6 @@
   --neutral-bg: #F7F6F4;
   --text-on-dark: #FFFFFF;
 
-  /* Tokens adicionales usados en branding.css */
   --text-dark: #102021;
   --muted-border: rgba(16,32,33,0.06);
 
