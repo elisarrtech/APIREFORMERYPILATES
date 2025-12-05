@@ -182,11 +182,11 @@ const Home = () => {
             {classesInfo.map((classItem, index) => (
               <div
                 key={index}
-                className="class-card group cursor-pointer transform transition-all hover:scale-105 hover:shadow-2xl relative"
+                className="class-card group cursor-pointer relative"
               >
                 <div className="absolute inset-0">
                   <img src={classItem.image} alt={classItem.name} className="w-full h-full object-cover" loading="lazy" />
-                  <div className="image-overlay" aria-hidden />
+                  <div className="image-overlay" aria-hidden="true" />
                 </div>
 
                 <div className="card-content relative h-full p-6 flex flex-col justify-between">
