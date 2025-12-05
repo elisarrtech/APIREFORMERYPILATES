@@ -1,12 +1,12 @@
 :root{
-  /* Primary palette (from brand PDF) */
+  /* Palette from brand PDF */
   --color-lilac: #E1DBE1;
   --color-cta:   #DC6D27;
   --color-teal:  #1B3D4E;
   --color-brown: #944E22;
   --color-green: #2A6130;
 
-  /* Aliases / legacy tokens for compatibility */
+  /* Aliases / legacy tokens to remain compatible */
   --brand-primary: var(--color-teal);
   --brand-success: var(--color-green);
   --brand-accent: var(--color-cta);
