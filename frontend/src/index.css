@@ -13,7 +13,7 @@
 
   body {
     font-family: 'Inter', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
-    /* usa la paleta sage (debe existir en tailwind.config.js) */
+    /* usa la paleta sage (debe existir en tailwind.config.js / src/styles/theme.js) */
     @apply bg-gradient-to-br from-gray-50 via-white to-sage-50 text-gray-800;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -90,7 +90,7 @@
     @apply bg-gradient-to-br from-white to-sage-50 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-sage-100;
   }
 
-  /* stat-card variants: admin/instructor/client require colors in tailwind.config.js */
+  /* stat-card variants: admin/instructor/client require colors in tailwind.config.js or theme.js */
   .stat-card-admin {
     @apply bg-gradient-to-br from-white to-admin-50 border-admin-100;
   }
@@ -136,11 +136,13 @@
   /* Scrollbar (WebKit) */
   .custom-scrollbar::-webkit-scrollbar { width: 8px; }
   .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
-  .custom-scrollbar::-webkit-scrollbar-thumb { background: #8ba88d; border-radius: 10px; }
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #6b8e6f; }
+  /* Usamos colores de la paleta sage para la thumb */
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: #5A8A67; border-radius: 10px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #4a7053; }
 
   /* Loading Spinner */
   .spinner { @apply w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin; }
+  /* Spinner sage usa token de Tailwind (theme) para consistencia con palette */
   .spinner-sage { border-color: transparent; border-top-color: theme('colors.sage.600'); }
 
   /* Utility card animations (small example) */
@@ -189,14 +191,14 @@
 /* ==================== FOCUS VISIBLE ==================== */
 /* Uso CSS directo para evitar dependencias de token color en @apply */
 :focus-visible {
-  outline: 3px solid rgba(111,201,153,0.9); /* coincide con sage-500-ish */
+  outline: 3px solid rgba(107,158,120,0.9); /* coincide con sage-500 (#6B9E78) */
   outline-offset: 2px;
 }
 
 /* ==================== SELECTION ==================== */
 ::selection {
-  background: #d6efe0; /* sage-200 */
-  color: #173826;      /* sage-900 */
+  background: #d4e9dc; /* sage-200 */
+  color: #334b39;      /* sage-900 */
 }
 
 /* Line clamp helper (si no usas plugin) */
