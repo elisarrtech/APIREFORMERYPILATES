@@ -1,71 +1,105 @@
-/* Branding & UI system
-   Palette: #E1DBE1, #DC6D27, #1B3D4E, #944E22, #2A6130
-   Use: import this from src/index.css
-*/
+/*
+ * branding.css — Consolidated brand tokens and component styles
+ * Brand Palette: #E1DBE1 (lilac), #DC6D27 (orange CTA), #1B3D4E (teal), #944E22 (brown), #2A6130 (green)
+ * Import this from src/index.css BEFORE Tailwind directives
+ */
 
-/* ---------------------------
-   Variables (palette + tokens)
-   --------------------------- */
-:root{
+/* ============================================
+   CSS Custom Properties (Color & Layout Tokens)
+   ============================================ */
+:root {
+  /* Brand palette */
   --color-lilac: #E1DBE1;
-  --color-cta:   #DC6D27;
-  --color-teal:  #1B3D4E;
+  --color-cta: #DC6D27;     /* primary CTA orange */
+  --color-teal: #1B3D4E;    /* primary dark teal */
   --color-brown: #944E22;
-  --color-green: #2A6130;
+  --color-green: #2A6130;   /* plan CTA green */
 
-  --text-dark:   #102021;
-  --muted-border: rgba(16,32,33,0.06);
+  /* Semantic colors */
+  --text-dark: #102021;
+  --text-light: #ffffff;
+  --muted-border: rgba(16, 32, 33, 0.08);
 
+  /* Border radius tokens */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 20px;
-  --shadow-soft: 0 10px 30px rgba(16,32,33,0.06);
-  --shadow-strong: 0 20px 50px rgba(16,32,33,0.12);
+
+  /* Shadow tokens */
+  --shadow-soft: 0 10px 30px rgba(16, 32, 33, 0.08);
+  --shadow-medium: 0 16px 40px rgba(16, 32, 33, 0.12);
+  --shadow-strong: 0 20px 50px rgba(16, 32, 33, 0.18);
 }
 
-/* -------------------------------------------------
-   Accessibility helpers
-   ------------------------------------------------- */
+/* ============================================
+   Accessibility Helpers
+   ============================================ */
 :focus-visible {
-  outline: 3px solid rgba(27,61,78,0.12);
+  outline: 3px solid rgba(27, 61, 78, 0.25);
   outline-offset: 3px;
 }
+
+/* Respect user motion preferences */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { transition: none !important; animation: none !important; }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }
 
-/* -------------------------------------------------
-   Buttons
-   - primary: main CTA (teal)
-   - accent: alternative CTA (orange) when needed
-   - outline: border-first, on hover fills with teal
-   ------------------------------------------------- */
+/* ============================================
+   Buttons — High contrast, accessible states
+   - .btn-primary: teal background (main CTA)
+   - .btn-accent: orange background (alternative CTA)
+   - .btn-outline: teal border, fills on hover
+   - .btn-neutral: subtle gray for secondary actions
+   ============================================ */
 .btn {
-  display:inline-flex; align-items:center; justify-content:center; gap:.6rem;
-  padding:.7rem 1.1rem; border-radius:var(--radius-md); font-weight:700; letter-spacing:.02em;
-  text-transform:uppercase; cursor:pointer; user-select:none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  user-select: none;
+  border: none;
   -webkit-tap-highlight-color: transparent;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
 }
 
-/* Primary: teal by default (high contrast white text) */
+/* Primary button: teal gradient (high contrast white text) */
 .btn-primary {
-  background: linear-gradient(180deg, var(--color-teal), color-mix(in srgb, var(--color-teal) 88%, black 12%));
+  background: linear-gradient(180deg, var(--color-teal), #153441);
   color: #fff !important;
   box-shadow: var(--shadow-soft);
-  transition: transform .12s ease, box-shadow .12s ease, filter .12s;
 }
-.btn-primary:hover { transform: translateY(-3px); box-shadow: var(--shadow-strong); }
-.btn-primary:active { transform: translateY(-1px); }
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-strong);
+}
+.btn-primary:active {
+  transform: translateY(-1px);
+}
 
-/* Accent CTA (optional) - orange */
+/* Accent button: orange gradient (CTA color) */
 .btn-accent {
-  background: linear-gradient(180deg, var(--color-cta), color-mix(in srgb, var(--color-cta) 88%, black 12%));
+  background: linear-gradient(180deg, var(--color-cta), #c45d1f);
   color: #fff !important;
-  box-shadow: 0 12px 30px rgba(220,109,39,0.12);
+  box-shadow: 0 12px 30px rgba(220, 109, 39, 0.16);
 }
-.btn-accent:hover { transform: translateY(-2px); }
+.btn-accent:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(220, 109, 39, 0.24);
+}
 
-/* Outline */
+/* Outline button: transparent with teal border */
 .btn-outline {
   background: transparent !important;
   color: var(--color-teal) !important;
@@ -74,101 +108,304 @@
 .btn-outline:hover {
   background: var(--color-teal) !important;
   color: #fff !important;
+  transform: translateY(-2px);
+}
+
+/* Neutral button: subtle gray for secondary actions */
+.btn-neutral {
+  background: #f5f5f5;
+  color: var(--text-dark);
+  border: 1px solid var(--muted-border);
+}
+.btn-neutral:hover {
+  background: #e8e8e8;
   transform: translateY(-1px);
 }
 
-/* Disabled visual */
-.btn[disabled], .btn[aria-disabled="true"] { opacity:.55; cursor:not-allowed; transform:none; box-shadow:none; }
+/* Disabled state for all buttons */
+.btn[disabled],
+.btn[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
 
-/* -------------------------------------------------
-   Cards and class-card
-   - dark overlay default to preserve text contrast
-   ------------------------------------------------- */
+/* ============================================
+   Cards — Dark overlay for text contrast
+   - .card: standard card with overlay
+   - .card.light: opt-out of dark overlay
+   - .class-card: specific class listing cards
+   ============================================ */
 .card {
+  position: relative;
   border-radius: var(--radius-md);
   overflow: hidden;
   background: #fff;
   box-shadow: var(--shadow-soft);
-  transition: transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s;
+  transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.2, 1), box-shadow 0.3s ease;
 }
-.card:hover { transform: translateY(-8px); box-shadow: var(--shadow-strong); }
-
-/* dark overlay (applies to images/cards) */
-[class*="overlay"], .card::after, .image-overlay, .overlay, .thumbnail-overlay {
-  content: "" !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background: linear-gradient(180deg, rgba(10,20,22,0.56) 0%, rgba(10,20,22,0.36) 40%, rgba(255,255,255,0.02) 100%) !important;
-  pointer-events: none !important;
-  z-index: 1 !important;
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-strong);
 }
 
-/* content above overlay */
-.card .card-content, .class-card .card-content {
-  position: relative; z-index: 2; color: #fff !important;
-  text-shadow: 0 6px 18px rgba(0,0,0,0.35) !important;
+/* Class card for displaying pilates classes */
+.class-card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.2, 1), box-shadow 0.3s ease;
+}
+.class-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: var(--shadow-strong);
 }
 
-/* explicit opt-out for cards that should be light */
-.card.light::after, .card.light .image-overlay { background: none !important; }
-.card.light .card-content { color: var(--text-dark) !important; text-shadow: none !important; }
+/* Dark overlay to ensure text is legible over images */
+.card::after,
+.class-card::after,
+.image-overlay,
+.overlay,
+.thumbnail-overlay {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 20, 22, 0.65) 0%,
+    rgba(10, 20, 22, 0.45) 40%,
+    rgba(10, 20, 22, 0.25) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
 
-/* -------------------------------------------------
-   Plan card: glass / frosted panel + CTA green
-   ------------------------------------------------- */
+/* Content above overlay layer */
+.card .card-content,
+.class-card .card-content {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Title and excerpt inside cards */
+.class-card .card-content .title {
+  color: #fff;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+.class-card .card-content .excerpt {
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Link styling inside cards */
+.class-card .link-more {
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.15s ease;
+}
+.class-card .link-more:hover {
+  transform: translateX(4px);
+}
+
+/* Light card variant (opt-out of dark overlay) */
+.card.light::after,
+.card.light .image-overlay {
+  background: none !important;
+}
+.card.light .card-content {
+  color: var(--text-dark) !important;
+  text-shadow: none !important;
+}
+
+/* ============================================
+   Plan Cards — Frosted glass effect
+   - .plan-card-dark: dark frosted card for pricing
+   - .plan-top: inner frosted panel for number/price
+   - .plan-cta: green purchase button
+   ============================================ */
+.plan-section {
+  background: linear-gradient(135deg, var(--color-teal) 0%, #153441 50%, #0f252f 100%);
+  position: relative;
+}
+
 .plan-card-dark {
+  position: relative;
   border-radius: 16px;
-  padding: 1.25rem;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border: 1px solid rgba(16,32,33,0.03);
-  box-shadow: 0 20px 50px rgba(16,32,33,0.06);
-  display:flex; flex-direction:column; justify-content:space-between;
-  transition: transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s;
+  padding: 1.5rem;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 380px;
+  transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.2, 1), box-shadow 0.3s ease;
 }
-.plan-card-dark:hover { transform: translateY(-10px); box-shadow: var(--shadow-strong); }
+.plan-card-dark:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+}
 
-/* inner frosted panel for number/price */
+/* Inner frosted panel for displaying class count and price */
 .plan-card-dark .plan-top {
-  margin: .5rem auto 0; width: calc(100% - 2rem);
-  background: linear-gradient(180deg, rgba(10,20,22,0.20), rgba(10,20,22,0.14));
-  color: #fff; padding: 1rem; border-radius: 12px; text-align:center;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.06); backdrop-filter: blur(6px);
+  margin: 0.5rem auto;
+  width: calc(100% - 1rem);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 1.25rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(8px);
 }
 
-/* big number & price */
-.plan-display { font-weight:900; font-size:3.2rem; color:#fff; text-shadow: 0 10px 26px rgba(0,0,0,0.36); line-height:1; }
-.plan-sub { font-size:.82rem; color: rgba(255,255,255,0.95); font-weight:700; margin-top:.25rem; text-transform:uppercase; }
-.plan-price { font-size:1.4rem; color:#fff; font-weight:800; margin-top:.4rem; }
+/* Large number display */
+.plan-display {
+  font-weight: 900;
+  font-size: 3.2rem;
+  color: #fff;
+  text-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  line-height: 1;
+  white-space: pre-line;
+}
 
-/* green CTA */
+/* Subtitle below number */
+.plan-sub {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 700;
+  margin-top: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Price display */
+.plan-price {
+  font-size: 1.5rem;
+  color: #fff;
+  font-weight: 800;
+  margin-top: 0.5rem;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Validity/description text */
+.plan-desc {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.85rem;
+}
+
+/* Green CTA button for plan purchase */
 .plan-cta {
-  padding:.72rem 1rem; border-radius:.6rem; font-weight:800; width:100%;
-  background: linear-gradient(180deg, var(--color-green), color-mix(in srgb, var(--color-green) 88%, black 12%));
-  color:#fff !important; box-shadow: 0 10px 26px rgba(42,97,48,0.18); border: none;
-  transition: transform .12s, box-shadow .12s;
+  padding: 0.85rem 1.25rem;
+  border-radius: 0.6rem;
+  font-weight: 800;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  width: 100%;
+  background: linear-gradient(180deg, var(--color-green), #225528);
+  color: #fff !important;
+  box-shadow: 0 10px 26px rgba(42, 97, 48, 0.25);
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
-.plan-cta:hover { transform: translateY(-3px); }
+.plan-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 32px rgba(42, 97, 48, 0.35);
+}
 
-/* hide interfering white overlays only inside plan cards */
-.plan-card-dark [class*="overlay"], .plan-card-dark::after { display: none !important; }
+/* Hide any white overlays inside plan cards (they interfere with glass effect) */
+.plan-card-dark [class*="overlay"],
+.plan-card-dark::after {
+  display: none !important;
+}
 
-/* responsive tweak for plan number */
-@media (max-width: 640px) { .plan-display { font-size: 2.4rem; } .plan-card-dark .plan-top { padding:.8rem; width: calc(100% - 1.2rem); } }
+/* Responsive tweaks for plan cards */
+@media (max-width: 640px) {
+  .plan-display {
+    font-size: 2.4rem;
+  }
+  .plan-card-dark .plan-top {
+    padding: 0.9rem;
+    width: calc(100% - 0.8rem);
+  }
+  .plan-card-dark {
+    padding: 1rem;
+    min-height: 340px;
+  }
+}
 
-/* -------------------------------------------------
-   Hero image interactions
-   ------------------------------------------------- */
-.hero .hero-image { border-radius: 1.25rem; overflow:hidden; box-shadow: 0 30px 60px rgba(16,32,33,0.08); transition: transform .7s; position: relative; }
-.hero .hero-image img { width:100%; height:100%; object-fit: cover; transition: transform .7s ease; }
-.hero .hero-image:hover img { transform: scale(1.04); }
-.hero .hero-image .hover-layer { position:absolute; inset:0; pointer-events:none; background: linear-gradient(180deg, rgba(11,22,24,0.12), rgba(11,22,24,0.04)); opacity:0; transition:opacity .5s; }
-.hero .hero-image:hover .hover-layer { opacity:1; }
+/* ============================================
+   Hero Section — Image interactions
+   ============================================ */
+.hero .hero-image {
+  border-radius: 1.25rem;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(16, 32, 33, 0.12);
+  transition: transform 0.5s ease;
+  position: relative;
+}
+.hero .hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.hero .hero-image:hover img {
+  transform: scale(1.04);
+}
+.hero .hero-image .hover-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(11, 22, 24, 0.15), rgba(11, 22, 24, 0.05));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.hero .hero-image:hover .hover-layer {
+  opacity: 1;
+}
 
-/* -------------------------------------------------
-   Principles icons style
-   ------------------------------------------------- */
-.principle-icon svg { color: var(--color-teal); stroke: currentColor; fill: none; }
-.principle-title { margin-top:.5rem; font-style:italic; font-weight:700; color:var(--color-teal); }
+/* ============================================
+   Principles Section — Icon styling
+   ============================================ */
+.principle-icon svg {
+  color: var(--color-teal);
+  stroke: currentColor;
+  fill: none;
+}
+.principle-title {
+  margin-top: 0.5rem;
+  font-style: italic;
+  font-weight: 700;
+  color: var(--color-teal);
+  font-size: 1rem;
+}
 
-/* small helper for debugging */
-.no-overlay [class*="overlay"], .no-overlay::after { background:none !important; }
+/* ============================================
+   Utility Classes
+   ============================================ */
+
+/* Remove overlay from specific elements */
+.no-overlay [class*="overlay"],
+.no-overlay::after {
+  background: none !important;
+}

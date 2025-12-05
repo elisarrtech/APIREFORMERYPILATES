@@ -1,23 +1,64 @@
+/*
+ * index.css — Main stylesheet entry point
+ * Order: fonts → branding variables → Tailwind → overrides
+ * NOTE: All @import statements must come before other CSS rules
+ */
+
+/* External fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
+/* Brand tokens and component styles (must be before Tailwind layers) */
+@import "./styles/branding.css";
+
+/* Tailwind CSS layers */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* import branding tokens & UI */
-@import "./styles/branding.css";
+/*
+ * ============================================
+ * Global overrides and utilities (below Tailwind)
+ * ============================================
+ */
 
-/* ensure semantic classes behave as expected */
-.btn-primary, .btn-accent, .btn-outline, .btn-neutral, .plan-cta { display:inline-flex; align-items:center; justify-content:center; }
+/* Ensure button semantic classes display correctly */
+.btn-primary, .btn-accent, .btn-outline, .btn-neutral, .plan-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
 
-/* whatsapp fallback */
-.fab-whatsapp { position: fixed; right: 1rem; bottom: 1rem; z-index:60; width:64px; height:64px; border-radius:999px; display:flex; align-items:center; justify-content:center; background:var(--color-green); color:#fff; box-shadow:0 10px 30px rgba(42,97,48,0.18); }
+/* WhatsApp floating action button */
+.fab-whatsapp {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 60;
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-green);
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(42, 97, 48, 0.18);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.fab-whatsapp:hover {
+  transform: scale(1.05);
+  box-shadow: 0 14px 36px rgba(42, 97, 48, 0.24);
+}
 
-/* focus visible for keyboard users */
-:focus-visible { outline: 3px solid rgba(27,61,78,0.12); outline-offset:3px; }
+/* Focus visible for keyboard navigation (accessibility) */
+:focus-visible {
+  outline: 3px solid rgba(27, 61, 78, 0.25);
+  outline-offset: 3px;
+}
 
-/* debug helper (remove in prod) */
-.force-contrast .card * { color:#fff !important; }
-
-/* mobile tweak */
-@media (max-width:640px) { .plan-display { font-size:2.4rem !important; } }
+/* Mobile responsive adjustments */
+@media (max-width: 640px) {
+  .plan-display {
+    font-size: 2.4rem !important;
+  }
+}
