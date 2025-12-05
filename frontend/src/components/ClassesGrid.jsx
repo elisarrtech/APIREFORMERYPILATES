@@ -28,23 +28,23 @@ export default function ClassesGrid({ classesList = [], showReserve = true }) {
               className="class-card"
               role="article"
               aria-labelledby={`class-title-${idx}`}
+              tabIndex={0}
             >
               <div
                 className="class-image"
                 style={{ backgroundImage: `url(${item.image})` }}
                 aria-hidden="true"
-              >
-                <div className="image-overlay" />
-              </div>
+              />
+              <div className="image-overlay" aria-hidden />
 
               <div className="card-content">
                 <h3 id={`class-title-${idx}`} className="title text-2xl md:text-3xl font-extrabold mb-2">{item.name}</h3>
                 <p className="excerpt text-sm md:text-base mb-6 opacity-95">{item.description}</p>
 
-                <div className="flex items-center gap-4">
+                <div className="card-cta-row">
                   <Link
                     to={`/classes/${item.slug || idx}`}
-                    className="link-more btn-outline inline-flex items-center gap-2"
+                    className="link-more inline-flex items-center gap-2"
                     aria-label={`Ver más sobre ${item.name}`}
                   >
                     <span aria-hidden>➜</span>
