@@ -4,20 +4,17 @@
 @tailwind components;
 @tailwind utilities;
 
-/* import branding tokens & UI */
+/* Import branding */
 @import "./styles/branding.css";
 
-/* ensure semantic classes behave as expected */
+/* Ensure semantic classes are inline-flex (centering) */
 .btn-primary, .btn-accent, .btn-outline, .btn-neutral, .plan-cta { display:inline-flex; align-items:center; justify-content:center; }
 
-/* whatsapp fallback */
+/* WhatsApp fallback */
 .fab-whatsapp { position: fixed; right: 1rem; bottom: 1rem; z-index:60; width:64px; height:64px; border-radius:999px; display:flex; align-items:center; justify-content:center; background:var(--color-green); color:#fff; box-shadow:0 10px 30px rgba(42,97,48,0.18); }
 
-/* focus visible for keyboard users */
+/* focus visible */
 :focus-visible { outline: 3px solid rgba(27,61,78,0.12); outline-offset:3px; }
 
-/* debug helper (remove in prod) */
-.force-contrast .card * { color:#fff !important; }
-
-/* mobile tweak */
+/* responsive tweak */
 @media (max-width:640px) { .plan-display { font-size:2.4rem !important; } }
