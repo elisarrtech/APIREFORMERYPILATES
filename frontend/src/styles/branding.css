@@ -1,43 +1,50 @@
-/* Branding / UI system
-   - Uses variables from colors.css (import colors.css from index.css)
-   - Modern, responsive, accessible styles
-*/
+/* Branding / UI system using variables from colors.css */
 
-/* Buttons, cards, overlays, plan-cards, classes grid, hero interactions */
+/* Generic button utility */
+.btn {
+  display:inline-flex; align-items:center; justify-content:center; gap:.6rem;
+  padding:.7rem 1.1rem; border-radius:var(--radius-md); font-weight:700; letter-spacing:.02em; text-transform:uppercase;
+  cursor:pointer; user-select:none;
+}
+.btn:disabled, .btn[aria-disabled="true"]{ opacity:.6; cursor:not-allowed; }
 
-/* Generic utilities */
-.btn { display:inline-flex; align-items:center; justify-content:center; gap:.6rem; padding:.7rem 1.1rem; border-radius:var(--radius-md); font-weight:700; letter-spacing:.02em; text-transform:uppercase; cursor:pointer; user-select:none; }
-.btn:disabled, .btn[aria-disabled="true"] { opacity:.6; cursor:not-allowed; }
+/* Primary - teal */
+.btn-primary {
+  background: linear-gradient(180deg, var(--brand-primary), color-mix(in srgb, var(--brand-primary) 88%, black 12%));
+  color:#fff !important; box-shadow: var(--shadow-soft);
+  transition: transform .14s ease, box-shadow .14s;
+}
+.btn-primary:hover{ transform: translateY(-3px); box-shadow: var(--shadow-strong); }
 
-/* Primary: teal */
-.btn-primary { background: linear-gradient(180deg, var(--brand-primary), color-mix(in srgb, var(--brand-primary) 88%, black 12%)); color:#fff !important; box-shadow: var(--shadow-soft); transition: transform .14s ease, box-shadow .14s; }
-.btn-primary:hover { transform: translateY(-3px); box-shadow: var(--shadow-strong); }
+/* Accent (orange) */
+.btn-accent { background: linear-gradient(180deg, var(--brand-accent), color-mix(in srgb, var(--brand-accent) 88%, black 12%)); color:#fff !important; }
 
-/* Accent: orange */
-.btn-accent { background: linear-gradient(180deg, var(--brand-accent), color-mix(in srgb, var(--brand-accent) 88%, black 12%)); color:#fff !important; box-shadow: 0 10px 26px rgba(220,109,39,0.12); }
-
-/* Outline: teal stroke */
+/* Outline */
 .btn-outline { background: transparent !important; color: var(--brand-primary) !important; border: 2px solid var(--brand-primary) !important; }
 .btn-outline:hover { background: var(--brand-primary) !important; color:#fff !important; transform: translateY(-1px); }
 
 /* Focus */
 :focus-visible { outline: 3px solid rgba(27,61,78,0.12); outline-offset:3px; }
 
-/* Card base */
-.card { background:#fff; border-radius: var(--radius-md); overflow:hidden; box-shadow: var(--shadow-soft); transition: transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s; }
+/* Card */
+.card { background:#fff; border-radius: var(--radius-md); overflow:hidden; box-shadow: var(--shadow-soft); transition: transform .28s, box-shadow .28s; }
 .card:hover { transform: translateY(-8px); box-shadow: var(--shadow-strong); }
 
 /* Global overlay rules to guarantee legibility */
-[class*="overlay"], .card::after, .image-overlay, .overlay, .thumbnail-overlay { content:"" !important; position:absolute !important; inset:0 !important; background: linear-gradient(180deg, rgba(10,20,22,0.56) 0%, rgba(10,20,22,0.36) 40%, rgba(255,255,255,0.02) 100%) !important; pointer-events:none !important; z-index:1 !important; }
+[class*="overlay"], .card::after, .image-overlay, .overlay, .thumbnail-overlay {
+  content:"" !important; position:absolute !important; inset:0 !important;
+  background: linear-gradient(180deg, rgba(10,20,22,0.56) 0%, rgba(10,20,22,0.36) 40%, rgba(255,255,255,0.02) 100%) !important;
+  pointer-events:none !important; z-index:1 !important;
+}
 
 /* Content above overlay */
 .card .card-content, .class-card .card-content { position:relative; z-index:2; color:#fff !important; text-shadow: 0 6px 18px rgba(0,0,0,0.35) !important; }
 
-/* Light card opt-out */
+/* Exception for light cards */
 .card.light::after, .card.light .image-overlay { background:none !important; }
 .card.light .card-content { color: var(--text-dark) !important; text-shadow:none !important; }
 
-/* Plan cards */
+/* Plan cards with frosted inner panel */
 .plan-card-dark { border-radius: 1rem; padding: 1.25rem; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border: 1px solid rgba(16,32,33,0.03); box-shadow: 0 20px 50px rgba(16,32,33,0.06); display:flex; flex-direction:column; justify-content:space-between; transition: transform .28s, box-shadow .28s; }
 .plan-card-dark:hover { transform: translateY(-8px); box-shadow: var(--shadow-strong); }
 
@@ -46,6 +53,7 @@
 .plan-sub { font-size:.82rem; color: rgba(255,255,255,0.95); font-weight:700; margin-top:.25rem; text-transform:uppercase; }
 .plan-price { font-size:1.4rem; font-weight:800; color:#fff; margin-top:.4rem; }
 
+/* plan CTA green */
 .plan-cta { padding:.72rem 1rem; border-radius:.6rem; font-weight:800; width:100%; background: linear-gradient(180deg, var(--brand-success), color-mix(in srgb, var(--brand-success) 88%, black 12%)); color:#fff !important; box-shadow: 0 10px 26px rgba(42,97,48,0.18); border:none !important; transition: transform .12s; }
 .plan-cta:hover { transform: translateY(-3px); }
 .plan-card-dark [class*="overlay"], .plan-card-dark::after { display:none !important; }
@@ -57,11 +65,11 @@
 .hero .hero-image .hover-layer { position:absolute; inset:0; pointer-events:none; background: linear-gradient(180deg, rgba(11,22,24,0.12), rgba(11,22,24,0.04)); opacity:0; transition:opacity .5s; }
 .hero .hero-image:hover .hover-layer { opacity:1; }
 
-/* Principles */
+/* Principles icons */
 .principle-icon svg { color: var(--brand-primary); stroke: currentColor; fill:none; }
 .principle-title { margin-top:.5rem; font-style:italic; font-weight:700; color: var(--brand-primary); }
 
-/* Classes grid (specificity at the end) */
+/* Classes grid */
 .classes-grid { display:grid; gap:1.25rem; grid-template-columns: 1fr; }
 @media (min-width: 768px) { .classes-grid { grid-template-columns: repeat(2,1fr); } }
 @media (min-width: 1024px) { .classes-grid { grid-template-columns: repeat(3,1fr); } }
@@ -83,7 +91,7 @@
 
 .card-cta-row { display:flex; align-items:center; gap:1rem; width:100%; }
 
-/* Small responsive tweaks */
+/* Responsive tweaks */
 @media (max-width:640px) {
   .class-card .card-content { padding:.9rem; min-height:140px; }
   .title { font-size:1.05rem; }
