@@ -1,5 +1,5 @@
-// React Router imports (ordenados)
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+// Corregido: quitado BrowserRouter import no usado y eliminado ruta duplicada /schedules
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 // Context
 import { AuthProvider } from '@context/AuthContext';
@@ -14,7 +14,7 @@ import ClientDashboard from './pages/client/ClientDashboard';
 import Schedules from './pages/Schedules';
 import Unauthorized from './pages/Unauthorized';
 import NotFound from './pages/NotFound';
-import Contact from './pages/Contact'; 
+import Contact from './pages/Contact';
 import InstructorDashboard from './pages/instructor/InstructorDashboard';
 
 // Components
@@ -29,25 +29,27 @@ function AppRoutes() {
     <Routes>
       {/* Rutas Públicas */}
       <Route path="/" element={<Home />} />
-      
-      <Route 
-        path="/login" 
+
+      <Route
+        path="/login"
         element={
           isAuthenticated ? (
-            user?.role === 'admin' ? <Navigate to="/admin/dashboard" replace /> :
-            user?.role === 'client' ? <Navigate to="/client/dashboard" replace /> :
-            user?.role === 'instructor' ? <Navigate to="/instructor/dashboard" replace /> :
-            <Navigate to="/" replace />
+            user?.role === 'admin' ? (
+              <Navigate to="/admin/dashboard" replace />
+            ) : user?.role === 'client' ? (
+              <Navigate to="/client/dashboard" replace />
+            ) : user?.role === 'instructor' ? (
+              <Navigate to="/instructor/dashboard" replace />
+            ) : (
+              <Navigate to="/" replace />
+            )
           ) : (
             <Login />
           )
-        } 
+        }
       />
-      
-      <Route 
-        path="/register" 
-        element={isAuthenticated ? <Navigate to="/" replace /> : <Register />} 
-      />
+
+      <Route path="/register" element={isAuthenticated ? <Navigate to="/" replace /> : <Register />} />
 
       {/* Rutas Protegidas - Admin */}
       <Route
@@ -69,20 +71,17 @@ function AppRoutes() {
         }
       />
 
+      {/* Instructor (admin + instructor pueden acceder) */}
       <Route
         path="/instructor/dashboard"
         element={
-         <ProtectedRoute allowedRoles={['instructor', 'admin']}>
-          <InstructorDashboard />
-        </ProtectedRoute>
+          <ProtectedRoute allowedRoles={['instructor', 'admin']}>
+            <InstructorDashboard />
+          </ProtectedRoute>
         }
       />
 
-      <Route path="/contact" element={<Contact />} />
-      <Route path="/schedules" element={<Schedules />} />
-
-
-      {/* Rutas Protegidas - Todas */}
+      {/* Schedules: protegida por defecto */}
       <Route
         path="/schedules"
         element={
@@ -92,8 +91,10 @@ function AppRoutes() {
         }
       />
 
-      {/* Rutas de Error */}
+      <Route path="/contact" element={<Contact />} />
       <Route path="/unauthorized" element={<Unauthorized />} />
+
+      {/* Rutas de Error */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
@@ -101,22 +102,17 @@ function AppRoutes() {
 
 /**
  * App - Componente principal
- * @version 2.0.0
- * @author @elisarrtech
  */
 function App() {
   return (
-    <AuthProvider> {/* ✅ SOLO AuthProvider, NO BrowserRouter */}
+    <AuthProvider>
       <div className="flex flex-col min-h-screen">
-        {/* Main Content */}
         <main className="flex-grow">
           <AppRoutes />
         </main>
 
-        {/* Footer */}
         <Footer />
 
-        {/* WhatsApp Floating Button */}
         <WhatsAppButton />
       </div>
     </AuthProvider>
