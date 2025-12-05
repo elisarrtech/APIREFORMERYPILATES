@@ -6,6 +6,7 @@ import AuthModal from '../components/auth/AuthModal';
 import userPackageService from '../services/userPackageService';
 import { Calendar, ArrowRight, Dumbbell, Star } from 'lucide-react';
 import Principles from '../components/Principles';
+import ClassesGrid from '../components/ClassesGrid';
 
 const Home = () => {
   const { isAuthenticated, user } = useAuth();
