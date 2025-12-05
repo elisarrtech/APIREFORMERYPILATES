@@ -8,6 +8,12 @@ import { Calendar, ArrowRight, Dumbbell, Star } from 'lucide-react';
 import Principles from '../components/Principles';
 import ClassesGrid from '../components/ClassesGrid';
 
+/**
+ * Home page
+ * - Uses semantic classes defined in src/styles/branding.css
+ * - Uses ClassesGrid for the "Nuestras Clases" section
+ * - Plan displayTitle supports newlines (split on '\n')
+ */
 const Home = () => {
   const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
@@ -25,7 +31,9 @@ const Home = () => {
       if (hasActivePackages) {
         navigate('/schedules');
       } else {
-        alert('⚠️ No tienes paquetes activos.\n\nPara reservar una clase, primero debes comprar un paquete.\n\n📦 Elige tu paquete abajo.');
+        alert(
+          '⚠️ No tienes paquetes activos.\n\nPara reservar una clase, primero debes comprar un paquete.\n\n📦 Elige tu paquete abajo.'
+        );
         const packagesSection = document.getElementById('paquetes-section');
         if (packagesSection) packagesSection.scrollIntoView({ behavior: 'smooth' });
       }
@@ -68,20 +76,25 @@ const Home = () => {
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-sage-50 font-sans">
 
         {/* HERO SECTION */}
-        <section className="relative min-h-screen">
+        <section className="relative min-h-screen hero">
           <div className="container mx-auto px-6 lg:px-12 h-full">
-            <div className="flex flex-col lg:flex-row items-center justify-between min-h-screen py-12 lg:py-0 gap-12 lg:gap-16">
+            <div className="flex flex-col lg:flex-row items-center justify-between min-h-screen py-12 lg:py-0 gap-12 lg:gap-16 hero-inner">
 
               {/* IMAGEN */}
               <div className="w-full lg:w-[52%] relative">
                 <div className="absolute -left-4 top-1/4 w-1 h-32 bg-gradient-to-b from-sage-500 to-sage-700 opacity-30 rounded-full hidden lg:block" />
                 <div className="absolute -right-4 bottom-1/4 w-1 h-24 bg-gradient-to-b from-sage-700 to-sage-500 opacity-20 rounded-full hidden lg:block" />
 
-                <div className="relative group">
+                <div className="relative group hero-image">
                   <div className="absolute -inset-4 bg-gradient-to-br from-sage-500/10 to-sage-700/5 rounded-3xl blur-2xl opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
                   <div className="relative rounded-2xl lg:rounded-3xl overflow-hidden shadow-2xl border-2 border-sage-200">
                     <div className="aspect-[4/5] lg:aspect-[3/4]">
-                      <img src="/images/pilateshome.png" alt="Clase de Pilates en grupo" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105" loading="lazy" />
+                      <img
+                        src="/images/pilateshome.png"
+                        alt="Clase de Pilates en grupo"
+                        className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
+                        loading="lazy"
+                      />
                       <div className="absolute inset-0 bg-gradient-to-t from-sage-900/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" aria-hidden />
                     </div>
 
@@ -172,42 +185,7 @@ const Home = () => {
       </section>
 
       {/* SECCIÓN: Clases */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-800 mb-4">Nuestras Clases</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Descubre nuestra variedad de clases diseñadas para todos los niveles</p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-            {classesInfo.map((classItem, index) => (
-              <div
-                key={index}
-                className="class-card group cursor-pointer transform transition-all hover:scale-105 hover:shadow-2xl relative"
-              >
-                <div className="absolute inset-0">
-                  <img src={classItem.image} alt={classItem.name} className="w-full h-full object-cover" loading="lazy" />
-                  <div className="image-overlay" aria-hidden />
-                </div>
-
-                <div className="card-content relative h-full p-6 flex flex-col justify-between">
-                  <div>
-                    <h3 className="title text-2xl font-extrabold mb-3">{classItem.name}</h3>
-                    <p className="excerpt text-sm leading-relaxed opacity-95">{classItem.description}</p>
-                  </div>
-
-                  <div className="mt-4 flex items-center gap-3">
-                    <Link to={`/classes/${classItem.slug || index}`} className="link-more inline-flex items-center gap-2 font-semibold text-white">
-                      <ArrowRight size={18} /> <span>Ver más</span>
-                    </Link>
-                    <button className="ml-auto btn-outline hidden md:inline-flex items-center gap-2">Reservar</button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ClassesGrid classesList={classesInfo} showReserve={true} />
 
       {/* SECCIÓN: Paquetes */}
       <section id="paquetes-section" className="py-20 plan-section">
@@ -234,7 +212,11 @@ const Home = () => {
                 )}
 
                 <div className="plan-top">
-                  <div className="plan-display">{pkg.displayTitle}</div>
+                  <div className="plan-display">
+                    {pkg.displayTitle.split('\n').map((line, i) => (
+                      <span key={i} className="block">{line}</span>
+                    ))}
+                  </div>
                   <div className="plan-sub"> {pkg.classes > 1 ? 'PAQUETE' : 'CLASE'}</div>
                   <div className="plan-price mt-2">{pkg.price}</div>
                   {pkg.validity && <div className="plan-desc mt-2 text-sm">Vigencia: {pkg.validity} días</div>}
