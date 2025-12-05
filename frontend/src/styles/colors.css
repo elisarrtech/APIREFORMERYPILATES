@@ -1,26 +1,15 @@
 :root{
-  /* Palette from PDF + legacy tokens for compatibility */
+  /* Primary palette (from brand PDF) */
   --color-lilac: #E1DBE1;
   --color-cta:   #DC6D27;
   --color-teal:  #1B3D4E;
   --color-brown: #944E22;
   --color-green: #2A6130;
 
-  /* Legacy aliases */
-  --brand-primary: #1B3D4E;
-  --brand-dark: #0B2E34;
-  --brand-light: #E9E6EA;
-
-  --logo-black: #000000;
-  --logo-light: #E9E6EA;
-
-  --accent-brown: #8A4A27;
-  --accent-orange: #E4691C;
-  --accent-orange-soft: #F2A65A;
-  --accent-green: #1E6A3C;
-
-  --neutral-bg: #F7F6F4;
-  --text-on-dark: #FFFFFF;
+  /* Aliases / legacy tokens for compatibility */
+  --brand-primary: var(--color-teal);
+  --brand-success: var(--color-green);
+  --brand-accent: var(--color-cta);
 
   --text-dark: #102021;
   --muted-border: rgba(16,32,33,0.06);
