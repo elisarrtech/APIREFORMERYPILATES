@@ -4,20 +4,221 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Importa tokens y reglas de branding */
-@import "./styles/colors.css";
-@import "./styles/branding.css";
+/* ==================== BASE STYLES ==================== */
+@layer base {
+  /* global antialiasing and box-model pseudo elements */
+  *, *::before, *::after {
+    @apply antialiased;
+  }
 
-/* Small runtime helpers */
-.btn-primary, .btn-accent, .btn-outline, .btn-neutral, .plan-cta {
-  display:inline-flex; align-items:center; justify-content:center;
+  body {
+    font-family: 'Inter', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    /* usa la paleta sage (debe existir en tailwind.config.js) */
+    @apply bg-gradient-to-br from-gray-50 via-white to-sage-50 text-gray-800;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+  }
+
+  h1 { @apply text-4xl lg:text-5xl; }
+  h2 { @apply text-3xl lg:text-4xl; }
+  h3 { @apply text-2xl lg:text-3xl; }
+  h4 { @apply text-xl lg:text-2xl; }
+
+  input, textarea, select {
+    @apply outline-none;
+  }
 }
 
-/* WhatsApp fallback */
-.fab-whatsapp { position: fixed; right: 1rem; bottom: 1rem; z-index:60; width:64px; height:64px; border-radius:999px; display:flex; align-items:center; justify-content:center; background:var(--brand-success); color:#fff; box-shadow:0 10px 30px rgba(42,97,48,0.18); }
+/* ==================== COMPONENT STYLES ==================== */
+@layer components {
+  /* Buttons */
+  .btn-primary {
+    @apply px-6 py-3 bg-sage-600 hover:bg-sage-700 text-white font-bold rounded-xl uppercase tracking-wide transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl;
+  }
 
-/* Focus visible */
-:focus-visible { outline: 3px solid rgba(27,61,78,0.12); outline-offset:3px; }
+  .btn-secondary {
+    @apply px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold rounded-xl uppercase tracking-wide transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98];
+  }
 
-/* Mobile tweak */
-@media (max-width:640px) { .plan-display { font-size:2.4rem !important; } }
+  .btn-outline {
+    @apply px-6 py-3 bg-transparent border-2 border-sage-600 text-sage-600 hover:bg-sage-600 hover:text-white font-bold rounded-xl uppercase tracking-wide transition-all duration-300;
+  }
+
+  .btn-danger {
+    @apply px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl uppercase tracking-wide transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl;
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden;
+  }
+
+  .card-header {
+    @apply px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-sage-50 to-white;
+  }
+
+  .card-body {
+    @apply p-6;
+  }
+
+  /* Inputs */
+  .input-field {
+    @apply w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:bg-white transition-all duration-200 outline-none;
+  }
+
+  .input-field-with-icon {
+    @apply pl-12;
+  }
+
+  /* Badges */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide;
+  }
+
+  .badge-success { @apply bg-green-100 text-green-700; }
+  .badge-error   { @apply bg-red-100 text-red-700; }
+  .badge-warning { @apply bg-yellow-100 text-yellow-700; }
+  .badge-info    { @apply bg-blue-100 text-blue-700; }
+  .badge-sage    { @apply bg-sage-100 text-sage-700; }
+
+  /* Stats Cards */
+  .stat-card {
+    @apply bg-gradient-to-br from-white to-sage-50 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-sage-100;
+  }
+
+  /* stat-card variants: admin/instructor/client require colors in tailwind.config.js */
+  .stat-card-admin {
+    @apply bg-gradient-to-br from-white to-admin-50 border-admin-100;
+  }
+
+  .stat-card-instructor {
+    @apply bg-gradient-to-br from-white to-instructor-50 border-instructor-100;
+  }
+
+  .stat-card-client {
+    @apply bg-gradient-to-br from-white to-client-50 border-client-100;
+  }
+
+  /* Tables */
+  .table-container { @apply bg-white rounded-2xl shadow-lg overflow-hidden; }
+  .table { @apply w-full; }
+  .table thead { @apply bg-gradient-to-r from-sage-50 to-white border-b-2 border-sage-100; }
+  .table th { @apply px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider; }
+  .table td { @apply px-6 py-4 text-sm text-gray-800 border-b border-gray-100; }
+  .table tbody tr { @apply hover:bg-sage-50 transition-colors duration-150; }
+
+  /* Modals */
+  .modal-overlay { @apply fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 flex items-center justify-center p-4; }
+  .modal-content { @apply bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto; }
+
+  /* Sidebar */
+  .sidebar {
+    @apply fixed left-0 top-0 h-full w-64 bg-gradient-to-b from-sage-800 to-sage-900 text-white shadow-2xl z-40 transition-transform duration-300;
+  }
+
+  .sidebar-item {
+    @apply flex items-center gap-3 px-6 py-4 text-sage-100 hover:bg-sage-700 hover:text-white transition-all duration-200 cursor-pointer;
+  }
+
+  .sidebar-item-active {
+    @apply bg-sage-700 text-white border-l-4 border-white;
+  }
+
+  /* Navbar */
+  .navbar {
+    @apply fixed top-0 right-0 left-0 lg:left-64 h-16 bg-white border-b border-gray-200 shadow-sm z-30 flex items-center justify-between px-6;
+  }
+
+  /* Scrollbar (WebKit) */
+  .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: #8ba88d; border-radius: 10px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #6b8e6f; }
+
+  /* Loading Spinner */
+  .spinner { @apply w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin; }
+  .spinner-sage { border-color: transparent; border-top-color: theme('colors.sage.600'); }
+
+  /* Utility card animations (small example) */
+  .animate-fade-in-up {
+    animation: fadeInUp 0.5s ease-out both;
+  }
+}
+
+/* ==================== UTILITY STYLES ==================== */
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+
+  .gradient-sage { @apply bg-gradient-to-r from-sage-600 to-sage-700; }
+  .gradient-admin { @apply bg-gradient-to-r from-admin-600 to-admin-700; }
+  .gradient-instructor { @apply bg-gradient-to-r from-instructor-600 to-instructor-700; }
+  .gradient-client { @apply bg-gradient-to-r from-client-600 to-client-700; }
+}
+
+/* ==================== RESPONSIVE UTILITIES ==================== */
+@media (max-width: 1024px) {
+  .sidebar { @apply -translate-x-full; }
+  .sidebar.active { @apply translate-x-0; }
+  .navbar { @apply left-0; }
+}
+
+/* ==================== PRINT STYLES ==================== */
+@media print {
+  .no-print { @apply hidden; }
+}
+
+/* ==================== ACCESSIBILITY ==================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==================== FOCUS VISIBLE ==================== */
+/* Uso CSS directo para evitar dependencias de token color en @apply */
+:focus-visible {
+  outline: 3px solid rgba(111,201,153,0.9); /* coincide con sage-500-ish */
+  outline-offset: 2px;
+}
+
+/* ==================== SELECTION ==================== */
+::selection {
+  background: #d6efe0; /* sage-200 */
+  color: #173826;      /* sage-900 */
+}
+
+/* Line clamp helper (si no usas plugin) */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ==================== ANIMATIONS ==================== */
+@keyframes ping {
+  0% { transform: scale(1); opacity: 0.2; }
+  50% { transform: scale(1.2); opacity: 0.1; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+.animate-ping { animation: ping 2s cubic-bezier(0,0,0.2,1) infinite; }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Footer reveal example */
+footer { animation: fadeInUp 0.6s ease-out; }
