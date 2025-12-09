@@ -37,7 +37,7 @@ def create_app(config_name='development'):
         "http://127.0.0.1:3000"
     ]
 
-    # Aplica CORS de forma global sobre todas las rutas - orígenes explicitados
+    # Aplica CORS globalmente sobre todas las rutas - orígenes explicitados
     CORS(
         app,
         origins=ALLOWED_ORIGINS,
@@ -213,7 +213,7 @@ def create_app(config_name='development'):
                 db.session.add(paquete)
                 print(f"✅ Paquete creado: {name} - ${price} MXN")
             else:
-                print(f"✅ Paquete ya existe: {name}")
+                print("✅ Paquete ya existe: {name}")
 
         db.session.commit()
 
