@@ -77,120 +77,154 @@ const Home = () => {
           <div className="container mx-auto px-6 lg:px-12 h-full">
             <div className="flex flex-col lg:flex-row items-center justify-between min-h-screen py-12 lg:py-0 gap-12 lg:gap-16">
               
-              {/* TEXTO - CORREGIDO */}
-<div className="w-full lg:w-[48%] space-y-8">
-  <div className="space-y-4">
-    <div className="inline-block">
-      <span className="text-sm uppercase tracking-[0.3em] text-blue-600 font-semibold mb-3 block font-helvetica-bold">
-        Bienvenido a
-      </span>
-    </div>
-    {/* Logo OL-LIN con tipografía exacta - CORREGIDO */}
-    <div className="space-y-2">
-      <h1 
-        className="text-5xl lg:text-7xl leading-tight font-helvetica-bold"
-        style={{ 
-          color: '#1B3D4E',
-          letterSpacing: '-0.03em',
-          textShadow: '0 1px 1px rgba(0,0,0,0.1)'
-        }}
-      >
-        OL-LIN
-      </h1>
-      <div 
-        className="italic font-helvetica-italic"
-        style={{
-          fontSize: 'calc(1rem * 7 * 0.34)', // 34% del tamaño de OL-LIN
-          color: '#DC6D27',
-          letterSpacing: '0.02em'
-        }}
-      >
-        Estudio Fitness
-      </div>
-    </div>
-  </div>
+              {/* IMAGEN */}
+              <div className="w-full lg:w-[52%] relative">
+                <div className="absolute -left-4 top-1/4 w-1 h-32 bg-gradient-to-b from-orange-500 to-blue-700 opacity-30 rounded-full hidden lg:block"></div>
+                <div className="absolute -right-4 bottom-1/4 w-1 h-24 bg-gradient-to-b from-blue-700 to-orange-500 opacity-20 rounded-full hidden lg:block"></div>
 
-  <p className="text-lg lg:text-xl text-gray-600 leading-relaxed font-light max-w-xl font-helvetica" style={{ color: '#1B3D4E' }}>
-    Clases para cualquier nivel de entrenamiento.
-    <span className="block mt-3 font-helvetica-bold" style={{ color: '#1B3D4E' }}>
-      Descubre la fuerza que hay en ti.
-    </span>
-  </p>
+                <div className="relative group">
+                  <div className="absolute -inset-4 bg-gradient-to-br from-orange-500/10 to-blue-700/5 rounded-3xl blur-2xl opacity-60 group-hover:opacity-80 transition-opacity duration-500"></div>
+                  
+                  <div className="relative rounded-2xl lg:rounded-3xl overflow-hidden shadow-2xl border-2 border-orange-200">
+                    <div className="aspect-[4/5] lg:aspect-[3/4]">
+                      <img
+                        src="/images/pilateshome.png"
+                        alt="Clase de Pilates en grupo"
+                        className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    </div>
+                    
+                    <div className="absolute bottom-6 left-6 right-6">
+                      <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-orange-200">
+                        <p className="text-orange-600 font-bold text-sm uppercase tracking-wider flex items-center gap-2 font-helvetica-bold">
+                          <Dumbbell size={16} />
+                          OL-LIN Estudio Fitness
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-  <div className="grid grid-cols-3 gap-6 py-6 border-y border-orange-200">
-    <div className="text-center">
-      <div className="text-3xl lg:text-4xl font-bold mb-1 font-helvetica-bold" style={{ color: '#1B3D4E' }}>100%</div>
-      <div className="text-sm uppercase tracking-wide font-helvetica-bold" style={{ color: '#1B3D4E' }}>Profesional</div>
-    </div>
-    <div className="text-center border-x border-orange-200">
-      <div className="text-3xl lg:text-4xl font-bold mb-1 font-helvetica-bold" style={{ color: '#1B3D4E' }}>20</div>
-      <div className="text-sm uppercase tracking-wide font-helvetica-bold" style={{ color: '#1B3D4E' }}>Cupo Mensual</div>
-    </div>
-    <div className="text-center">
-      <div className="text-3xl lg:text-4xl font-bold mb-1 font-helvetica-bold" style={{ color: '#1B3D4E' }}>7</div>
-      <div className="text-sm uppercase tracking-wide font-helvetica-bold" style={{ color: '#1B3D4E' }}>Clases</div>
-    </div>
-  </div>
+              {/* TEXTO */}
+              <div className="w-full lg:w-[48%] space-y-8">
+                <div className="space-y-4">
+                  <div className="inline-block">
+                    <span className="text-sm uppercase tracking-[0.3em] text-blue-600 font-semibold mb-3 block font-helvetica-bold">
+                      Bienvenido a
+                    </span>
+                  </div>
+                  {/* Logo OL-LIN con tipografía exacta */}
+                  <div className="space-y-2">
+                    <h1 
+                      className="text-5xl lg:text-7xl leading-tight font-helvetica-bold"
+                      style={{ 
+                        color: '#1B3D4E',
+                        letterSpacing: '-0.03em',
+                        textShadow: '0 1px 1px rgba(0,0,0,0.1)'
+                      }}
+                    >
+                      OL-LIN
+                    </h1>
+                    <div 
+                      className="italic font-helvetica-italic"
+                      style={{
+                        fontSize: 'calc(1rem * 7 * 0.34)', // 34% del tamaño de OL-LIN
+                        color: '#DC6D27',
+                        letterSpacing: '0.02em'
+                      }}
+                    >
+                      Estudio Fitness
+                    </div>
+                  </div>
+                </div>
 
-  <div className="flex flex-col sm:flex-row gap-4">
-    <button
-      onClick={handleReserveClick}
-      disabled={checkingPackages}
-      className="inline-flex items-center justify-center px-8 py-4 rounded-xl text-base uppercase tracking-wider transform hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed font-helvetica-bold"
-      style={{
-        background: 'linear-gradient(to right, #DC6D27, #944E22)',
-        color: 'white',
-        fontSize: '0.95rem',
-        letterSpacing: '0.05em'
-      }}
-    >
-      <Calendar className="mr-2" size={20} />
-      {checkingPackages ? 'Verificando...' : 'RESERVA TU CLASE'}
-    </button>
-    
-    {!isAuthenticated ? (
-      <button
-        onClick={() => setAuthModalOpen(true)}
-        className="inline-flex items-center justify-center px-8 py-4 border-2 rounded-xl text-base uppercase tracking-wider hover:bg-orange-50 transform hover:scale-[1.02] transition-all duration-300 font-helvetica-bold"
-        style={{
-          borderColor: '#DC6D27',
-          color: '#DC6D27',
-          fontSize: '0.95rem',
-          letterSpacing: '0.05em'
-        }}
-      >
-        INICIAR SESIÓN
-        <ArrowRight className="ml-2" size={20} />
-      </button>
-    ) : (
-      <Link
-        to={
-          user?.role === 'admin' 
-            ? '/admin/dashboard' 
-            : user?.role === 'instructor' 
-            ? '/instructor/dashboard' 
-            : '/client/dashboard'
-        }
-        className="inline-flex items-center justify-center px-8 py-4 border-2 rounded-xl text-base uppercase tracking-wider hover:bg-orange-50 transform hover:scale-[1.02] transition-all duration-300 font-helvetica-bold"
-        style={{
-          borderColor: '#DC6D27',
-          color: '#DC6D27',
-          fontSize: '0.95rem',
-          letterSpacing: '0.05em'
-        }}
-      >
-        MI PANEL
-        <ArrowRight className="ml-2" size={20} />
-      </Link>
-    )}
-  </div>
-</div>
-              
+                <p className="text-lg lg:text-xl text-gray-600 leading-relaxed font-light max-w-xl font-helvetica" style={{ color: '#1B3D4E' }}>
+                  Clases para cualquier nivel de entrenamiento.
+                  <span className="block mt-3 font-helvetica-bold" style={{ color: '#1B3D4E' }}>
+                    Descubre la fuerza que hay en ti.
+                  </span>
+                </p>
+
+                <div className="grid grid-cols-3 gap-6 py-6 border-y border-orange-200">
+                  <div className="text-center">
+                    <div className="text-3xl lg:text-4xl font-bold mb-1 font-helvetica-bold" style={{ color: '#1B3D4E' }}>100%</div>
+                    <div className="text-sm uppercase tracking-wide font-helvetica-bold" style={{ color: '#1B3D4E' }}>Profesional</div>
+                  </div>
+                  <div className="text-center border-x border-orange-200">
+                    <div className="text-3xl lg:text-4xl font-bold mb-1 font-helvetica-bold" style={{ color: '#1B3D4E' }}>20</div>
+                    <div className="text-sm uppercase tracking-wide font-helvetica-bold" style={{ color: '#1B3D4E' }}>Cupo Mensual</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl lg:text-4xl font-bold mb-1 font-helvetica-bold" style={{ color: '#1B3D4E' }}>7</div>
+                    <div className="text-sm uppercase tracking-wide font-helvetica-bold" style={{ color: '#1B3D4E' }}>Clases</div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <button
+                    onClick={handleReserveClick}
+                    disabled={checkingPackages}
+                    className="inline-flex items-center justify-center px-8 py-4 rounded-xl text-base uppercase tracking-wider transform hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed font-helvetica-bold"
+                    style={{
+                      background: 'linear-gradient(to right, #DC6D27, #944E22)',
+                      color: 'white',
+                      fontSize: '0.95rem',
+                      letterSpacing: '0.05em'
+                    }}
+                  >
+                    <Calendar className="mr-2" size={20} />
+                    {checkingPackages ? 'Verificando...' : 'RESERVA TU CLASE'}
+                  </button>
+                  
+                  {!isAuthenticated ? (
+                    <button
+                      onClick={() => setAuthModalOpen(true)}
+                      className="inline-flex items-center justify-center px-8 py-4 border-2 rounded-xl text-base uppercase tracking-wider hover:bg-orange-50 transform hover:scale-[1.02] transition-all duration-300 font-helvetica-bold"
+                      style={{
+                        borderColor: '#DC6D27',
+                        color: '#DC6D27',
+                        fontSize: '0.95rem',
+                        letterSpacing: '0.05em'
+                      }}
+                    >
+                      INICIAR SESIÓN
+                      <ArrowRight className="ml-2" size={20} />
+                    </button>
+                  ) : (
+                    <Link
+                      to={
+                        user?.role === 'admin' 
+                          ? '/admin/dashboard' 
+                          : user?.role === 'instructor' 
+                          ? '/instructor/dashboard' 
+                          : '/client/dashboard'
+                      }
+                      className="inline-flex items-center justify-center px-8 py-4 border-2 rounded-xl text-base uppercase tracking-wider hover:bg-orange-50 transform hover:scale-[1.02] transition-all duration-300 font-helvetica-bold"
+                      style={{
+                        borderColor: '#DC6D27',
+                        color: '#DC6D27',
+                        fontSize: '0.95rem',
+                        letterSpacing: '0.05em'
+                      }}
+                    >
+                      MI PANEL
+                      <ArrowRight className="ml-2" size={20} />
+                    </Link>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* SECCIÓN: 6 PRINCIPIOS */}
         <section id="quienes-somos-section" className="py-20 bg-white">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16 max-w-3xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-extrabold mb-6 font-helvetica" style={{ color: '#1B3D4E' }}>
+              <h2 className="text-3xl md:text-4xl font-extrabold mb-6 font-helvetica-bold" style={{ color: '#1B3D4E' }}>
                 Somos un espacio de entrenamiento
               </h2>
               <p className="text-lg max-w-4xl mx-auto font-medium font-helvetica" style={{ color: '#1B3D4E' }}>
@@ -212,7 +246,7 @@ const Home = () => {
                     </svg>
                   </div>
                 </div>
-                <h3 className="text-xl font-bold italic font-helvetica" style={{ color: '#1B3D4E' }}>flow</h3>
+                <h3 className="text-xl font-bold italic font-helvetica-bold" style={{ color: '#1B3D4E' }}>flow</h3>
               </div>
 
               {/* 2. CENTRING */}
@@ -228,7 +262,7 @@ const Home = () => {
                     </svg>
                   </div>
                 </div>
-                <h3 className="text-xl font-bold italic font-helvetica" style={{ color: '#1B3D4E' }}>centring</h3>
+                <h3 className="text-xl font-bold italic font-helvetica-bold" style={{ color: '#1B3D4E' }}>centring</h3>
               </div>
 
               {/* 3. BREATH */}
@@ -245,7 +279,7 @@ const Home = () => {
                     </svg>
                   </div>
                 </div>
-                <h3 className="text-xl font-bold italic font-helvetica" style={{ color: '#1B3D4E' }}>breath</h3>
+                <h3 className="text-xl font-bold italic font-helvetica-bold" style={{ color: '#1B3D4E' }}>breath</h3>
               </div>
 
               {/* 4. CONCENTRATION */}
@@ -261,7 +295,7 @@ const Home = () => {
                     </svg>
                   </div>
                 </div>
-                <h3 className="text-xl font-bold italic font-helvetica" style={{ color: '#1B3D4E' }}>concentration</h3>
+                <h3 className="text-xl font-bold italic font-helvetica-bold" style={{ color: '#1B3D4E' }}>concentration</h3>
               </div>
 
               {/* 5. CONTROL */}
@@ -278,7 +312,7 @@ const Home = () => {
                     </svg>
                   </div>
                 </div>
-                <h3 className="text-xl font-bold italic font-helvetica" style={{ color: '#1B3D4E' }}>control</h3>
+                <h3 className="text-xl font-bold italic font-helvetica-bold" style={{ color: '#1B3D4E' }}>control</h3>
               </div>
 
               {/* 6. PRECISION */}
@@ -296,7 +330,7 @@ const Home = () => {
                     </svg>
                   </div>
                 </div>
-                <h3 className="text-xl font-bold italic font-helvetica" style={{ color: '#1B3D4E' }}>precision</h3>
+                <h3 className="text-xl font-bold italic font-helvetica-bold" style={{ color: '#1B3D4E' }}>precision</h3>
               </div>
             </div>
           </div>
@@ -306,7 +340,7 @@ const Home = () => {
         <section id="clases-section" className="py-20 bg-gradient-to-br from-blue-50 to-white">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-extrabold mb-4 font-helvetica" style={{ color: '#1B3D4E' }}>
+              <h2 className="text-3xl md:text-4xl font-extrabold mb-4 font-helvetica-bold" style={{ color: '#1B3D4E' }}>
                 Nuestras Clases
               </h2>
               <p className="max-w-2xl mx-auto font-helvetica" style={{ color: '#1B3D4E' }}>
@@ -331,10 +365,10 @@ const Home = () => {
 
                   <div className="relative h-full p-6 flex flex-col justify-between text-white">
                     <div>
-                      <h3 className="text-2xl font-extrabold mb-3 font-helvetica">{classItem.name}</h3>
+                      <h3 className="text-2xl font-extrabold mb-3 font-helvetica-bold">{classItem.name}</h3>
                       <p className="text-sm leading-relaxed opacity-90 font-helvetica">{classItem.description}</p>
                     </div>
-                    <div className="flex items-center font-semibold font-helvetica" style={{ color: '#DC6D27' }}>
+                    <div className="flex items-center font-semibold font-helvetica-bold" style={{ color: '#DC6D27' }}>
                       <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform duration-300" />
                       <span className="ml-2">Ver más</span>
                     </div>
@@ -349,7 +383,7 @@ const Home = () => {
         <section id="paquetes-section" className="py-20 bg-gradient-to-br from-blue-600 to-blue-700">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4 font-helvetica">
+              <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4 font-helvetica-bold">
                 Elige tu Plan de Clases
               </h2>
               <p className="text-blue-100 max-w-2xl mx-auto font-helvetica">
@@ -367,7 +401,7 @@ const Home = () => {
                 >
                   {pkg.popular && (
                     <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                      <div className="px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide flex items-center gap-1 shadow-lg font-helvetica"
+                      <div className="px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide flex items-center gap-1 shadow-lg font-helvetica-bold"
                            style={{ backgroundColor: '#DC6D27', color: 'white' }}>
                         <Star size={12} fill="currentColor" />
                         Más Popular
@@ -375,15 +409,15 @@ const Home = () => {
                     </div>
                   )}
 
-                  <div className="text-4xl md:text-5xl font-extrabold mb-2 text-white drop-shadow-md group-hover:scale-110 transition-transform whitespace-pre-line font-helvetica">
+                  <div className="text-4xl md:text-5xl font-extrabold mb-2 text-white drop-shadow-md group-hover:scale-110 transition-transform whitespace-pre-line font-helvetica-bold">
                     {pkg.displayTitle}
                   </div>
 
-                  <div className="text-sm uppercase tracking-wider mb-2 font-medium text-white/80 font-helvetica">
+                  <div className="text-sm uppercase tracking-wider mb-2 font-medium text-white/80 font-helvetica-bold">
                     {pkg.name.startsWith('Clase') ? 'CLASE' : 'PAQUETE'}
                   </div>
 
-                  <div className="text-3xl md:text-4xl font-bold mb-2 font-helvetica" style={{ color: '#DC6D27' }}>
+                  <div className="text-3xl md:text-4xl font-bold mb-2 font-helvetica-bold" style={{ color: '#DC6D27' }}>
                     {pkg.price}
                   </div>
 
@@ -407,7 +441,7 @@ const Home = () => {
 
                   <button
                     onClick={handleReserveClick}
-                    className="w-full py-3 rounded-xl font-bold hover:bg-orange-600 transition-all duration-300 uppercase tracking-wide transform hover:scale-[1.02] shadow-lg font-helvetica"
+                    className="w-full py-3 rounded-xl font-bold hover:bg-orange-600 transition-all duration-300 uppercase tracking-wide transform hover:scale-[1.02] shadow-lg font-helvetica-bold"
                     style={{
                       backgroundColor: '#DC6D27',
                       color: 'white'
@@ -431,7 +465,7 @@ const Home = () => {
                    }}>
                 🏋️
               </div>
-              <h2 className="text-3xl md:text-4xl font-extrabold mb-6 font-helvetica" style={{ color: '#1B3D4E' }}>
+              <h2 className="text-3xl md:text-4xl font-extrabold mb-6 font-helvetica-bold" style={{ color: '#1B3D4E' }}>
                 ¿Listo para Comenzar Tu Transformación?
               </h2>
               <p className="text-xl mb-10 font-medium font-helvetica" style={{ color: '#1B3D4E' }}>
@@ -440,7 +474,7 @@ const Home = () => {
               <button
                 onClick={handleReserveClick}
                 disabled={checkingPackages}
-                className="inline-flex items-center gap-3 rounded-xl text-lg font-bold transform transition-all uppercase tracking-wide hover:scale-[1.02] shadow-lg hover:shadow-xl disabled:opacity-50 font-helvetica"
+                className="inline-flex items-center gap-3 rounded-xl text-lg font-bold transform transition-all uppercase tracking-wide hover:scale-[1.02] shadow-lg hover:shadow-xl disabled:opacity-50 font-helvetica-bold"
                 style={{
                   background: 'linear-gradient(to right, #DC6D27, #944E22)',
                   color: 'white',
