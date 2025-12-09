@@ -30,15 +30,23 @@ def create_app(config_name='development'):
     print("✅ Extensions initialized")
     
     # Configure CORS
-    CORS(app, 
-         resources={r"/api/*": {
-             "origins": ["http://localhost:5173", "http://127.0.0.1:5173"],
-             "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
-             "allow_headers": ["Content-Type", "Authorization"],
-             "supports_credentials": True,
-             "expose_headers": ["Content-Type", "Authorization"],
-             "max_age": 3600
-         }})
+    CORS(
+        app,
+        resources={r"/api/*": {
+            "origins": [
+                "http://localhost:5173",
+                "http://127.0.0.1:5173",
+                "http://localhost:3000",
+                "http://127.0.0.1:3000",
+                "https://ollinavances.netlify.app"
+            ],
+            "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+            "allow_headers": ["Content-Type", "Authorization"],
+            "supports_credentials": True,
+            "expose_headers": ["Content-Type", "Authorization"],
+            "max_age": 3600
+        }}
+    )
     print("✅ CORS configured")
     
     # Register blueprints
@@ -46,7 +54,8 @@ def create_app(config_name='development'):
     from app.routes.admin import admin_bp
     
     app.register_blueprint(auth_bp, url_prefix='/api/v1/auth')
-    app.register_blueprint(admin_bp, url_prefix='/api/v1/admin')
+    # Alineado con run.py y banner: admin-reformery
+    app.register_blueprint(admin_bp, url_prefix='/api/v1/admin-reformery')
     print("✅ Core blueprints registered")
     
     # Register optional blueprints
