@@ -7,6 +7,7 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Nueva paleta OL-LIN
         primary: {
           50: '#E1DBE1',
           100: '#D5CCD5',
@@ -32,7 +33,7 @@ export default {
           900: '#7C310D',
         },
         blue: {
-          50: '#E8EDF0',  // ← Asegúrate que blue-50 existe
+          50: '#E8EDF0',
           100: '#C6D4DB',
           200: '#A3BBC6',
           300: '#81A2B1',
@@ -66,6 +67,63 @@ export default {
           700: '#1E4922',
           800: '#183D1B',
           900: '#123114',
+        },
+        gray: {
+          50: '#F9F8F9',
+          100: '#F0EEF0',
+          200: '#E1DBE1',
+          300: '#D0C8D0',
+          400: '#BFB5BF',
+          500: '#AEA2AE',
+          600: '#8B7F8B',
+          700: '#685D68',
+          800: '#453B45',
+          900: '#221922',
+        },
+      },
+      fontFamily: {
+        'helvetica': ['"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
+        'inter': ['Inter', 'system-ui', 'sans-serif'],
+      },
+      fontSize: {
+        'logo-estudio': '0.34em', // 34% del tamaño padre
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.3s ease-in-out',
+        'fade-in-up': 'fadeInUp 0.5s ease-out',
+        'shake': 'shake 0.5s ease-in-out',
+        'bounce-slow': 'bounce 2s infinite',
+        'ping-slow': 'ping 3s cubic-bezier(0, 0, 0.2, 1) infinite',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        fadeInUp: {
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        shake: {
+          '0%, 100%': { transform: 'translateX(0)' },
+          '10%, 30%, 50%, 70%, 90%': { transform: 'translateX(-5px)' },
+          '20%, 40%, 60%, 80%': { transform: 'translateX(5px)' },
+        },
+        bounce: {
+          '0%, 100%': {
+            transform: 'translateY(0)',
+            animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)',
+          },
+          '50%': {
+            transform: 'translateY(-25%)',
+            animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)',
+          },
+        },
+        ping: {
+          '75%, 100%': {
+            transform: 'scale(2)',
+            opacity: '0',
+          },
         },
       },
     },
