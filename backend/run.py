@@ -27,7 +27,7 @@ app = create_app(FLASK_ENV)
 # ===========================
 # Use environment variable CORS_ALLOWED_ORIGINS as a comma separated list.
 # If not provided, default to the production Netlify origin and localhost for dev.
-_default_origins = "https://reformeryavances.netlify.app, http://localhost:3000"
+_default_origins = "https://ollinavances.netlify.app, http://localhost:3000"
 _raw = os.getenv('CORS_ALLOWED_ORIGINS') or os.getenv('ALLOWED_ORIGINS') or _default_origins
 ALLOWED_ORIGINS = [o.strip() for o in _raw.split(",") if o.strip()]
 
