@@ -146,7 +146,7 @@ export const colors = {
 
 export const typography = {
   fontFamilies: {
-    helvetica: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+    helvetica: '"Helvetica Bold", Helvetica, Arial, sans-serif',
     inter: 'Inter, system-ui, -apple-system, sans-serif',
   },
   fontWeights: {
