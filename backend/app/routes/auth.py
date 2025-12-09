@@ -18,6 +18,10 @@ def register():
       - role (defaults to 'client') BUT role='admin' will only be granted if admin_code is valid
       - admin_code (secret)
     """
+    # Handle CORS preflight
+    if request.method == 'OPTIONS':
+        return jsonify({'success': True}), 200
+    
     try:
         data = request.get_json()
         if not data:
@@ -105,6 +109,10 @@ def login():
     Returns:
         JSON: Success message with user data and token
     """
+    # Handle CORS preflight
+    if request.method == 'OPTIONS':
+        return jsonify({'success': True}), 200
+    
     try:
         data = request.get_json()
         
