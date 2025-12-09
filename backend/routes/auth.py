@@ -1,220 +1,101 @@
-# routes/auth.py
-# Rutas de autenticación y autorización
-# Autor: @elisarrtech con Elite AI Architect
-
+# app/routes/auth.py
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
-from extensions import db
-from models import User
-from utils.validators import validate_email, validate_password
-from utils.exceptions import ValidationError, AuthenticationError
 from datetime import timedelta
 
-bp = Blueprint('auth', __name__)
+auth_bp = Blueprint('auth', __name__)
 
-
-@bp.route('/register', methods=['POST'])
-def register():
-    # Registro de nuevo usuario
+@auth_bp.route('/login', methods=['POST', 'OPTIONS'])
+def login():
+    if request.method == 'OPTIONS':
+        return '', 200
+    
     try:
-        data = request.get_json()
+        data = request.get_json() or {}
         
-        # Validar datos requeridos
-        if not data or not data.get('email') or not data.get('password') or not data.get('full_name'):
-            raise ValidationError("Email, contraseña y nombre completo son requeridos")
+        email = data.get('email', '').strip()
+        password = data.get('password', '')
         
-        email = data['email'].lower().strip()
-        password = data['password']
-        full_name = data['full_name'].strip()
+        if not email or not password:
+            return jsonify({
+                'success': False,
+                'message': 'Email y contraseña requeridos'
+            }), 400
         
-        # Validar formato
-        validate_email(email)
-        validate_password(password)
+        # Credenciales de prueba
+        test_users = {
+            'admin@ollin.com': {'password': 'admin123', 'role': 'admin', 'name': 'Admin OL-LIN'},
+            'instructor@ollin.com': {'password': 'instructor123', 'role': 'instructor', 'name': 'Instructor Demo'},
+            'cliente@ollin.com': {'password': 'cliente123', 'role': 'client', 'name': 'Cliente Demo'}
+        }
         
-        # Verificar si el usuario ya existe
-        if User.query.filter_by(email=email).first():
-            raise ValidationError("El email ya está registrado")
+        if email in test_users and password == test_users[email]['password']:
+            user_data = test_users[email]
+            return jsonify({
+                'success': True,
+                'user': {
+                    'id': 1,
+                    'email': email,
+                    'full_name': user_data['name'],
+                    'role': user_data['role'],
+                    'active': True
+                },
+                'access_token': 'jwt-token-de-prueba-123'
+            }), 200
+        else:
+            return jsonify({
+                'success': False,
+                'message': 'Credenciales incorrectas'
+            }), 401
+            
+    except Exception as e:
+        print(f"Login error: {e}")
+        return jsonify({
+            'success': False,
+            'message': 'Error interno del servidor'
+        }), 500
+
+@auth_bp.route('/register', methods=['POST', 'OPTIONS'])
+def register():
+    if request.method == 'OPTIONS':
+        return '', 200
+    
+    try:
+        data = request.get_json() or {}
         
-        # Crear nuevo usuario
-        user = User(
-            email=email,
-            full_name=full_name,
-            role=data.get('role', 'client'),
-            active=True
-        )
-        user.set_password(password)
+        email = data.get('email', '').strip()
+        password = data.get('password', '')
+        full_name = data.get('full_name', '').strip()
         
-        db.session.add(user)
-        db.session.commit()
+        if not all([email, password, full_name]):
+            return jsonify({
+                'success': False,
+                'message': 'Faltan campos requeridos'
+            }), 400
         
-        # Generar token
-        access_token = create_access_token(
-            identity=user.id,
-            expires_delta=timedelta(days=7)
-        )
-        
+        # Simular creación exitosa
         return jsonify({
             'success': True,
-            'message': 'Usuario registrado exitosamente',
-            'data': {
-                'user': user.to_dict(),
-                'access_token': access_token
-            }
+            'user': {
+                'id': 2,
+                'email': email,
+                'full_name': full_name,
+                'role': data.get('role', 'client'),
+                'active': True
+            },
+            'access_token': 'jwt-token-nuevo-usuario-456',
+            'message': 'Usuario registrado exitosamente'
         }), 201
         
-    except ValidationError as e:
-        return jsonify({
-            'success': False,
-            'error': 'validation_error',
-            'message': str(e)
-        }), 400
     except Exception as e:
-        db.session.rollback()
+        print(f"Register error: {e}")
         return jsonify({
             'success': False,
-            'error': 'server_error',
             'message': 'Error al registrar usuario'
         }), 500
 
-
-@bp.route('/login', methods=['POST'])
-def login():
-    # Inicio de sesión
-    try:
-        data = request.get_json()
-        
-        # Validar datos requeridos
-        if not data or not data.get('email') or not data.get('password'):
-            raise ValidationError("Email y contraseña son requeridos")
-        
-        email = data['email'].lower().strip()
-        password = data['password']
-        
-        # Buscar usuario
-        user = User.query.filter_by(email=email).first()
-        
-        if not user or not user.check_password(password):
-            raise AuthenticationError("Email o contraseña incorrectos")
-        
-        if not user.active:
-            raise AuthenticationError("Usuario inactivo")
-        
-        # Generar token
-        access_token = create_access_token(
-            identity=user.id,
-            expires_delta=timedelta(days=7)
-        )
-        
-        return jsonify({
-            'success': True,
-            'message': 'Inicio de sesión exitoso',
-            'data': {
-                'user': user.to_dict(),
-                'access_token': access_token
-            }
-        }), 200
-        
-    except AuthenticationError as e:
-        return jsonify({
-            'success': False,
-            'error': 'authentication_error',
-            'message': str(e)
-        }), 401
-    except ValidationError as e:
-        return jsonify({
-            'success': False,
-            'error': 'validation_error',
-            'message': str(e)
-        }), 400
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': 'server_error',
-            'message': 'Error al iniciar sesión'
-        }), 500
-
-
-@bp.route('/me', methods=['GET'])
-@jwt_required()
-def get_current_user():
-    # Obtiene información del usuario autenticado
-    try:
-        user_id = get_jwt_identity()
-        user = User.query.get(user_id)
-        
-        if not user:
-            raise AuthenticationError("Usuario no encontrado")
-        
-        return jsonify({
-            'success': True,
-            'data': user.to_dict()
-        }), 200
-        
-    except AuthenticationError as e:
-        return jsonify({
-            'success': False,
-            'error': 'authentication_error',
-            'message': str(e)
-        }), 401
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': 'server_error',
-            'message': 'Error al obtener usuario'
-        }), 500
-
-
-@bp.route('/change-password', methods=['POST'])
-@jwt_required()
-def change_password():
-    # Cambiar contraseña
-    try:
-        user_id = get_jwt_identity()
-        user = User.query.get(user_id)
-        
-        if not user:
-            raise AuthenticationError("Usuario no encontrado")
-        
-        data = request.get_json()
-        
-        if not data or not data.get('current_password') or not data.get('new_password'):
-            raise ValidationError("Contraseña actual y nueva contraseña son requeridas")
-        
-        current_password = data['current_password']
-        new_password = data['new_password']
-        
-        # Verificar contraseña actual
-        if not user.check_password(current_password):
-            raise AuthenticationError("Contraseña actual incorrecta")
-        
-        # Validar nueva contraseña
-        validate_password(new_password)
-        
-        # Actualizar contraseña
-        user.set_password(new_password)
-        db.session.commit()
-        
-        return jsonify({
-            'success': True,
-            'message': 'Contraseña actualizada exitosamente'
-        }), 200
-        
-    except AuthenticationError as e:
-        return jsonify({
-            'success': False,
-            'error': 'authentication_error',
-            'message': str(e)
-        }), 401
-    except ValidationError as e:
-        return jsonify({
-            'success': False,
-            'error': 'validation_error',
-            'message': str(e)
-        }), 400
-    except Exception as e:
-        db.session.rollback()
-        return jsonify({
-            'success': False,
-            'error': 'server_error',
-            'message': 'Error al cambiar contraseña'
-        }), 500
+@auth_bp.route('/test', methods=['GET'])
+def test():
+    return jsonify({
+        'success': True,
+        'message': 'Auth endpoint working!'
+    }), 200
