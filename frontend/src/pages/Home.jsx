@@ -1,3 +1,5 @@
+[file name]: Home.jsx
+[file content begin]
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -5,15 +7,6 @@ import Navbar from '../components/layout/Navbar';
 import AuthModal from '../components/auth/AuthModal';
 import userPackageService from '../services/userPackageService';
 import { Calendar, ArrowRight, Check, Star, Users, Dumbbell } from 'lucide-react';
-import Principles from '../components/Principles';
-
-const COLORS = {
-  muted: '#E1DBE1',    // light mauve / neutral
-  accent: '#DC6D27',   // orange
-  primary: '#1B3D4E',  // deep teal (main)
-  warm: '#944E22',     // warm brown
-  green: '#2A6130',    // deep green
-};
 
 const Home = () => {
   const { isAuthenticated, user } = useAuth();
@@ -32,12 +25,10 @@ const Home = () => {
       const hasActivePackages = await userPackageService.hasActivePackages();
 
       if (hasActivePackages) {
-        navigate('/schedules');
+        navigate('/schedule');
       } else {
-        alert(
-          '⚠️ No tienes paquetes activos.\n\nPara reservar una clase, primero debes comprar un paquete.\n\n📦 Elige tu paquete abajo.'
-        );
-
+        alert('⚠️ No tienes paquetes activos.\n\nPara reservar una clase, primero debes comprar un paquete.\n\n📦 Elige tu paquete abajo.');
+        
         const packagesSection = document.getElementById('paquetes-section');
         if (packagesSection) {
           packagesSection.scrollIntoView({ behavior: 'smooth' });
@@ -68,52 +59,50 @@ const Home = () => {
   ];
 
   const classesInfo = [
-    { name: 'PLT FIT', description: 'Nuestros clásicos movimientos de pilates enfocados en diferentes puntos del cuerpo.', image: '/images/foto1.png', slug: 'plt-fit' },
-    { name: 'PLT BLAST', description: 'La fusión de Reformer con barra basada en movimientos de ballet y alta intensidad.', image: '/images/foto2.png', slug: 'plt-blast' },
-    { name: 'PLT JUMP', description: 'Clase divertida y activa que combina pilates con cardio para elevar tu ritmo.', image: '/images/foto3.png', slug: 'plt-jump' },
-    { name: 'PLT HIT', description: 'Sesión de alta intensidad enfocada en fuerza y resistencia con movimientos pilates.', image: '/images/foto4.png', slug: 'plt-hit' },
-    { name: 'PLT PRIVADA TRAPEZE', description: 'Reformer/Trapeze: el equipo más versátil para sesiones privadas muy personalizadas.', image: '/images/foto5.png', slug: 'plt-trapeze' },
-    { name: 'PLT CLASES PRIVADAS Y SEMIPRIVADAS', description: 'Clases personalizadas y semiprivadas para atención individualizada.', image: '/images/foto6.png', slug: 'plt-privadas' },
-    { name: 'PLT CLASES PARA EMBARAZADAS', description: 'Clases especializadas para futuras mamás con adaptaciones seguras.', image: '/images/embarazada.png', slug: 'plt-embarazadas' },
+    { name: 'PLT FIT', description: 'Nuestros clásicos movimientos de pilates enfocados en diferentes puntos del cuerpo', image: '/images/foto1.png' },
+    { name: 'PLT BLAST', description: 'La nueva fusión de Reformer con barra basado en rápidos movimientos de ballet.', image: '/images/foto2.png' },
+    { name: 'PLT JUMP', description: 'Si quieres una clase diferente, divertida y activa, encontrarás la fusión perfecta de movimientos clásicos de pilates con ejercicios cardiovasculares', image: '/images/foto3.png' },
+    { name: 'PLT HIT', description: 'Nuestros clásicos movimientos de pilates enfocados en diferentes puntos del cuerpo', image: '/images/foto4.png' },
+    { name: 'PLT PRIVADA TRAPEZE', description: 'El Reformer/Trapeze es la pieza más versátil de Pilates hoy en día. Consiste de un reformer completo y un cadillac en uno mismo, en donde pueden practicarse todos los diferentes ejercicios.', image: '/images/foto5.png' },
+    { name: 'PLT CLASES PRIVADAS Y SEMIPRIVADAS', description: 'Clases personalizadas para ti', image: '/images/foto6.png' },
+    { name: 'PLT CLASES PARA EMBARAZADAS', description: 'Clases especializadas para futuras mamás', image: '/images/embarazada.png' },
   ];
 
   return (
     <>
       <Navbar />
-
-      <div
-        className="min-h-screen font-sans"
-        style={{
-          background: `linear-gradient(180deg, ${COLORS.muted} 0%, #ffffff 35%, ${COLORS.primary}0D 100%)`,
-        }}
-      >
+      
+      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-gray-50 font-sans">
+        
         {/* HERO SECTION */}
         <section className="relative min-h-screen">
           <div className="container mx-auto px-6 lg:px-12 h-full">
             <div className="flex flex-col lg:flex-row items-center justify-between min-h-screen py-12 lg:py-0 gap-12 lg:gap-16">
-              {/* IMAGE */}
+              
+              {/* IMAGEN */}
               <div className="w-full lg:w-[52%] relative">
-                <div className="absolute -left-4 top-1/4 w-1 h-32 rounded-full hidden lg:block" style={{ background: `linear-gradient(to bottom, ${COLORS.primary}, ${COLORS.green})`, opacity: 0.25 }} />
-                <div className="absolute -right-4 bottom-1/4 w-1 h-24 rounded-full hidden lg:block" style={{ background: `linear-gradient(to bottom, ${COLORS.primary}, ${COLORS.green})`, opacity: 0.15 }} />
+                <div className="absolute -left-4 top-1/4 w-1 h-32 bg-gradient-to-b from-orange-500 to-blue-700 opacity-30 rounded-full hidden lg:block"></div>
+                <div className="absolute -right-4 bottom-1/4 w-1 h-24 bg-gradient-to-b from-blue-700 to-orange-500 opacity-20 rounded-full hidden lg:block"></div>
 
                 <div className="relative group">
-                  <div className="absolute -inset-4 rounded-3xl blur-2xl opacity-60 group-hover:opacity-80 transition-opacity duration-500" style={{ background: `linear-gradient(135deg, ${COLORS.primary}10, ${COLORS.green}05)` }} />
-                  <div className="relative rounded-2xl lg:rounded-3xl overflow-hidden shadow-2xl border-2" style={{ borderColor: `${COLORS.muted}66` }}>
-                    <div className="aspect-[4/5] lg:aspect-[3/4] relative">
+                  <div className="absolute -inset-4 bg-gradient-to-br from-orange-500/10 to-blue-700/5 rounded-3xl blur-2xl opacity-60 group-hover:opacity-80 transition-opacity duration-500"></div>
+                  
+                  <div className="relative rounded-2xl lg:rounded-3xl overflow-hidden shadow-2xl border-2 border-orange-200">
+                    <div className="aspect-[4/5] lg:aspect-[3/4]">
                       <img
                         src="/images/pilateshome.png"
                         alt="Clase de Pilates en grupo"
                         className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
                         loading="lazy"
                       />
-                      <div className="absolute inset-0 transition-opacity duration-500" aria-hidden style={{ background: 'linear-gradient(180deg, rgba(26,45,62,0.28), rgba(0,0,0,0.08))', opacity: 0.6 }} />
+                      <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     </div>
-
+                    
                     <div className="absolute bottom-6 left-6 right-6">
-                      <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg border" style={{ borderColor: `${COLORS.muted}66` }}>
-                        <p className="text-sage-700 font-bold text-sm uppercase tracking-wider flex items-center gap-2" style={{ color: COLORS.primary }}>
+                      <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-orange-200">
+                        <p className="text-orange-600 font-bold text-sm uppercase tracking-wider flex items-center gap-2">
                           <Dumbbell size={16} />
-                          OL-LIN
+                          REFORMERY PILATES STUDIO
                         </p>
                       </div>
                     </div>
@@ -121,41 +110,41 @@ const Home = () => {
                 </div>
               </div>
 
-              {/* TEXT */}
+              {/* TEXTO */}
               <div className="w-full lg:w-[48%] space-y-8">
                 <div className="space-y-4">
                   <div className="inline-block">
-                    <span className="text-sm uppercase tracking-[0.3em] font-semibold mb-3 block" style={{ color: COLORS.primary }}>
+                    <span className="text-sm uppercase tracking-[0.3em] text-blue-600 font-semibold mb-3 block">
                       Bienvenido a
                     </span>
                   </div>
-                  <h1 className="text-5xl lg:text-7xl font-light leading-tight" style={{ color: '#1F2B2E' }}>
-                    OL-LIN
-                    <span className="block text-3xl lg:text-5xl mt-2 italic font-medium" style={{ color: COLORS.primary }}>
-                      Estudio Fitness
+                  <h1 className="text-5xl lg:text-7xl font-light text-gray-800 leading-tight">
+                    Reformery
+                    <span className="block text-3xl lg:text-5xl text-orange-600 mt-2 italic font-medium">
+                      PILATES Studio
                     </span>
                   </h1>
                 </div>
 
-                <p className="text-lg lg:text-xl leading-relaxed font-light max-w-xl" style={{ color: '#374151' }}>
+                <p className="text-lg lg:text-xl text-gray-600 leading-relaxed font-light max-w-xl">
                   Clases para cualquier nivel de entrenamiento.
-                  <span className="block mt-3 font-medium" style={{ color: COLORS.primary }}>
+                  <span className="block mt-3 text-blue-700 font-medium">
                     Descubre la fuerza que hay en ti.
                   </span>
                 </p>
 
-                <div className="grid grid-cols-3 gap-6 py-6 border-y" style={{ borderColor: `${COLORS.muted}66` }}>
+                <div className="grid grid-cols-3 gap-6 py-6 border-y border-orange-200">
                   <div className="text-center">
-                    <div className="text-3xl lg:text-4xl font-bold mb-1" style={{ color: COLORS.primary }}>100%</div>
-                    <div className="text-sm uppercase tracking-wide" style={{ color: '#6B7280' }}>Profesional</div>
+                    <div className="text-3xl lg:text-4xl font-bold text-blue-700 mb-1">100%</div>
+                    <div className="text-sm text-gray-600 uppercase tracking-wide">Profesional</div>
                   </div>
-                  <div className="text-center border-x" style={{ borderColor: `${COLORS.muted}66` }}>
-                    <div className="text-3xl lg:text-4xl font-bold mb-1" style={{ color: COLORS.accent }}>20</div>
-                    <div className="text-sm uppercase tracking-wide" style={{ color: '#6B7280' }}>Cupo Mensual</div>
+                  <div className="text-center border-x border-orange-200">
+                    <div className="text-3xl lg:text-4xl font-bold text-blue-700 mb-1">20</div>
+                    <div className="text-sm text-gray-600 uppercase tracking-wide">Cupo Mensual</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl lg:text-4xl font-bold mb-1" style={{ color: COLORS.green }}>7</div>
-                    <div className="text-sm uppercase tracking-wide" style={{ color: '#6B7280' }}>Clases</div>
+                    <div className="text-3xl lg:text-4xl font-bold text-blue-700 mb-1">7</div>
+                    <div className="text-sm text-gray-600 uppercase tracking-wide">Clases</div>
                   </div>
                 </div>
 
@@ -163,27 +152,16 @@ const Home = () => {
                   <button
                     onClick={handleReserveClick}
                     disabled={checkingPackages}
-                    aria-disabled={checkingPackages}
-                    className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold text-base uppercase tracking-wider"
-                    style={{
-                      backgroundColor: COLORS.primary,
-                      color: '#FFFFFF',
-                      boxShadow: `0 6px 18px ${COLORS.primary}33`,
-                    }}
+                    className="inline-flex items-center justify-center px-8 py-4 bg-orange-500 text-white rounded-xl font-bold text-base uppercase tracking-wider hover:bg-orange-600 transform hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <Calendar className="mr-2" size={20} />
                     {checkingPackages ? 'Verificando...' : 'RESERVA TU CLASE'}
                   </button>
-
+                  
                   {!isAuthenticated ? (
                     <button
                       onClick={() => setAuthModalOpen(true)}
-                      className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold text-base uppercase tracking-wider"
-                      style={{
-                        border: `2px solid ${COLORS.primary}`,
-                        background: 'transparent',
-                        color: COLORS.primary,
-                      }}
+                      className="inline-flex items-center justify-center px-8 py-4 border-2 border-orange-500 text-orange-700 rounded-xl font-bold text-base uppercase tracking-wider hover:bg-orange-50 transform hover:scale-[1.02] transition-all duration-300"
                     >
                       INICIAR SESIÓN
                       <ArrowRight className="ml-2" size={20} />
@@ -191,18 +169,13 @@ const Home = () => {
                   ) : (
                     <Link
                       to={
-                        user?.role === 'admin'
-                          ? '/admin/dashboard'
-                          : user?.role === 'instructor'
-                          ? '/instructor/dashboard'
+                        user?.role === 'admin' 
+                          ? '/admin/dashboard' 
+                          : user?.role === 'instructor' 
+                          ? '/instructor/dashboard' 
                           : '/client/dashboard'
                       }
-                      className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-bold text-base uppercase tracking-wider"
-                      style={{
-                        border: `2px solid ${COLORS.primary}`,
-                        background: 'transparent',
-                        color: COLORS.primary,
-                      }}
+                      className="inline-flex items-center justify-center px-8 py-4 border-2 border-orange-500 text-orange-700 rounded-xl font-bold text-base uppercase tracking-wider hover:bg-orange-50 transform hover:scale-[1.02] transition-all duration-300"
                     >
                       MI PANEL
                       <ArrowRight className="ml-2" size={20} />
@@ -214,180 +187,188 @@ const Home = () => {
           </div>
         </section>
 
-        {/* SECCIÓN: 6 PRINCIPIOS */}
-        <section id="quienes-somos-section" className="py-20 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16 max-w-3xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-extrabold text-gray-800 mb-6">
-                Somos un espacio de entrenamiento
-              </h2>
-              <p className="text-lg text-gray-600 max-w-4xl mx-auto font-medium">
-                En el que te ayudaremos a través del movimiento a conectar con tu centro, y lograr que
-                el cuerpo y mente trabajen en sinergia para lograr cualquier reto de nuestra vida diaria.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
-              {/* Reutiliza tu componente Principles para mantener diseño consistente */}
-              <Principles />
-            </div>
+      {/* SECCIÓN: 6 PRINCIPIOS */}
+      <section id="quienes-somos-section" className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16 max-w-3xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-800 mb-6">
+              Somos un espacio de entrenamiento
+            </h2>
+            <p className="text-lg text-gray-600 max-w-4xl mx-auto font-medium">
+              En el que te ayudaremos a través del movimiento a conectar con tu centro, y lograr que
+              el cuerpo y mente trabajen en sinergia para lograr cualquier reto de nuestra vida diaria.
+            </p>
           </div>
-        </section>
 
-        {/* =================== SECCIÓN: Clases =================== */}
-        <section className="py-20 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-extrabold text-gray-800 mb-4">Nuestras Clases</h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">Descubre nuestra variedad de clases diseñadas para todos los niveles</p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-              {classesInfo.map((classItem, index) => (
-                <div
-                  key={index}
-                  className="group relative rounded-lg overflow-hidden shadow-lg transform transition-all hover:scale-105"
-                  style={{ minHeight: 320, background: '#0f172a' }}
-                >
-                  <div className="absolute inset-0">
-                    <img src={classItem.image} alt={classItem.name} className="w-full h-full object-cover" loading="lazy" />
-                    <div className="absolute inset-0" aria-hidden style={{ background: 'linear-gradient(180deg, rgba(10,20,30,0.45), rgba(10,20,30,0.65))' }} />
-                  </div>
-
-                  <div className="relative h-full p-6 flex flex-col justify-between text-white">
-                    <div>
-                      <h3 className="text-2xl font-extrabold mb-3">{classItem.name}</h3>
-                      <p className="text-sm leading-relaxed opacity-95">{classItem.description}</p>
-                    </div>
-
-                    <div className="mt-4 flex items-center gap-3">
-                      <Link to={`/classes/${classItem.slug || index}`} className="inline-flex items-center gap-2 font-semibold" style={{ color: COLORS.muted }}>
-                        <ArrowRight size={18} /> <span>Ver más</span>
-                      </Link>
-                      <button
-                        className="ml-auto inline-flex items-center gap-2 bg-transparent border rounded-md px-3 py-2"
-                        style={{ borderColor: `${COLORS.muted}55`, color: COLORS.muted }}
-                        onClick={() => {
-                          if (!isAuthenticated) setAuthModalOpen(true);
-                          else navigate('/schedules');
-                        }}
-                      >
-                        Reservar
-                      </button>
-                    </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
+            {['flow', 'centring', 'breath', 'concentration', 'control', 'precisión'].map((principle, index) => (
+              <div key={index} className="text-center group">
+                <div className="mb-4 transition-transform duration-300 group-hover:scale-110">
+                  <div className="w-24 h-24 mx-auto">
+                    <svg viewBox="0 0 100 100" fill="none" className="w-full h-full">
+                      <circle cx="50" cy="50" r="35" stroke="#1B3D4E" strokeWidth="2.5" opacity="0.8"/>
+                      {/* Contenido SVG específico para cada principio */}
+                      {principle === 'flow' && <path d="M30 50 Q40 35, 50 50 T70 50" stroke="#1B3D4E" strokeWidth="2.5" fill="none" strokeLinecap="round"/>}
+                      {principle === 'centring' && (
+                        <>
+                          <line x1="50" y1="20" x2="50" y2="80" stroke="#1B3D4E" strokeWidth="2.5" strokeLinecap="round"/>
+                          <line x1="20" y1="50" x2="80" y2="50" stroke="#1B3D4E" strokeWidth="2.5" strokeLinecap="round"/>
+                          <circle cx="50" cy="50" r="8" fill="#1B3D4E"/>
+                        </>
+                      )}
+                      {/* Agrega los demás SVG según el principio */}
+                    </svg>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* =================== SECCIÓN: Paquetes (oscura) =================== */}
-        <section id="paquetes-section" className="py-20" style={{ background: `linear-gradient(180deg, ${COLORS.primary}, ${COLORS.green})` }}>
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">Elige tu Plan de Clases</h2>
-              <p className="text-sage-100 max-w-2xl mx-auto" style={{ color: '#EAF6F5' }}>Encuentra el paquete perfecto para tu ritmo de entrenamiento</p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-              {packages.map((pkg) => (
-                <div
-                  key={pkg.id}
-                  className="transition-all duration-300 ease-in-out flex flex-col group text-center relative rounded-2xl p-6 shadow-2xl"
-                  role="region"
-                  aria-label={`Paquete ${pkg.name}`}
-                  style={{
-                    background: `linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.18))`,
-                    color: '#fff',
-                    border: `1px solid rgba(255,255,255,0.06)`,
-                  }}
-                >
-                  {pkg.popular && (
-                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
-                      <div className="bg-white text-sage-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide flex items-center gap-1 shadow-lg" style={{ color: COLORS.primary }}>
-                        <Star size={12} fill="currentColor" /> Más Popular
-                      </div>
-                    </div>
-                  )}
-
-                  <div className="plan-top">
-                    <div className="plan-display text-4xl font-extrabold">{pkg.displayTitle}</div>
-                    <div className="plan-sub uppercase tracking-wide mt-1" style={{ color: '#F3F4F6' }}>{pkg.classes > 1 ? 'PAQUETE' : 'CLASE'}</div>
-                    <div className="plan-price mt-2 text-2xl font-bold">{pkg.price}</div>
-                    {pkg.validity && <div className="plan-desc mt-2 text-sm" style={{ color: '#E6E6E6' }}>Vigencia: {pkg.validity} días</div>}
-                  </div>
-
-                  <ul className="mb-6 text-left mt-6 flex-1 px-2 space-y-2">
-                    {(pkg.features || []).map((f, i) => (
-                      <li key={i} className="text-sm flex items-start gap-3" style={{ color: '#F8FAFC' }}>
-                        <span className="mt-1 bg-white/10 rounded-full w-6 h-6 flex items-center justify-center text-xs">✓</span>
-                        <span>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <div className="mt-4">
-                    <button
-                      className="w-full py-3 rounded-md font-bold"
-                      onClick={() => {
-                        if (!isAuthenticated) {
-                          setAuthModalOpen(true);
-                        } else {
-                          navigate('/schedules');
-                        }
-                      }}
-                      style={{
-                        background: COLORS.accent,
-                        color: '#fff',
-                        boxShadow: `0 8px 24px ${COLORS.accent}44`,
-                        border: `1px solid ${COLORS.warm}33`,
-                      }}
-                    >
-                      Comprar
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* CTA FINAL */}
-        <section className="py-20 bg-white">
-          <div className="container mx-auto px-4 text-center">
-            <div className="max-w-3xl mx-auto">
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-white text-3xl mx-auto mb-6 shadow-lg" style={{ background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.green})` }}>
-                🏋️
+                <h3 className="text-xl font-bold text-gray-800 italic">{principle}</h3>
               </div>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-gray-800 mb-6">
-                ¿Listo para Comenzar Tu Transformación?
-              </h2>
-              <p className="text-xl text-gray-600 mb-10 font-medium">
-                Únete a nuestra comunidad y descubre todo lo que puedes lograr con Reformer Pilates.
-              </p>
-              <button
-                onClick={handleReserveClick}
-                disabled={checkingPackages}
-                aria-disabled={checkingPackages}
-                className="inline-flex items-center gap-3 px-12 py-4 rounded-xl text-lg font-bold uppercase tracking-wide"
-                style={{
-                  background: COLORS.primary,
-                  color: '#fff',
-                  boxShadow: `0 10px 30px ${COLORS.primary}33`,
-                }}
-              >
-                <Calendar size={24} />
-                {checkingPackages ? 'Verificando...' : 'Reserva tu Primera Clase'}
-                <ArrowRight size={24} />
-              </button>
-            </div>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
+
+      {/* SECCIÓN: Nuestras Clases */}
+      <section id="clases-section" className="py-20 bg-gradient-to-br from-blue-50 to-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-800 mb-4">
+              Nuestras Clases
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Descubre nuestra variedad de clases diseñadas para todos los niveles
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+            {classesInfo.map((classItem, index) => (
+              <div
+                key={index}
+                className="relative h-64 rounded-2xl overflow-hidden shadow-lg group cursor-pointer transform transition-all hover:scale-105 hover:shadow-2xl"
+              >
+                <div className="absolute inset-0 bg-gray-800">
+                  <img
+                    src={classItem.image}
+                    alt={classItem.name}
+                    className="w-full h-full object-cover opacity-70 group-hover:opacity-80 transition-opacity duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/80 via-blue-900/50 to-blue-900/30"></div>
+                </div>
+
+                <div className="relative h-full p-6 flex flex-col justify-between text-white">
+                  <div>
+                    <h3 className="text-2xl font-extrabold mb-3">{classItem.name}</h3>
+                    <p className="text-sm leading-relaxed opacity-90">{classItem.description}</p>
+                  </div>
+                  <div className="flex items-center text-orange-300 font-semibold">
+                    <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform duration-300" />
+                    <span className="ml-2">Ver más</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SECCIÓN: Paquetes */}
+      <section id="paquetes-section" className="py-20 bg-gradient-to-br from-blue-600 to-blue-700">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">
+              Elige tu Plan de Clases
+            </h2>
+            <p className="text-blue-100 max-w-2xl mx-auto">
+              Encuentra el paquete perfecto para tu ritmo de entrenamiento
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+            {packages.map((pkg) => (
+              <div
+                key={pkg.id}
+                className={`bg-white/10 backdrop-blur-sm border-2 ${
+                  pkg.popular ? 'border-orange-300' : 'border-white/20'
+                } rounded-2xl p-8 text-white hover:bg-white/20 transition-all duration-300 ease-in-out flex flex-col group text-center relative`}
+              >
+                {pkg.popular && (
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                    <div className="bg-orange-500 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide flex items-center gap-1 shadow-lg">
+                      <Star size={12} fill="currentColor" />
+                      Más Popular
+                    </div>
+                  </div>
+                )}
+
+                <div className="text-4xl md:text-5xl font-extrabold mb-2 text-white drop-shadow-md group-hover:scale-110 transition-transform whitespace-pre-line">
+                  {pkg.displayTitle}
+                </div>
+
+                <div className="text-sm uppercase tracking-wider mb-2 font-medium text-white/80">
+                  {pkg.name.startsWith('Clase') ? 'CLASE' : 'PAQUETE'}
+                </div>
+
+                <div className="text-3xl md:text-4xl font-bold text-orange-300 mb-2">{pkg.price}</div>
+
+                <div className="text-sm opacity-80 mb-4 font-medium">
+                  Vigencia: {pkg.validity} días
+                </div>
+
+                <div className="border-t border-white/20 my-4"></div>
+
+                <div className="mb-6 space-y-2">
+                  {pkg.features.map((feature, idx) => (
+                    <div
+                      key={idx}
+                      className="text-sm font-medium flex items-center justify-center gap-2"
+                    >
+                      <Check size={16} className="text-orange-300" />
+                      {feature}
+                    </div>
+                  ))}
+                </div>
+
+                <button
+                  onClick={handleReserveClick}
+                  className="w-full bg-orange-500 text-white py-3 rounded-xl font-bold hover:bg-orange-600 transition-all duration-300 uppercase tracking-wide transform hover:scale-[1.02] shadow-lg"
+                >
+                  Comprar Paquete
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA FINAL */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4 text-center">
+          <div className="max-w-3xl mx-auto">
+            <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-blue-600 rounded-2xl flex items-center justify-center text-white text-3xl mx-auto mb-6 shadow-lg">
+              🏋️
+            </div>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-800 mb-6">
+              ¿Listo para Comenzar Tu Transformación?
+            </h2>
+            <p className="text-xl text-gray-600 mb-10 font-medium">
+              Únete a nuestra comunidad y descubre todo lo que puedes lograr con Reformer Pilates.
+            </p>
+            <button
+              onClick={handleReserveClick}
+              disabled={checkingPackages}
+              className="inline-flex items-center gap-3 bg-orange-500 text-white px-12 py-4 rounded-xl text-lg font-bold hover:bg-orange-600 transform transition-all uppercase tracking-wide hover:scale-[1.02] shadow-lg hover:shadow-xl disabled:opacity-50"
+            >
+              <Calendar size={24} />
+              {checkingPackages ? 'Verificando...' : 'Reserva tu Primera Clase'}
+              <ArrowRight size={24} />
+            </button>
+          </div>
+        </div>
+      </section>
+
       </div>
 
-      <AuthModal
-        isOpen={authModalOpen}
+      <AuthModal 
+        isOpen={authModalOpen} 
         onClose={handleCloseAuthModal}
         initialMode="login"
       />
@@ -396,3 +377,4 @@ const Home = () => {
 };
 
 export default Home;
+[file content end]
