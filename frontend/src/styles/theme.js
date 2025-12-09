@@ -1,5 +1,4 @@
-[file name]: theme.js
-[file content begin]
+
 /**
  * Reformery Design System
  * Paleta de colores y estilos centralizados
@@ -188,4 +187,4 @@ export default {
   shadows,
   transitions,
 };
-[file content end]
+
