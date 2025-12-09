@@ -1,100 +1,153 @@
+[file name]: theme.js
+[file content begin]
 /**
  * Reformery Design System
  * Paleta de colores y estilos centralizados
- * @version 1.0.1 - Mejora: tokens semánticos, breakpoints, zIndex, freeze
+ * @version 2.0.0 - Nueva Identidad Visual
  * @author @elisarrtech
  */
 
-/* Colores base */
 export const colors = {
-  // Sage Green (Color principal Reformery)
-  sage: {
-    50: '#f6f9f7',
-    100: '#e8f4ed',
-    200: '#d4e9dc',
-    300: '#b0d8bf',
-    400: '#85c09a',
-    500: '#6B9E78', // Principal
-    600: '#5A8A67',
-    700: '#4a7053',
-    800: '#3d5a44',
-    900: '#334b39',
+  // Nueva paleta principal OL-LIN
+  primary: {
+    50: '#E1DBE1',    // Gris lavanda (fondo principal)
+    100: '#D5CCD5',
+    200: '#C8BDC8',
+    300: '#BBAEBB',
+    400: '#AD9FAD',
+    500: '#9F8F9F',
+    600: '#8B7C8B',
+    700: '#776877',
+    800: '#635463',
+    900: '#4F404F',
   },
-
-  // Grays
+  
+  // Colores de acento
+  orange: {
+    50: '#FEF3E6',
+    100: '#FDE0C2',
+    200: '#FBCA99',
+    300: '#F9B470',
+    400: '#F7A352',
+    500: '#DC6D27',    // Naranja principal (DC6D27)
+    600: '#C45E20',
+    700: '#AC4F19',
+    800: '#944013',
+    900: '#7C310D',
+  },
+  
+  blue: {
+    50: '#E8EDF0',
+    100: '#C6D4DB',
+    200: '#A3BBC6',
+    300: '#81A2B1',
+    400: '#5F899C',
+    500: '#1B3D4E',    // Azul profundo (1B3D4E)
+    600: '#163442',
+    700: '#112B36',
+    800: '#0C222A',
+    900: '#07191E',
+  },
+  
+  brown: {
+    50: '#FAF2EB',
+    100: '#F2DFD1',
+    200: '#EACBB7',
+    300: '#E2B79D',
+    400: '#DAA383',
+    500: '#944E22',    // Terracota (944E22)
+    600: '#83461E',
+    700: '#723E1A',
+    800: '#613616',
+    900: '#502E12',
+  },
+  
+  green: {
+    50: '#EBF4EC',
+    100: '#CFE4D1',
+    200: '#B3D4B6',
+    300: '#97C49B',
+    400: '#7BB480',
+    500: '#2A6130',    // Verde bosque (2A6130)
+    600: '#245529',
+    700: '#1E4922',
+    800: '#183D1B',
+    900: '#123114',
+  },
+  
+  // Grays (actualizados con tonos más cálidos)
   gray: {
-    50: '#f9fafb',
-    100: '#f3f4f6',
-    200: '#e5e7eb',
-    300: '#d1d5db',
-    400: '#9ca3af',
-    500: '#6b7280',
-    600: '#4b5563',
-    700: '#374151',
-    800: '#1f2937',
-    900: '#111827',
+    50: '#F9F8F9',
+    100: '#F0EEF0',
+    200: '#E1DBE1',    // Color principal como gris base
+    300: '#D0C8D0',
+    400: '#BFB5BF',
+    500: '#AEA2AE',
+    600: '#8B7F8B',
+    700: '#685D68',
+    800: '#453B45',
+    900: '#221922',
   },
-
-  // Status colors
+  
+  // Status colors (ajustados a nueva paleta)
   success: {
-    50: '#ecfdf5',
-    100: '#d1fae5',
-    500: '#10b981',
-    600: '#059669',
-    700: '#047857',
+    50: '#EBF4EC',
+    100: '#CFE4D1',
+    500: '#2A6130',    // Usar verde de la paleta
+    600: '#245529',
+    700: '#1E4922',
   },
-
+  
   error: {
-    50: '#fef2f2',
-    100: '#fee2e2',
-    500: '#ef4444',
-    600: '#dc2626',
-    700: '#b91c1c',
+    50: '#FDECEB',
+    100: '#F9D0CC',
+    500: '#DC6D27',    // Usar naranja para errores (más suave)
+    600: '#C45E20',
+    700: '#AC4F19',
   },
-
+  
   warning: {
-    50: '#fffbeb',
-    100: '#fef3c7',
-    500: '#f59e0b',
-    600: '#d97706',
-    700: '#b45309',
+    50: '#FFF8EB',
+    100: '#FFEBC2',
+    500: '#DC6D27',    // Compartir con naranja
+    600: '#C45E20',
+    700: '#AC4F19',
   },
-
+  
   info: {
-    50: '#eff6ff',
-    100: '#dbeafe',
-    500: '#3b82f6',
-    600: '#2563eb',
-    700: '#1d4ed8',
+    50: '#E8EDF0',
+    100: '#C6D4DB',
+    500: '#1B3D4E',    // Usar azul para info
+    600: '#163442',
+    700: '#112B36',
   },
-
-  // Roles colors
+  
+  // Roles colors (adaptados)
   admin: {
-    50: '#faf5ff',
-    100: '#f3e8ff',
-    500: '#a855f7',
-    600: '#9333ea',
-    700: '#7e22ce',
+    50: '#E8EDF0',
+    100: '#C6D4DB',
+    500: '#1B3D4E',    // Azul para admin
+    600: '#163442',
+    700: '#112B36',
   },
-
+  
   instructor: {
-    50: '#fff7ed',
-    100: '#ffedd5',
-    500: '#f97316',
-    600: '#ea580c',
-    700: '#c2410c',
+    50: '#FEF3E6',
+    100: '#FDE0C2',
+    500: '#DC6D27',    // Naranja para instructor
+    600: '#C45E20',
+    700: '#AC4F19',
   },
-
+  
   client: {
-    50: '#eff6ff',
-    100: '#dbeafe',
-    500: '#3b82f6',
-    600: '#2563eb',
-    700: '#1d4ed8',
+    50: '#EBF4EC',
+    100: '#CFE4D1',
+    500: '#2A6130',    // Verde para clientes
+    600: '#245529',
+    700: '#1E4922',
   },
 };
 
-/* Spacing */
 export const spacing = {
   xs: '0.5rem',    // 8px
   sm: '0.75rem',   // 12px
@@ -105,7 +158,6 @@ export const spacing = {
   '3xl': '4rem',   // 64px
 };
 
-/* Border radius */
 export const borderRadius = {
   sm: '0.375rem',  // 6px
   md: '0.5rem',    // 8px
@@ -115,7 +167,6 @@ export const borderRadius = {
   full: '9999px',
 };
 
-/* Shadows */
 export const shadows = {
   sm: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
   md: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
@@ -124,59 +175,17 @@ export const shadows = {
   '2xl': '0 25px 50px -12px rgb(0 0 0 / 0.25)',
 };
 
-/* Transitions */
 export const transitions = {
   fast: '150ms ease-in-out',
   normal: '300ms ease-in-out',
   slow: '500ms ease-in-out',
 };
 
-/* Breakpoints útiles para responsive */
-export const breakpoints = {
-  xs: '480px',
-  sm: '640px',
-  md: '768px',
-  lg: '1024px',
-  xl: '1280px',
-};
-
-/* z-index básicos */
-export const zIndex = {
-  dropdown: 1000,
-  sticky: 1100,
-  fixed: 1200,
-  modal: 1300,
-  popover: 1400,
-};
-
-/* Tokens semánticos (recomendado usar estos en componentes) */
-export const semantic = {
-  textPrimary: colors.gray[900],
-  textSecondary: colors.gray[600],
-  textOnPrimary: '#ffffff',
-  background: colors.gray[50],
-  surface: '#ffffff',
-  primary: colors.sage[500],
-  primaryHover: colors.sage[600],
-  border: colors.gray[200],
-  muted: colors.gray[300],
-  link: colors.info[500],
-  success: colors.success[500],
-  error: colors.error[500],
-  warning: colors.warning[500],
-};
-
-/* Tema final */
-export const theme = Object.freeze({
+export default {
   colors,
   spacing,
   borderRadius,
   shadows,
   transitions,
-  breakpoints,
-  zIndex,
-  semantic,
-});
-
-/* Exportaciones por compatibilidad */
-export default theme;
+};
+[file content end]
