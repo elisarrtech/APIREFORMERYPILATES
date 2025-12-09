@@ -70,7 +70,7 @@ const Home = () => {
     <>
       <Navbar />
       
-      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-gray-50" style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif" }}>
+      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-gray-50">
         
         {/* HERO SECTION */}
         <section className="relative min-h-screen">
@@ -100,10 +100,8 @@ const Home = () => {
                       <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-orange-200">
                         <p className="text-orange-600 font-bold text-sm uppercase tracking-wider flex items-center gap-2" 
                            style={{ 
-                             fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                             fontWeight: 700,
-                             fontSynthesis: 'none',
-                             WebkitFontSmoothing: 'antialiased'
+                             fontFamily: 'Helvetica, Arial, sans-serif',
+                             fontWeight: 'bold'
                            }}>
                           <Dumbbell size={16} />
                           OL-LIN Estudio Fitness
@@ -120,9 +118,8 @@ const Home = () => {
                   <div className="inline-block">
                     <span className="text-sm uppercase tracking-[0.3em] text-blue-600 font-semibold mb-3 block" 
                           style={{ 
-                            fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                            fontWeight: 700,
-                            fontSynthesis: 'none'
+                            fontFamily: 'Helvetica, Arial, sans-serif',
+                            fontWeight: 'bold'
                           }}>
                       Bienvenido a
                     </span>
@@ -134,11 +131,8 @@ const Home = () => {
                       style={{ 
                         color: '#1B3D4E',
                         letterSpacing: '-0.03em',
-                        fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                        fontWeight: 700,
-                        fontSynthesis: 'none',
-                        WebkitFontSmoothing: 'antialiased',
-                        MozOsxFontSmoothing: 'grayscale'
+                        fontFamily: 'Helvetica, Arial, sans-serif',
+                        fontWeight: 'bold'
                       }}
                     >
                       OL-LIN
@@ -149,10 +143,8 @@ const Home = () => {
                         fontSize: 'calc(1rem * 7 * 0.34)', // 34% del tamaño de OL-LIN
                         color: '#DC6D27',
                         letterSpacing: '0.02em',
-                        fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                        fontStyle: 'italic',
-                        fontWeight: 400,
-                        fontSynthesis: 'none'
+                        fontFamily: 'Helvetica, Arial, sans-serif',
+                        fontStyle: 'italic'
                       }}
                     >
                       Estudio Fitness
@@ -163,15 +155,14 @@ const Home = () => {
                 <p className="text-lg lg:text-xl text-gray-600 leading-relaxed font-light max-w-xl" 
                    style={{ 
                      color: '#1B3D4E',
-                     fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif"
+                     fontFamily: 'Helvetica, Arial, sans-serif'
                    }}>
                   Clases para cualquier nivel de entrenamiento.
                   <span className="block mt-3 font-medium" 
                         style={{ 
                           color: '#1B3D4E',
-                          fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                          fontWeight: 700,
-                          fontSynthesis: 'none'
+                          fontFamily: 'Helvetica, Arial, sans-serif',
+                          fontWeight: 'bold'
                         }}>
                     Descubre la fuerza que hay en ti.
                   </span>
@@ -182,48 +173,42 @@ const Home = () => {
                     <div className="text-3xl lg:text-4xl font-bold mb-1" 
                          style={{ 
                            color: '#1B3D4E',
-                           fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                           fontWeight: 700,
-                           fontSynthesis: 'none'
+                           fontFamily: 'Helvetica, Arial, sans-serif',
+                           fontWeight: 'bold'
                          }}>100%</div>
                     <div className="text-sm uppercase tracking-wide" 
                          style={{ 
                            color: '#1B3D4E',
-                           fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                           fontWeight: 700,
-                           fontSynthesis: 'none'
+                           fontFamily: 'Helvetica, Arial, sans-serif',
+                           fontWeight: 'bold'
                          }}>Profesional</div>
                   </div>
                   <div className="text-center border-x border-orange-200">
                     <div className="text-3xl lg:text-4xl font-bold mb-1" 
                          style={{ 
                            color: '#1B3D4E',
-                           fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                           fontWeight: 700,
-                           fontSynthesis: 'none'
+                           fontFamily: 'Helvetica, Arial, sans-serif',
+                           fontWeight: 'bold'
                          }}>20</div>
                     <div className="text-sm uppercase tracking-wide" 
                          style={{ 
                            color: '#1B3D4E',
-                           fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                           fontWeight: 700,
-                           fontSynthesis: 'none'
+                           fontFamily: 'Helvetica, Arial, sans-serif',
+                           fontWeight: 'bold'
                          }}>Cupo Mensual</div>
                   </div>
                   <div className="text-center">
                     <div className="text-3xl lg:text-4xl font-bold mb-1" 
                          style={{ 
                            color: '#1B3D4E',
-                           fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                           fontWeight: 700,
-                           fontSynthesis: 'none'
+                           fontFamily: 'Helvetica, Arial, sans-serif',
+                           fontWeight: 'bold'
                          }}>7</div>
                     <div className="text-sm uppercase tracking-wide" 
                          style={{ 
                            color: '#1B3D4E',
-                           fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                           fontWeight: 700,
-                           fontSynthesis: 'none'
+                           fontFamily: 'Helvetica, Arial, sans-serif',
+                           fontWeight: 'bold'
                          }}>Clases</div>
                   </div>
                 </div>
@@ -238,10 +223,8 @@ const Home = () => {
                       color: 'white',
                       fontSize: '0.95rem',
                       letterSpacing: '0.05em',
-                      fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                      fontWeight: 700,
-                      fontSynthesis: 'none',
-                      WebkitFontSmoothing: 'antialiased'
+                      fontFamily: 'Helvetica, Arial, sans-serif',
+                      fontWeight: 'bold'
                     }}
                   >
                     <Calendar className="mr-2" size={20} />
@@ -257,10 +240,8 @@ const Home = () => {
                         color: '#DC6D27',
                         fontSize: '0.95rem',
                         letterSpacing: '0.05em',
-                        fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                        fontWeight: 700,
-                        fontSynthesis: 'none',
-                        WebkitFontSmoothing: 'antialiased'
+                        fontFamily: 'Helvetica, Arial, sans-serif',
+                        fontWeight: 'bold'
                       }}
                     >
                       INICIAR SESIÓN
@@ -281,10 +262,8 @@ const Home = () => {
                         color: '#DC6D27',
                         fontSize: '0.95rem',
                         letterSpacing: '0.05em',
-                        fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                        fontWeight: 700,
-                        fontSynthesis: 'none',
-                        WebkitFontSmoothing: 'antialiased'
+                        fontFamily: 'Helvetica, Arial, sans-serif',
+                        fontWeight: 'bold'
                       }}
                     >
                       MI PANEL
@@ -304,17 +283,15 @@ const Home = () => {
               <h2 className="text-3xl md:text-4xl font-extrabold mb-6" 
                   style={{ 
                     color: '#1B3D4E',
-                    fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                    fontWeight: 700,
-                    fontSynthesis: 'none',
-                    WebkitFontSmoothing: 'antialiased'
+                    fontFamily: 'Helvetica, Arial, sans-serif',
+                    fontWeight: 'bold'
                   }}>
                 Somos un espacio de entrenamiento
               </h2>
               <p className="text-lg max-w-4xl mx-auto font-medium" 
                  style={{ 
                    color: '#1B3D4E',
-                   fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif"
+                   fontFamily: 'Helvetica, Arial, sans-serif'
                  }}>
                 En el que te ayudaremos a través del movimiento a conectar con tu centro, y lograr que
                 el cuerpo y mente trabajen en sinergia para lograr cualquier reto de nuestra vida diaria.
@@ -337,10 +314,9 @@ const Home = () => {
                 <h3 className="text-xl font-bold italic" 
                     style={{ 
                       color: '#1B3D4E',
-                      fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                      fontWeight: 700,
-                      fontStyle: 'italic',
-                      fontSynthesis: 'none'
+                      fontFamily: 'Helvetica, Arial, sans-serif',
+                      fontWeight: 'bold',
+                      fontStyle: 'italic'
                     }}>flow</h3>
               </div>
 
@@ -360,10 +336,9 @@ const Home = () => {
                 <h3 className="text-xl font-bold italic" 
                     style={{ 
                       color: '#1B3D4E',
-                      fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                      fontWeight: 700,
-                      fontStyle: 'italic',
-                      fontSynthesis: 'none'
+                      fontFamily: 'Helvetica, Arial, sans-serif',
+                      fontWeight: 'bold',
+                      fontStyle: 'italic'
                     }}>centring</h3>
               </div>
 
@@ -384,10 +359,9 @@ const Home = () => {
                 <h3 className="text-xl font-bold italic" 
                     style={{ 
                       color: '#1B3D4E',
-                      fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                      fontWeight: 700,
-                      fontStyle: 'italic',
-                      fontSynthesis: 'none'
+                      fontFamily: 'Helvetica, Arial, sans-serif',
+                      fontWeight: 'bold',
+                      fontStyle: 'italic'
                     }}>breath</h3>
               </div>
 
@@ -407,10 +381,9 @@ const Home = () => {
                 <h3 className="text-xl font-bold italic" 
                     style={{ 
                       color: '#1B3D4E',
-                      fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                      fontWeight: 700,
-                      fontStyle: 'italic',
-                      fontSynthesis: 'none'
+                      fontFamily: 'Helvetica, Arial, sans-serif',
+                      fontWeight: 'bold',
+                      fontStyle: 'italic'
                     }}>concentration</h3>
               </div>
 
@@ -431,10 +404,9 @@ const Home = () => {
                 <h3 className="text-xl font-bold italic" 
                     style={{ 
                       color: '#1B3D4E',
-                      fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                      fontWeight: 700,
-                      fontStyle: 'italic',
-                      fontSynthesis: 'none'
+                      fontFamily: 'Helvetica, Arial, sans-serif',
+                      fontWeight: 'bold',
+                      fontStyle: 'italic'
                     }}>control</h3>
               </div>
 
@@ -456,10 +428,9 @@ const Home = () => {
                 <h3 className="text-xl font-bold italic" 
                     style={{ 
                       color: '#1B3D4E',
-                      fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                      fontWeight: 700,
-                      fontStyle: 'italic',
-                      fontSynthesis: 'none'
+                      fontFamily: 'Helvetica, Arial, sans-serif',
+                      fontWeight: 'bold',
+                      fontStyle: 'italic'
                     }}>precision</h3>
               </div>
             </div>
@@ -473,17 +444,15 @@ const Home = () => {
               <h2 className="text-3xl md:text-4xl font-extrabold mb-4" 
                   style={{ 
                     color: '#1B3D4E',
-                    fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                    fontWeight: 700,
-                    fontSynthesis: 'none',
-                    WebkitFontSmoothing: 'antialiased'
+                    fontFamily: 'Helvetica, Arial, sans-serif',
+                    fontWeight: 'bold'
                   }}>
                 Nuestras Clases
               </h2>
               <p className="max-w-2xl mx-auto" 
                  style={{ 
                    color: '#1B3D4E',
-                   fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif"
+                   fontFamily: 'Helvetica, Arial, sans-serif'
                  }}>
                 Descubre nuestra variedad de clases diseñadas para todos los niveles
               </p>
@@ -508,22 +477,19 @@ const Home = () => {
                     <div>
                       <h3 className="text-2xl font-extrabold mb-3" 
                           style={{ 
-                            fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                            fontWeight: 700,
-                            fontSynthesis: 'none',
-                            WebkitFontSmoothing: 'antialiased'
+                            fontFamily: 'Helvetica, Arial, sans-serif',
+                            fontWeight: 'bold'
                           }}>{classItem.name}</h3>
                       <p className="text-sm leading-relaxed opacity-90" 
                          style={{ 
-                           fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif"
+                           fontFamily: 'Helvetica, Arial, sans-serif'
                          }}>{classItem.description}</p>
                     </div>
                     <div className="flex items-center font-semibold" 
                          style={{ 
                            color: '#DC6D27',
-                           fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                           fontWeight: 700,
-                           fontSynthesis: 'none'
+                           fontFamily: 'Helvetica, Arial, sans-serif',
+                           fontWeight: 'bold'
                          }}>
                       <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform duration-300" />
                       <span className="ml-2">Ver más</span>
@@ -541,18 +507,14 @@ const Home = () => {
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4" 
                   style={{ 
-                    fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                    fontWeight: 700,
-                    fontSynthesis: 'none',
-                    WebkitFontSmoothing: 'antialiased',
-                    MozOsxFontSmoothing: 'grayscale',
-                    textRendering: 'optimizeLegibility'
+                    fontFamily: 'Helvetica, Arial, sans-serif',
+                    fontWeight: 'bold'
                   }}>
                 Elige tu Plan de Clases
               </h2>
               <p className="text-blue-100 max-w-2xl mx-auto" 
                  style={{ 
-                   fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif"
+                   fontFamily: 'Helvetica, Arial, sans-serif'
                  }}>
                 Encuentra el paquete perfecto para tu ritmo de entrenamiento
               </p>
@@ -572,10 +534,8 @@ const Home = () => {
                            style={{ 
                              backgroundColor: '#DC6D27', 
                              color: 'white',
-                             fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                             fontWeight: 700,
-                             fontSynthesis: 'none',
-                             WebkitFontSmoothing: 'antialiased'
+                             fontFamily: 'Helvetica, Arial, sans-serif',
+                             fontWeight: 'bold'
                            }}>
                         <Star size={12} fill="currentColor" />
                         Más Popular
@@ -585,20 +545,16 @@ const Home = () => {
 
                   <div className="text-4xl md:text-5xl font-extrabold mb-2 text-white drop-shadow-md group-hover:scale-110 transition-transform whitespace-pre-line"
                        style={{ 
-                         fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                         fontWeight: 700,
-                         fontSynthesis: 'none',
-                         WebkitFontSmoothing: 'antialiased',
-                         MozOsxFontSmoothing: 'grayscale'
+                         fontFamily: 'Helvetica, Arial, sans-serif',
+                         fontWeight: 'bold'
                        }}>
                     {pkg.displayTitle}
                   </div>
 
                   <div className="text-sm uppercase tracking-wider mb-2 font-medium text-white/80"
                        style={{ 
-                         fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                         fontWeight: 700,
-                         fontSynthesis: 'none'
+                         fontFamily: 'Helvetica, Arial, sans-serif',
+                         fontWeight: 'bold'
                        }}>
                     {pkg.name.startsWith('Clase') ? 'CLASE' : 'PAQUETE'}
                   </div>
@@ -606,17 +562,15 @@ const Home = () => {
                   <div className="text-3xl md:text-4xl font-bold mb-2" 
                        style={{ 
                          color: '#DC6D27',
-                         fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                         fontWeight: 700,
-                         fontSynthesis: 'none',
-                         WebkitFontSmoothing: 'antialiased'
+                         fontFamily: 'Helvetica, Arial, sans-serif',
+                         fontWeight: 'bold'
                        }}>
                     {pkg.price}
                   </div>
 
                   <div className="text-sm opacity-80 mb-4 font-medium" 
                        style={{ 
-                         fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif"
+                         fontFamily: 'Helvetica, Arial, sans-serif'
                        }}>
                     Vigencia: {pkg.validity} días
                   </div>
@@ -629,7 +583,7 @@ const Home = () => {
                         key={idx}
                         className="text-sm font-medium flex items-center justify-center gap-2"
                         style={{ 
-                          fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif"
+                          fontFamily: 'Helvetica, Arial, sans-serif'
                         }}
                       >
                         <Check size={16} style={{ color: '#DC6D27' }} />
@@ -644,11 +598,8 @@ const Home = () => {
                     style={{
                       backgroundColor: '#DC6D27',
                       color: 'white',
-                      fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                      fontWeight: 700,
-                      fontSynthesis: 'none',
-                      WebkitFontSmoothing: 'antialiased',
-                      MozOsxFontSmoothing: 'grayscale'
+                      fontFamily: 'Helvetica, Arial, sans-serif',
+                      fontWeight: 'bold'
                     }}
                   >
                     Comprar Paquete
@@ -672,17 +623,15 @@ const Home = () => {
               <h2 className="text-3xl md:text-4xl font-extrabold mb-6" 
                   style={{ 
                     color: '#1B3D4E',
-                    fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                    fontWeight: 700,
-                    fontSynthesis: 'none',
-                    WebkitFontSmoothing: 'antialiased'
+                    fontFamily: 'Helvetica, Arial, sans-serif',
+                    fontWeight: 'bold'
                   }}>
                 ¿Listo para Comenzar Tu Transformación?
               </h2>
               <p className="text-xl mb-10 font-medium" 
                  style={{ 
                    color: '#1B3D4E',
-                   fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif"
+                   fontFamily: 'Helvetica, Arial, sans-serif'
                  }}>
                 Únete a nuestra comunidad y descubre todo lo que puedes lograr con Reformer Pilates.
               </p>
@@ -694,11 +643,8 @@ const Home = () => {
                   background: 'linear-gradient(to right, #DC6D27, #944E22)',
                   color: 'white',
                   padding: '1rem 3rem',
-                  fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                  fontWeight: 700,
-                  fontSynthesis: 'none',
-                  WebkitFontSmoothing: 'antialiased',
-                  MozOsxFontSmoothing: 'grayscale'
+                  fontFamily: 'Helvetica, Arial, sans-serif',
+                  fontWeight: 'bold'
                 }}
               >
                 <Calendar size={24} />
