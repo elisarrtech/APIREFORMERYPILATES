@@ -51,7 +51,7 @@ const Navbar = () => {
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between h-20">
             
-            {/* Logo con nueva paleta */}
+            {/* Logo con tipografía Helvetica exacta */}
             <Link to="/" className="flex items-center gap-3 group">
               <img
                 src="/images/Logo_Azul.png"
@@ -61,41 +61,65 @@ const Navbar = () => {
                 decoding="async"
               />
               <div className="hidden sm:flex flex-col leading-none">
-                <div className="text-lg lg:text-xl font-extrabold text-blue-800 tracking-tight">OL-LIN</div>
-                <div className="text-xs text-orange-600 italic font-medium">Estudio Fitness</div>
+                {/* OL-LIN: Helvetica Bold */}
+                <div 
+                  className="font-helvetica font-bold tracking-tight"
+                  style={{
+                    fontSize: 'calc(1rem * 1.25)', // Tamaño base ajustable
+                    color: '#1B3D4E' // Azul de la paleta
+                  }}
+                >
+                  OL-LIN
+                </div>
+                {/* Estudio Fitness: Helvetica Oblique al 34% del tamaño anterior */}
+                <div 
+                  className="font-helvetica italic"
+                  style={{
+                    fontSize: 'calc(1rem * 1.25 * 0.34)', // Exactamente 34% del tamaño de OL-LIN
+                    color: '#DC6D27' // Naranja de la paleta
+                  }}
+                >
+                  Estudio Fitness
+                </div>
               </div>
             </Link>
 
-            {/* Desktop Menu - Actualizado con nueva paleta */}
+            {/* Desktop Menu - Con Helvetica */}
             <div className="hidden lg:flex items-center gap-8">
               <button
                 onClick={() => scrollToSection('quienes-somos-section')}
-                className="text-sm font-semibold uppercase tracking-wide text-blue-700 hover:text-orange-600 transition-all duration-200 hover:scale-105"
+                className="font-helvetica text-sm font-semibold uppercase tracking-wide text-blue-700 hover:text-orange-600 transition-all duration-200 hover:scale-105"
+                style={{ color: '#1B3D4E' }} // Azul oscuro
               >
                 QUIENES SOMOS
               </button>
               
               <button
                 onClick={() => scrollToSection('clases-section')}
-                className="text-sm font-semibold uppercase tracking-wide text-blue-700 hover:text-orange-600 transition-all duration-200 hover:scale-105"
+                className="font-helvetica text-sm font-semibold uppercase tracking-wide text-blue-700 hover:text-orange-600 transition-all duration-200 hover:scale-105"
+                style={{ color: '#1B3D4E' }} // Azul oscuro
               >
                 CLASES
               </button>
               
               <button
                 onClick={() => scrollToSection('paquetes-section')}
-                className="text-sm font-semibold uppercase tracking-wide text-blue-700 hover:text-orange-600 transition-all duration-200 hover:scale-105"
+                className="font-helvetica text-sm font-semibold uppercase tracking-wide text-blue-700 hover:text-orange-600 transition-all duration-200 hover:scale-105"
+                style={{ color: '#1B3D4E' }} // Azul oscuro
               >
                 PLANES
               </button>
 
               <Link
                 to="/schedules"
-                className={`text-sm font-semibold uppercase tracking-wide transition-all duration-200 hover:scale-105 ${
+                className={`font-helvetica text-sm font-semibold uppercase tracking-wide transition-all duration-200 hover:scale-105 ${
                   isActive('/schedules') 
                     ? 'text-orange-600 border-b-2 border-orange-500 pb-1' 
                     : 'text-blue-700 hover:text-orange-600'
                 }`}
+                style={{ 
+                  color: isActive('/schedules') ? '#DC6D27' : '#1B3D4E'
+                }}
               >
                 <div className="flex items-center gap-2">
                   <Calendar size={16} />
@@ -105,11 +129,14 @@ const Navbar = () => {
 
               <Link
                 to="/contact"
-                className={`text-sm font-semibold uppercase tracking-wide transition-all duration-200 hover:scale-105 ${
+                className={`font-helvetica text-sm font-semibold uppercase tracking-wide transition-all duration-200 hover:scale-105 ${
                   isActive('/contact') 
                     ? 'text-orange-600 border-b-2 border-orange-500 pb-1' 
                     : 'text-blue-700 hover:text-orange-600'
                 }`}
+                style={{ 
+                  color: isActive('/contact') ? '#DC6D27' : '#1B3D4E'
+                }}
               >
                 <div className="flex items-center gap-2">
                   <Phone size={16} />
@@ -118,16 +145,20 @@ const Navbar = () => {
               </Link>
             </div>
 
-            {/* Right side - Desktop - Actualizado */}
+            {/* Right side - Desktop */}
             <div className="hidden lg:flex items-center gap-6">
-              {/* Redes Sociales con nuevos colores */}
-              <div className="flex items-center gap-3 border-r border-gray-200 pr-6">
+              {/* Redes Sociales con colores de paleta */}
+              <div className="flex items-center gap-3 border-r border-blue-200 pr-6">
                 <a
                   href="https://facebook.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 flex items-center justify-center rounded-full border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition-all duration-300 hover:scale-110"
                   aria-label="Facebook"
+                  style={{ 
+                    borderColor: '#1B3D4E',
+                    color: '#1B3D4E'
+                  }}
                 >
                   <FaFacebookF size={16} />
                 </a>
@@ -137,6 +168,10 @@ const Navbar = () => {
                   rel="noopener noreferrer"
                   className="w-10 h-10 flex items-center justify-center rounded-full border-2 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white transition-all duration-300 hover:scale-110"
                   aria-label="Instagram"
+                  style={{ 
+                    borderColor: '#DC6D27',
+                    color: '#DC6D27'
+                  }}
                 >
                   <FaInstagram size={18} />
                 </a>
@@ -146,6 +181,10 @@ const Navbar = () => {
                   rel="noopener noreferrer"
                   className="w-10 h-10 flex items-center justify-center rounded-full border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white transition-all duration-300 hover:scale-110"
                   aria-label="WhatsApp"
+                  style={{ 
+                    borderColor: '#2A6130',
+                    color: '#2A6130'
+                  }}
                 >
                   <FaWhatsapp size={18} />
                 </a>
@@ -156,9 +195,12 @@ const Navbar = () => {
                 <div className="relative">
                   <button
                     onClick={() => setAccountMenuOpen(!accountMenuOpen)}
-                    className="flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full text-white font-bold text-sm uppercase tracking-wide hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+                    className="font-helvetica flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full text-white font-bold text-sm uppercase tracking-wide hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg hover:shadow-xl"
                     aria-haspopup="true"
                     aria-expanded={accountMenuOpen}
+                    style={{ 
+                      background: 'linear-gradient(to right, #DC6D27, #944E22)'
+                    }}
                   >
                     <User size={18} />
                     MI CUENTA
@@ -168,10 +210,19 @@ const Navbar = () => {
                   {accountMenuOpen && (
                     <div className="absolute right-0 mt-3 w-56 bg-white rounded-2xl shadow-2xl border border-orange-200 py-3 animate-fade-in z-50" role="menu">
                       <div className="px-4 py-3 border-b border-orange-100 bg-gradient-to-r from-blue-50 to-white">
-                        <p className="text-sm font-bold text-blue-800">{user?.full_name || 'Usuario'}</p>
-                        <p className="text-xs text-blue-600">{user?.email}</p>
+                        <p className="font-helvetica text-sm font-bold" style={{ color: '#1B3D4E' }}>
+                          {user?.full_name || 'Usuario'}
+                        </p>
+                        <p className="font-helvetica text-xs" style={{ color: '#1B3D4E' }}>
+                          {user?.email}
+                        </p>
                         <div className="mt-1">
-                          <span className="inline-block px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-700 uppercase">
+                          <span className="font-helvetica inline-block px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 uppercase"
+                            style={{ 
+                              backgroundColor: '#E1DBE1',
+                              color: '#1B3D4E'
+                            }}
+                          >
                             {user?.role === 'admin' ? 'Administrador' : 
                              user?.role === 'instructor' ? 'Instructor' : 'Cliente'}
                           </span>
@@ -179,19 +230,25 @@ const Navbar = () => {
                       </div>
                       <button
                         onClick={handleMyAccount}
-                        className="w-full px-4 py-3 text-left text-sm font-medium text-blue-700 hover:bg-orange-50 hover:text-orange-700 transition-all duration-200 flex items-center gap-3 border-b border-orange-100"
+                        className="font-helvetica w-full px-4 py-3 text-left text-sm font-medium hover:bg-orange-50 transition-all duration-200 flex items-center gap-3 border-b border-orange-100"
+                        style={{ color: '#1B3D4E' }}
                       >
-                        <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-                          <User size={14} className="text-blue-600" />
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center"
+                          style={{ backgroundColor: '#E1DBE1' }}
+                        >
+                          <User size={14} style={{ color: '#1B3D4E' }} />
                         </div>
                         Mi Panel
                       </button>
                       <button
                         onClick={handleLogout}
-                        className="w-full px-4 py-3 text-left text-sm font-medium text-red-600 hover:bg-red-50 transition-all duration-200 flex items-center gap-3"
+                        className="font-helvetica w-full px-4 py-3 text-left text-sm font-medium hover:bg-red-50 transition-all duration-200 flex items-center gap-3"
+                        style={{ color: '#DC6D27' }}
                       >
-                        <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center">
-                          <LogOut size={14} className="text-red-600" />
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center"
+                          style={{ backgroundColor: '#E1DBE1' }}
+                        >
+                          <LogOut size={14} style={{ color: '#DC6D27' }} />
                         </div>
                         Cerrar Sesión
                       </button>
@@ -201,7 +258,10 @@ const Navbar = () => {
               ) : (
                 <button
                   onClick={handleLogin}
-                  className="flex items-center gap-3 px-8 py-3 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full text-white font-bold text-sm uppercase tracking-wide hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+                  className="font-helvetica flex items-center gap-3 px-8 py-3 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full text-white font-bold text-sm uppercase tracking-wide hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+                  style={{ 
+                    background: 'linear-gradient(to right, #1B3D4E, #2A6130)'
+                  }}
                 >
                   <User size={18} />
                   INICIAR SESIÓN
@@ -214,13 +274,17 @@ const Navbar = () => {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="lg:hidden p-3 rounded-xl bg-orange-50 text-orange-600 hover:bg-orange-100 transition-all duration-300"
               aria-label="Abrir menú"
+              style={{ 
+                backgroundColor: '#E1DBE1',
+                color: '#DC6D27'
+              }}
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu - Actualizado */}
+        {/* Mobile Menu */}
         {mobileMenuOpen && (
           <div className="lg:hidden bg-gradient-to-b from-white to-blue-50 border-t border-orange-200 animate-fade-in">
             <div className="container mx-auto px-4 py-6">
@@ -228,30 +292,39 @@ const Navbar = () => {
                 
                 <button
                   onClick={() => scrollToSection('quienes-somos-section')}
-                  className="text-sm font-semibold uppercase tracking-wide py-4 px-4 text-blue-700 hover:text-orange-600 hover:bg-orange-50 rounded-xl transition-all duration-200 text-left flex items-center gap-3"
+                  className="font-helvetica text-sm font-semibold uppercase tracking-wide py-4 px-4 hover:text-orange-600 hover:bg-orange-50 rounded-xl transition-all duration-200 text-left flex items-center gap-3"
+                  style={{ color: '#1B3D4E' }}
                 >
-                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-                    <span className="text-blue-600 font-bold">Q</span>
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center"
+                    style={{ backgroundColor: '#E1DBE1' }}
+                  >
+                    <span style={{ color: '#1B3D4E', fontWeight: 'bold' }}>Q</span>
                   </div>
                   QUIENES SOMOS
                 </button>
                 
                 <button
                   onClick={() => scrollToSection('clases-section')}
-                  className="text-sm font-semibold uppercase tracking-wide py-4 px-4 text-blue-700 hover:text-orange-600 hover:bg-orange-50 rounded-xl transition-all duration-200 text-left flex items-center gap-3"
+                  className="font-helvetica text-sm font-semibold uppercase tracking-wide py-4 px-4 hover:text-orange-600 hover:bg-orange-50 rounded-xl transition-all duration-200 text-left flex items-center gap-3"
+                  style={{ color: '#1B3D4E' }}
                 >
-                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-                    <span className="text-blue-600 font-bold">C</span>
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center"
+                    style={{ backgroundColor: '#E1DBE1' }}
+                  >
+                    <span style={{ color: '#1B3D4E', fontWeight: 'bold' }}>C</span>
                   </div>
                   CLASES
                 </button>
                 
                 <button
                   onClick={() => scrollToSection('paquetes-section')}
-                  className="text-sm font-semibold uppercase tracking-wide py-4 px-4 text-blue-700 hover:text-orange-600 hover:bg-orange-50 rounded-xl transition-all duration-200 text-left flex items-center gap-3"
+                  className="font-helvetica text-sm font-semibold uppercase tracking-wide py-4 px-4 hover:text-orange-600 hover:bg-orange-50 rounded-xl transition-all duration-200 text-left flex items-center gap-3"
+                  style={{ color: '#1B3D4E' }}
                 >
-                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-                    <span className="text-blue-600 font-bold">P</span>
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center"
+                    style={{ backgroundColor: '#E1DBE1' }}
+                  >
+                    <span style={{ color: '#1B3D4E', fontWeight: 'bold' }}>P</span>
                   </div>
                   PLANES
                 </button>
@@ -259,10 +332,13 @@ const Navbar = () => {
                 <Link
                   to="/schedules"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-sm font-semibold uppercase tracking-wide py-4 px-4 text-blue-700 hover:text-orange-600 hover:bg-orange-50 rounded-xl transition-all duration-200 flex items-center gap-3"
+                  className="font-helvetica text-sm font-semibold uppercase tracking-wide py-4 px-4 hover:text-orange-600 hover:bg-orange-50 rounded-xl transition-all duration-200 flex items-center gap-3"
+                  style={{ color: '#1B3D4E' }}
                 >
-                  <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center">
-                    <Calendar size={16} className="text-orange-600" />
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center"
+                    style={{ backgroundColor: '#E1DBE1' }}
+                  >
+                    <Calendar size={16} style={{ color: '#DC6D27' }} />
                   </div>
                   RESERVA CLASE
                 </Link>
@@ -270,10 +346,13 @@ const Navbar = () => {
                 <Link
                   to="/contact"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-sm font-semibold uppercase tracking-wide py-4 px-4 text-blue-700 hover:text-orange-600 hover:bg-orange-50 rounded-xl transition-all duration-200 flex items-center gap-3"
+                  className="font-helvetica text-sm font-semibold uppercase tracking-wide py-4 px-4 hover:text-orange-600 hover:bg-orange-50 rounded-xl transition-all duration-200 flex items-center gap-3"
+                  style={{ color: '#1B3D4E' }}
                 >
-                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-                    <Phone size={16} className="text-blue-600" />
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center"
+                    style={{ backgroundColor: '#E1DBE1' }}
+                  >
+                    <Phone size={16} style={{ color: '#1B3D4E' }} />
                   </div>
                   CONTACTO
                 </Link>
@@ -283,9 +362,18 @@ const Navbar = () => {
                   {isAuthenticated ? (
                     <>
                       <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-white rounded-2xl border border-blue-200">
-                        <p className="text-sm font-bold text-blue-800 mb-1">{user?.full_name || 'Usuario'}</p>
-                        <p className="text-xs text-blue-600 mb-2">{user?.email}</p>
-                        <div className="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-700 uppercase">
+                        <p className="font-helvetica text-sm font-bold mb-1" style={{ color: '#1B3D4E' }}>
+                          {user?.full_name || 'Usuario'}
+                        </p>
+                        <p className="font-helvetica text-xs mb-2" style={{ color: '#1B3D4E' }}>
+                          {user?.email}
+                        </p>
+                        <div className="font-helvetica inline-block px-3 py-1 text-xs font-semibold rounded-full uppercase"
+                          style={{ 
+                            backgroundColor: '#E1DBE1',
+                            color: '#1B3D4E'
+                          }}
+                        >
                           {user?.role === 'admin' ? 'Administrador' : 
                            user?.role === 'instructor' ? 'Instructor' : 'Cliente'}
                         </div>
@@ -296,10 +384,13 @@ const Navbar = () => {
                           handleMyAccount();
                           setMobileMenuOpen(false);
                         }}
-                        className="w-full flex items-center gap-3 py-4 px-4 text-sm font-semibold text-blue-700 hover:text-orange-600 hover:bg-orange-50 rounded-xl transition-all duration-200 mb-2"
+                        className="font-helvetica w-full flex items-center gap-3 py-4 px-4 text-sm font-semibold hover:text-orange-600 hover:bg-orange-50 rounded-xl transition-all duration-200 mb-2"
+                        style={{ color: '#1B3D4E' }}
                       >
-                        <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
-                          <User size={18} className="text-blue-600" />
+                        <div className="w-10 h-10 rounded-full flex items-center justify-center"
+                          style={{ backgroundColor: '#E1DBE1' }}
+                        >
+                          <User size={18} style={{ color: '#1B3D4E' }} />
                         </div>
                         Mi Panel
                       </button>
@@ -309,10 +400,13 @@ const Navbar = () => {
                           handleLogout();
                           setMobileMenuOpen(false);
                         }}
-                        className="w-full flex items-center gap-3 py-4 px-4 text-sm font-semibold text-red-600 hover:text-red-700 hover:bg-red-50 rounded-xl transition-all duration-200"
+                        className="font-helvetica w-full flex items-center gap-3 py-4 px-4 text-sm font-semibold hover:text-red-700 hover:bg-red-50 rounded-xl transition-all duration-200"
+                        style={{ color: '#DC6D27' }}
                       >
-                        <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
-                          <LogOut size={18} className="text-red-600" />
+                        <div className="w-10 h-10 rounded-full flex items-center justify-center"
+                          style={{ backgroundColor: '#E1DBE1' }}
+                        >
+                          <LogOut size={18} style={{ color: '#DC6D27' }} />
                         </div>
                         Cerrar Sesión
                       </button>
@@ -323,9 +417,14 @@ const Navbar = () => {
                         handleLogin();
                         setMobileMenuOpen(false);
                       }}
-                      className="w-full flex items-center gap-3 py-4 px-4 text-sm font-semibold text-blue-700 hover:text-orange-600 hover:bg-orange-50 rounded-xl transition-all duration-200"
+                      className="font-helvetica w-full flex items-center gap-3 py-4 px-4 text-sm font-semibold hover:text-orange-600 hover:bg-orange-50 rounded-xl transition-all duration-200"
+                      style={{ color: '#1B3D4E' }}
                     >
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center"
+                        style={{ 
+                          background: 'linear-gradient(to right, #1B3D4E, #2A6130)'
+                        }}
+                      >
                         <User size={18} className="text-white" />
                       </div>
                       Iniciar Sesión
@@ -338,7 +437,11 @@ const Navbar = () => {
                       href="https://facebook.com"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition-all duration-300"
+                      className="w-12 h-12 flex items-center justify-center rounded-full border-2 hover:bg-blue-500 hover:text-white transition-all duration-300"
+                      style={{ 
+                        borderColor: '#1B3D4E',
+                        color: '#1B3D4E'
+                      }}
                     >
                       <FaFacebookF size={18} />
                     </a>
@@ -346,7 +449,11 @@ const Navbar = () => {
                       href="https://instagram.com"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white transition-all duration-300"
+                      className="w-12 h-12 flex items-center justify-center rounded-full border-2 hover:bg-orange-500 hover:text-white transition-all duration-300"
+                      style={{ 
+                        borderColor: '#DC6D27',
+                        color: '#DC6D27'
+                      }}
                     >
                       <FaInstagram size={20} />
                     </a>
@@ -354,7 +461,11 @@ const Navbar = () => {
                       href="https://wa.me/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white transition-all duration-300"
+                      className="w-12 h-12 flex items-center justify-center rounded-full border-2 hover:bg-green-500 hover:text-white transition-all duration-300"
+                      style={{ 
+                        borderColor: '#2A6130',
+                        color: '#2A6130'
+                      }}
                     >
                       <FaWhatsapp size={20} />
                     </a>
