@@ -53,7 +53,6 @@ def create_app(config_name='development'):
         # Si ya está registrado o no se puede duplicar, no romper la app
         pass
 
-    
     # Register optional blueprints
     try:
         from app.routes.schedules import admin_schedules_bp
@@ -77,65 +76,65 @@ def create_app(config_name='development'):
         print("⚠️ Notifications blueprint not found")
 
     # Initialize database and seed data
-
-with app.app_context():
+    with app.app_context():
         db.create_all()
         print("✅ Database tables created")
         # seed users, clases, paquetes, etc. (se mantiene lógica existente)
         
-              # ==================== USUARIOS ====================
-    from app.models.user import User
+        # ==================== USUARIOS ====================
+        from app.models.user import User
 
-    # Admin
-    admin = User.query.filter_by(email='admin@reformery.com').first()
-    if not admin:
-        admin = User(
-            email='admin@reformery.com',
-            full_name='Admin Reformery',
-            phone='1234567890',
-            role='admin',
-            active=True
-        )
-        # Usar helper set_password para garantizar hashing consistente
-        admin.set_password('admin123')
-        db.session.add(admin)
-        print("✅ Admin user created")
-    else:
-        print("✅ Admin user already exists")
+        # Admin
+        admin = User.query.filter_by(email='admin@reformery.com').first()
+        if not admin:
+            admin = User(
+                email='admin@reformery.com',
+                full_name='Admin Reformery',
+                phone='1234567890',
+                role='admin',
+                active=True
+            )
+            # Usar helper set_password para garantizar hashing consistente
+            admin.set_password('admin123')
+            db.session.add(admin)
+            print("✅ Admin user created")
+        else:
+            print("✅ Admin user already exists")
 
-    # Client
-    client = User.query.filter_by(email='client@reformery.com').first()
-    if not client:
-        client = User(
-            email='client@reformery.com',
-            full_name='Cliente Demo',
-            phone='1234567890',
-            role='client',
-            active=True
-        )
-        client.set_password('client123')
-        db.session.add(client)
-        print("✅ Client user created")
-    else:
-        print("✅ Client user already exists")
+        # Client
+        client = User.query.filter_by(email='client@reformery.com').first()
+        if not client:
+            client = User(
+                email='client@reformery.com',
+                full_name='Cliente Demo',
+                phone='1234567890',
+                role='client',
+                active=True
+            )
+            client.set_password('client123')
+            db.session.add(client)
+            print("✅ Client user created")
+        else:
+            print("✅ Client user already exists")
 
-    # Instructor
-    instructor = User.query.filter_by(email='instructor@reformery.com').first()
-    if not instructor:
-        instructor = User(
-            email='instructor@reformery.com',
-            full_name='Instructor Demo',
-            phone='1234567890',
-            role='instructor',
-            active=True
-        )
-        instructor.set_password('instructor123')
-        db.session.add(instructor)
-        print("✅ Instructor user created")
-    else:
-        print("✅ Instructor user already exists")
+        # Instructor
+        instructor = User.query.filter_by(email='instructor@reformery.com').first()
+        if not instructor:
+            instructor = User(
+                email='instructor@reformery.com',
+                full_name='Instructor Demo',
+                phone='1234567890',
+                role='instructor',
+                active=True
+            )
+            instructor.set_password('instructor123')
+            db.session.add(instructor)
+            print("✅ Instructor user created")
+        else:
+            print("✅ Instructor user already exists")
 
-    db.session.commit()
+        db.session.commit()
+        
         # ==================== CLASES ====================
         from app.models.pilates_class import PilatesClass
         
@@ -204,10 +203,10 @@ with app.app_context():
         
         db.session.commit()
         
-       print("✅ Database seeded successfully")
+        print("✅ Database seeded successfully")
 
-    # Healthcheck para Railway (DEBE estar dentro de create_app)
-        @app.get("/health")
+    # Healthcheck para Railway (DEBE estar FUERA del with app.app_context())
+    @app.get("/health")
     def health():
         return {"status": "ok"}, 200
 
