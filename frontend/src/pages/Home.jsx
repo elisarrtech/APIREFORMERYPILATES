@@ -150,7 +150,7 @@ const Home = () => {
                   <button
                     onClick={handleReserveClick}
                     disabled={checkingPackages}
-                    className="inline-flex items-center justify-center px-8 py-4 bg-orange-500 text-white rounded-xl font-bold text-base uppercase tracking-wider hover:bg-orange-600 transform hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="bg-orange-500 hover:bg-orange-600">
                   >
                     <Calendar className="mr-2" size={20} />
                     {checkingPackages ? 'Verificando...' : 'RESERVA TU CLASE'}
