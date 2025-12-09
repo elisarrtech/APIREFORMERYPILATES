@@ -1,5 +1,3 @@
-[file name]: Home.jsx
-[file content begin]
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -377,4 +375,4 @@ const Home = () => {
 };
 
 export default Home;
-[file content end]
+
