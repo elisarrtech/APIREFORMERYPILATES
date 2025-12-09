@@ -19,16 +19,16 @@ def create_app(config_name='development'):
     Create and configure Flask application
     """
     app = Flask(__name__)
-    
+
     # Load configuration
     app.config.from_object(config[config_name])
     print(f"✅ Configuration loaded: {config_name}")
-    
+
     # Initialize extensions
     db.init_app(app)
     jwt.init_app(app)
     print("✅ Extensions initialized")
-    
+
     # Configure CORS
     CORS(
         app,
@@ -48,16 +48,16 @@ def create_app(config_name='development'):
         }}
     )
     print("✅ CORS configured")
-    
+
     # Register blueprints
     from app.routes.auth import auth_bp
     from app.routes.admin import admin_bp
-    
+
     app.register_blueprint(auth_bp, url_prefix='/api/v1/auth')
     # Alineado con run.py y banner: admin-reformery
     app.register_blueprint(admin_bp, url_prefix='/api/v1/admin-reformery')
     print("✅ Core blueprints registered")
-    
+
     # Register optional blueprints
     try:
         from app.routes.schedules import admin_schedules_bp
@@ -65,30 +65,30 @@ def create_app(config_name='development'):
         print("✅ Schedules blueprint registered")
     except ImportError:
         print("⚠️ Schedules blueprint not found")
-    
+
     try:
         from app.routes.reservations import reservations_bp
         app.register_blueprint(reservations_bp, url_prefix='/api/v1/reservations')
         print("✅ Reservations blueprint registered")
     except ImportError:
         print("⚠️ Reservations blueprint not found")
-    
+
     try:
         from app.routes.notifications import notifications_bp
         app.register_blueprint(notifications_bp, url_prefix='/api/v1/notifications')
         print("✅ Notifications blueprint registered")
     except ImportError:
         print("⚠️ Notifications blueprint not found")
-    
+
     # Initialize database and seed data
     with app.app_context():
         db.create_all()
         print("✅ Database tables created")
-        
+
         # ==================== USUARIOS ====================
         from app.models.user import User
         from werkzeug.security import generate_password_hash
-        
+
         # Admin
         admin = User.query.filter_by(email='admin@reformery.com').first()
         if not admin:
@@ -104,7 +104,7 @@ def create_app(config_name='development'):
             print("✅ Admin user created")
         else:
             print("✅ Admin user already exists")
-        
+
         # Client
         client = User.query.filter_by(email='client@reformery.com').first()
         if not client:
@@ -120,7 +120,7 @@ def create_app(config_name='development'):
             print("✅ Client user created")
         else:
             print("✅ Client user already exists")
-        
+
         # Instructor
         instructor = User.query.filter_by(email='instructor@reformery.com').first()
         if not instructor:
@@ -136,12 +136,12 @@ def create_app(config_name='development'):
             print("✅ Instructor user created")
         else:
             print("✅ Instructor user already exists")
-        
+
         db.session.commit()
-        
+
         # ==================== CLASES ====================
         from app.models.pilates_class import PilatesClass
-        
+
         clases_oficiales = [
             ('PLT FIT', 'Clase de Pilates enfocada en fitness', 60, 10, 'Fitness', 'Intermedio'),
             ('PLT BLAST', 'Clase intensiva con ejercicios explosivos', 50, 8, 'Intensivo', 'Avanzado'),
@@ -151,7 +151,7 @@ def create_app(config_name='development'):
             ('PLT PRIVADAS Y SEMIPRIVADAS', 'Sesiones personalizadas', 60, 2, 'Privada', 'Personalizado'),
             ('PLT EMBARAZADAS', 'Clase para embarazadas', 60, 6, 'Prenatal', 'Suave')
         ]
-        
+
         for name, desc, duration, capacity, category, intensity in clases_oficiales:
             clase = PilatesClass.query.filter_by(name=name).first()
             if not clase:
@@ -168,12 +168,12 @@ def create_app(config_name='development'):
                 print(f"✅ Clase creada: {name}")
             else:
                 print(f"✅ Clase ya existe: {name}")
-        
+
         db.session.commit()
-        
+
         # ==================== PAQUETES ====================
         from app.models.package import Package
-        
+
         paquetes_oficiales = [
             ('PAQUETE 1 - CLASE MUESTRA', '1 clase Reformery Muestra', 1, 1, 0, 150.00, 30, 'reformer'),
             ('PAQUETE 2 - 1 CLASE', '1 clase Reformery', 1, 1, 0, 200.00, 30, 'reformer'),
@@ -185,7 +185,7 @@ def create_app(config_name='development'):
             ('PAQUETE 5+5', '5 Reformery + 5 Top Barre', 10, 5, 5, 1400.00, 30, 'combo'),
             ('PAQUETE 8+8', '8 Reformery + 8 Top Barre', 16, 8, 8, 1800.00, 30, 'combo')
         ]
-        
+
         for name, desc, total, reformer, barre, price, validity, pkg_type in paquetes_oficiales:
             paquete = Package.query.filter_by(name=name).first()
             if not paquete:
@@ -204,11 +204,11 @@ def create_app(config_name='development'):
                 print(f"✅ Paquete creado: {name} - ${price} MXN")
             else:
                 print(f"✅ Paquete ya existe: {name}")
-        
+
         db.session.commit()
-        
+
         print("✅ Database seeded successfully")
-    
+
     print(f"✅ Flask app created successfully in {config_name} mode")
-    
+
     return app
