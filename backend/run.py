@@ -90,6 +90,7 @@ if __name__ == "__main__":
 
     # Banner (clear and helpful)
     print(f"""
+
 ╔══════════════════════════════════════════════════════════════╗
 ║                                                              ║
 ║              🏋️ REFORMERY API SERVER 🏋️                      ║
