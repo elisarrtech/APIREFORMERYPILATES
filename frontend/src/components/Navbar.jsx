@@ -1,5 +1,3 @@
-[file name]: Navbar.jsx
-[file content begin]
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
@@ -64,4 +62,4 @@ const Navbar = () => {
 }
 
 export default Navbar
-[file content end]
+
