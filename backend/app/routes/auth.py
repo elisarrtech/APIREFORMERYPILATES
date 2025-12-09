@@ -7,7 +7,7 @@ import os
 
 auth_bp = Blueprint('auth', __name__)
 
-@auth_bp.route('/register', methods=['POST', 'OPTIONS'])
+@auth_bp.route('/register', methods=['POST'])
 def register():
     """
     Register a new user
@@ -18,10 +18,6 @@ def register():
       - role (defaults to 'client') BUT role='admin' will only be granted if admin_code is valid
       - admin_code (secret)
     """
-    # Handle CORS preflight
-    if request.method == 'OPTIONS':
-        return jsonify({'success': True}), 200
-    
     try:
         data = request.get_json()
         if not data:
@@ -97,7 +93,7 @@ def register():
         print(f"❌ [AUTH] Error en registro: {str(e)}")
         return jsonify({'success': False, 'message': 'Error al registrar usuario', 'error': str(e)}), 500
 
-@auth_bp.route('/login', methods=['POST', 'OPTIONS'])
+@auth_bp.route('/login', methods=['POST'])
 def login():
     """
     User login
@@ -109,10 +105,6 @@ def login():
     Returns:
         JSON: Success message with user data and token
     """
-    # Handle CORS preflight
-    if request.method == 'OPTIONS':
-        return jsonify({'success': True}), 200
-    
     try:
         data = request.get_json()
         

@@ -28,9 +28,17 @@ app = create_app(FLASK_ENV)
 # Use environment variable CORS_ALLOWED_ORIGINS as a comma separated list.
 # If not provided, default to the production Netlify origin and localhost for dev.
 # Note: Vite dev server runs on port 5173, React Create App runs on port 3000
-_default_origins = "https://ollinavances.netlify.app, http://localhost:5173, http://127.0.0.1:5173, http://localhost:3000"
-_raw = os.getenv('CORS_ALLOWED_ORIGINS') or os.getenv('ALLOWED_ORIGINS') or _default_origins
-ALLOWED_ORIGINS = [o.strip() for o in _raw.split(",") if o.strip()]
+_default_origins_list = [
+    'https://ollinavances.netlify.app',
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'http://localhost:3000'
+]
+_env_origins = os.getenv('CORS_ALLOWED_ORIGINS') or os.getenv('ALLOWED_ORIGINS')
+if _env_origins:
+    ALLOWED_ORIGINS = [o.strip() for o in _env_origins.split(",") if o.strip()]
+else:
+    ALLOWED_ORIGINS = _default_origins_list
 
 # Apply CORS middleware to the Flask app.
 # This will respond properly to preflight (OPTIONS) requests and add the
