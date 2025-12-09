@@ -1,5 +1,4 @@
-[file name]: tailwind.config.js
-[file content begin]
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -121,4 +120,4 @@ export default {
   },
   plugins: [],
 }
-[file content end]
+
