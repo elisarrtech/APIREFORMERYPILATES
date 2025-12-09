@@ -51,38 +51,40 @@ const Navbar = () => {
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between h-20">
             
-            {/* Logo con tipografía Helvetica exacta */}
-            <Link to="/" className="flex items-center gap-3 group">
-              <img
-                src="/images/Logo_Azul.png"
-                alt="OL-LIN Estudio Fitness"
-                className="h-12 sm:h-14 md:h-14 lg:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-                loading="lazy"
-                decoding="async"
-              />
-              <div className="hidden sm:flex flex-col leading-none">
-                {/* OL-LIN: Helvetica Bold */}
-                <div 
-                  className="font-helvetica font-bold tracking-tight"
-                  style={{
-                    fontSize: 'calc(1rem * 1.25)', // Tamaño base ajustable
-                    color: '#1B3D4E' // Azul de la paleta
-                  }}
-                >
-                  OL-LIN
-                </div>
-                {/* Estudio Fitness: Helvetica Oblique al 34% del tamaño anterior */}
-                <div 
-                  className="font-helvetica italic"
-                  style={{
-                    fontSize: 'calc(1rem * 1.25 * 0.34)', // Exactamente 34% del tamaño de OL-LIN
-                    color: '#DC6D27' // Naranja de la paleta
-                  }}
-                >
-                  Estudio Fitness
-                </div>
-              </div>
-            </Link>
+{/* Logo con tipografía Helvetica exacta - CORREGIDO */}
+<Link to="/" className="flex items-center gap-3 group">
+  <img
+    src="/images/Logo_Azul.png"
+    alt="OL-LIN Estudio Fitness"
+    className="h-12 sm:h-14 md:h-14 lg:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+    loading="lazy"
+    decoding="async"
+  />
+  <div className="hidden sm:flex flex-col leading-none">
+    {/* OL-LIN: Helvetica Bold */}
+    <div 
+      className="font-helvetica-bold tracking-tight"
+      style={{
+        fontSize: 'calc(1rem * 1.25)', // Tamaño base ajustable
+        color: '#1B3D4E',
+        letterSpacing: '-0.02em'
+      }}
+    >
+      OL-LIN
+    </div>
+    {/* Estudio Fitness: Helvetica Oblique al 34% del tamaño anterior */}
+    <div 
+      className="font-helvetica-italic"
+      style={{
+        fontSize: 'calc(1rem * 1.25 * 0.34)', // Exactamente 34% del tamaño de OL-LIN
+        color: '#DC6D27',
+        letterSpacing: '0.01em'
+      }}
+    >
+      Estudio Fitness
+    </div>
+  </div>
+</Link>
 
             {/* Desktop Menu - Con Helvetica */}
             <div className="hidden lg:flex items-center gap-8">
