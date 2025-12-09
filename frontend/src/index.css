@@ -1,5 +1,3 @@
-[file name]: index.css
-[file content begin]
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
@@ -338,4 +336,4 @@ footer {
     transform: translateY(0);
   }
 }
-[file content end]
+
