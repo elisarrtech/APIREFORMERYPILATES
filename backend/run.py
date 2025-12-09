@@ -33,7 +33,7 @@ ALLOWED_ORIGINS = [o.strip() for o in _raw.split(",") if o.strip()]
 
 # Apply CORS middleware to the Flask app.
 # This will respond properly to preflight (OPTIONS) requests and add the
-# necessary Access-Control-Allow-* headers.
+# necessary Access-Control-Allow-* headers where possible.
 CORS(
     app,
     origins=ALLOWED_ORIGINS,
@@ -42,15 +42,29 @@ CORS(
     methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 )
 
-# Add a small after_request hook to ensure Vary header and in case some
-# blueprints bypass flask-cors for any reason.
+# Add an after_request hook to ensure Vary header and to explicitly set
+# Access-Control-Allow-Origin to the request Origin when credentials are allowed.
 @app.after_request
 def _add_cors_headers(response):
     # Let browsers know the response may vary based on Origin
     response.headers.setdefault("Vary", "Origin")
+
+    origin = request.headers.get("Origin")
+    # If the request Origin is in our allowed list, echo it back exactly.
+    if origin and origin in ALLOWED_ORIGINS:
+        response.headers["Access-Control-Allow-Origin"] = origin
+    else:
+        # Fallback to the first allowed origin (useful for simple local tests)
+        # Note: when credentials are used, Access-Control-Allow-Origin must be a specific origin, not "*".
+        response.headers.setdefault("Access-Control-Allow-Origin", ALLOWED_ORIGINS[0])
+
     # Ensure Access-Control-Allow-Credentials is present when credentials are enabled
     if os.getenv('CORS_ALLOW_CREDENTIALS', 'true').lower() in ("1", "true", "yes"):
         response.headers.setdefault("Access-Control-Allow-Credentials", "true")
+
+    # Ensure the common headers/methods are allowed for preflight and actual requests
+    response.headers.setdefault("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With")
+    response.headers.setdefault("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS")
     return response
 
 # ===========================
