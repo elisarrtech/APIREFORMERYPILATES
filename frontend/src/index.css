@@ -296,22 +296,32 @@
   }
   
   /* Helvetica utilities */
-  .font-helvetica {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  }
-  
-  .font-helvetica-bold {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-weight: 900;
-    font-style: normal;
-  }
-  
-  .font-helvetica-oblique {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-weight: 400;
-    font-style: italic;
-  }
-  
+ /* Importar Helvetica con pesos específicos */
+@import url('https://fonts.cdnfonts.com/css/helvetica-neue-lt-pro');
+
+.font-helvetica {
+  font-family: 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+  font-weight: 400; /* Regular por defecto */
+}
+
+.font-helvetica-bold {
+  font-family: 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+  font-weight: 700; /* Bold */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-helvetica-italic {
+  font-family: 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+ 
   /* Animation delays */
   .animation-delay-100 {
     animation-delay: 100ms;
