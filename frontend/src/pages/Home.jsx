@@ -100,7 +100,7 @@ const Home = () => {
                       <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-orange-200">
                         <p className="text-orange-600 font-bold text-sm uppercase tracking-wider flex items-center gap-2">
                           <Dumbbell size={16} />
-                          REFORMERY PILATES STUDIO
+                          OL-LIN Estudio Fitness
                         </p>
                       </div>
                     </div>
@@ -117,9 +117,9 @@ const Home = () => {
                     </span>
                   </div>
                   <h1 className="text-5xl lg:text-7xl font-light text-gray-800 leading-tight">
-                    Reformery
+                    OL-LIN
                     <span className="block text-3xl lg:text-5xl text-orange-600 mt-2 italic font-medium">
-                      PILATES Studio
+                      Estudio Fitness
                     </span>
                   </h1>
                 </div>
@@ -185,45 +185,122 @@ const Home = () => {
           </div>
         </section>
 
-      {/* SECCIÓN: 6 PRINCIPIOS */}
-      <section id="quienes-somos-section" className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16 max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-800 mb-6">
-              Somos un espacio de entrenamiento
-            </h2>
-            <p className="text-lg text-gray-600 max-w-4xl mx-auto font-medium">
-              En el que te ayudaremos a través del movimiento a conectar con tu centro, y lograr que
-              el cuerpo y mente trabajen en sinergia para lograr cualquier reto de nuestra vida diaria.
-            </p>
-          </div>
+{/* SECCIÓN: 6 PRINCIPIOS */}
+<section id="quienes-somos-section" className="py-20 bg-white">
+  <div className="container mx-auto px-4">
+    <div className="text-center mb-16 max-w-3xl mx-auto">
+      <h2 className="text-3xl md:text-4xl font-extrabold text-gray-800 mb-6">
+        Somos un espacio de entrenamiento
+      </h2>
+      <p className="text-lg text-gray-600 max-w-4xl mx-auto font-medium">
+        En el que te ayudaremos a través del movimiento a conectar con tu centro, y lograr que
+        el cuerpo y mente trabajen en sinergia para lograr cualquier reto de nuestra vida diaria.
+      </p>
+    </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
-            {['flow', 'centring', 'breath', 'concentration', 'control', 'precisión'].map((principle, index) => (
-              <div key={index} className="text-center group">
-                <div className="mb-4 transition-transform duration-300 group-hover:scale-110">
-                  <div className="w-24 h-24 mx-auto">
-                    <svg viewBox="0 0 100 100" fill="none" className="w-full h-full">
-                      <circle cx="50" cy="50" r="35" stroke="#1B3D4E" strokeWidth="2.5" opacity="0.8"/>
-                      {/* Contenido SVG específico para cada principio */}
-                      {principle === 'flow' && <path d="M30 50 Q40 35, 50 50 T70 50" stroke="#1B3D4E" strokeWidth="2.5" fill="none" strokeLinecap="round"/>}
-                      {principle === 'centring' && (
-                        <>
-                          <line x1="50" y1="20" x2="50" y2="80" stroke="#1B3D4E" strokeWidth="2.5" strokeLinecap="round"/>
-                          <line x1="20" y1="50" x2="80" y2="50" stroke="#1B3D4E" strokeWidth="2.5" strokeLinecap="round"/>
-                          <circle cx="50" cy="50" r="8" fill="#1B3D4E"/>
-                        </>
-                      )}
-                      {/* Agrega los demás SVG según el principio */}
-                    </svg>
-                  </div>
-                </div>
-                <h3 className="text-xl font-bold text-gray-800 italic">{principle}</h3>
-              </div>
-            ))}
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
+      
+      {/* 1. FLOW */}
+      <div className="text-center group">
+        <div className="mb-4 transition-transform duration-300 group-hover:scale-110">
+          <div className="w-24 h-24 mx-auto">
+            <svg viewBox="0 0 100 100" fill="none" className="w-full h-full">
+              <circle cx="50" cy="50" r="35" stroke="#1B3D4E" strokeWidth="2.5" opacity="0.8"/>
+              <path d="M30 50 Q40 35, 50 50 T70 50" stroke="#1B3D4E" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+              <path d="M25 65 Q50 70, 75 65" stroke="#1B3D4E" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+            </svg>
           </div>
         </div>
-      </section>
+        <h3 className="text-xl font-bold text-gray-800 italic">flow</h3>
+      </div>
+
+      {/* 2. CENTRING */}
+      <div className="text-center group">
+        <div className="mb-4 transition-transform duration-300 group-hover:scale-110">
+          <div className="w-24 h-24 mx-auto">
+            <svg viewBox="0 0 100 100" fill="none" className="w-full h-full">
+              <circle cx="50" cy="50" r="35" stroke="#1B3D4E" strokeWidth="2.5" opacity="0.8"/>
+              <line x1="50" y1="20" x2="50" y2="80" stroke="#1B3D4E" strokeWidth="2.5" strokeLinecap="round"/>
+              <line x1="20" y1="50" x2="80" y2="50" stroke="#1B3D4E" strokeWidth="2.5" strokeLinecap="round"/>
+              <circle cx="50" cy="50" r="10" fill="#1B3D4E" opacity="0.7"/>
+              <circle cx="50" cy="50" r="5" fill="#FFFFFF"/>
+            </svg>
+          </div>
+        </div>
+        <h3 className="text-xl font-bold text-gray-800 italic">centring</h3>
+      </div>
+
+      {/* 3. BREATH */}
+      <div className="text-center group">
+        <div className="mb-4 transition-transform duration-300 group-hover:scale-110">
+          <div className="w-24 h-24 mx-auto">
+            <svg viewBox="0 0 100 100" fill="none" className="w-full h-full">
+              <circle cx="50" cy="50" r="35" stroke="#1B3D4E" strokeWidth="2.5" opacity="0.8"/>
+              <path d="M50 30 C30 30, 30 70, 50 70 C70 70, 70 30, 50 30" 
+                    stroke="#1B3D4E" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+              <path d="M50 40 C40 40, 40 60, 50 60 C60 60, 60 40, 50 40" 
+                    stroke="#1B3D4E" strokeWidth="2" fill="none" strokeLinecap="round"/>
+              <path d="M50 45 L50 55" stroke="#1B3D4E" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </div>
+        </div>
+        <h3 className="text-xl font-bold text-gray-800 italic">breath</h3>
+      </div>
+
+      {/* 4. CONCENTRATION */}
+      <div className="text-center group">
+        <div className="mb-4 transition-transform duration-300 group-hover:scale-110">
+          <div className="w-24 h-24 mx-auto">
+            <svg viewBox="0 0 100 100" fill="none" className="w-full h-full">
+              <circle cx="50" cy="50" r="35" stroke="#1B3D4E" strokeWidth="2.5" opacity="0.8"/>
+              <circle cx="35" cy="45" r="4" fill="#1B3D4E"/>
+              <circle cx="65" cy="45" r="4" fill="#1B3D4E"/>
+              <path d="M35 60 Q50 70, 65 60" stroke="#1B3D4E" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+              <path d="M50 30 L50 40" stroke="#1B3D4E" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </div>
+        </div>
+        <h3 className="text-xl font-bold text-gray-800 italic">concentration</h3>
+      </div>
+
+      {/* 5. CONTROL */}
+      <div className="text-center group">
+        <div className="mb-4 transition-transform duration-300 group-hover:scale-110">
+          <div className="w-24 h-24 mx-auto">
+            <svg viewBox="0 0 100 100" fill="none" className="w-full h-full">
+              <circle cx="50" cy="50" r="35" stroke="#1B3D4E" strokeWidth="2.5" opacity="0.8"/>
+              <rect x="35" y="35" width="30" height="30" rx="5" stroke="#1B3D4E" strokeWidth="2.5" fill="none"/>
+              <line x1="45" y1="35" x2="45" y2="65" stroke="#1B3D4E" strokeWidth="2" strokeLinecap="round"/>
+              <line x1="55" y1="35" x2="55" y2="65" stroke="#1B3D4E" strokeWidth="2" strokeLinecap="round"/>
+              <line x1="35" y1="45" x2="65" y2="45" stroke="#1B3D4E" strokeWidth="2" strokeLinecap="round"/>
+              <line x1="35" y1="55" x2="65" y2="55" stroke="#1B3D4E" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </div>
+        </div>
+        <h3 className="text-xl font-bold text-gray-800 italic">control</h3>
+      </div>
+
+      {/* 6. PRECISION */}
+      <div className="text-center group">
+        <div className="mb-4 transition-transform duration-300 group-hover:scale-110">
+          <div className="w-24 h-24 mx-auto">
+            <svg viewBox="0 0 100 100" fill="none" className="w-full h-full">
+              <circle cx="50" cy="50" r="35" stroke="#1B3D4E" strokeWidth="2.5" opacity="0.8"/>
+              <circle cx="50" cy="50" r="15" stroke="#1B3D4E" strokeWidth="2.5" fill="none"/>
+              <line x1="50" y1="20" x2="50" y2="35" stroke="#1B3D4E" strokeWidth="2" strokeLinecap="round"/>
+              <line x1="50" y1="65" x2="50" y2="80" stroke="#1B3D4E" strokeWidth="2" strokeLinecap="round"/>
+              <line x1="20" y1="50" x2="35" y2="50" stroke="#1B3D4E" strokeWidth="2" strokeLinecap="round"/>
+              <line x1="65" y1="50" x2="80" y2="50" stroke="#1B3D4E" strokeWidth="2" strokeLinecap="round"/>
+              <circle cx="50" cy="50" r="3" fill="#1B3D4E"/>
+            </svg>
+          </div>
+        </div>
+        <h3 className="text-xl font-bold text-gray-800 italic">precision</h3>
+      </div>
+
+    </div>
+  </div>
+</section>
 
       {/* SECCIÓN: Nuestras Clases */}
       <section id="clases-section" className="py-20 bg-gradient-to-br from-blue-50 to-white">
