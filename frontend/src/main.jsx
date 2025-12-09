@@ -2,7 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
-import './index.css'; // ← CORRECTO (ambos están en src/)
+import './index.css'; // ← ASÍ ESTÁ BIEN (ambos en src/)
 
 const root = createRoot(document.getElementById('root'));
 root.render(
