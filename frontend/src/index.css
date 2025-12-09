@@ -31,7 +31,17 @@
     font-size: 34%; /* 34% del tamaño de OL-LIN */
     letter-spacing: 0.02em;
   }
-  
+ 
+/* Fuerza Helvetica en todo el proyecto */
+body, h1, h2, h3, h4, h5, h6, p, span, div, button, a {
+  font-family: 'Helvetica', Arial, sans-serif !important;
+}
+
+/* Títulos en bold */
+h1, h2, h3, h4, h5, h6, .font-bold, strong, b, button {
+  font-weight: bold !important;
+}
+ 
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold tracking-tight;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -300,19 +310,19 @@
 @import url('https://fonts.cdnfonts.com/css/helvetica-neue-lt-pro');
 
 .font-helvetica {
-  font-family: 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+  font-family: 'Helvetica', Arial, sans-serif;
   font-weight: 400; /* Regular por defecto */
 }
 
 .font-helvetica-bold {
-  font-family: 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+  font-family: 'Helvetica', Arial, sans-serif;
   font-weight: 700; /* Bold */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 .font-helvetica-italic {
-  font-family: 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+  font-family: 'Helvetica', Arial, sans-serif;
   font-style: italic;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
