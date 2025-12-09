@@ -146,7 +146,7 @@
   }
   
   .table tbody tr {
-    @apply hover:blue-50 transition-colors duration-150;
+    @apply hover:bg-blue-50 transition-colors duration-150; /* ← CORREGIDO */
   }
   
   /* Modals */
@@ -336,4 +336,3 @@ footer {
     transform: translateY(0);
   }
 }
-
