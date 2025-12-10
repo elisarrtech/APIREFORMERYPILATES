@@ -47,7 +47,6 @@ def create_app(config_name='development'):
     from app.routes.admin import admin_bp
     
     app.register_blueprint(auth_bp, url_prefix='/api/v1/auth')
-    # Alineado con run.py y banner: admin-reformery
     app.register_blueprint(admin_bp, url_prefix='/api/v1/admin-reformery')
     print("✅ Core blueprints registered")
     
@@ -212,4 +211,3 @@ def get_env_name():
     return os.getenv("FLASK_ENV") or os.getenv("APP_ENV") or "production"
 
 app = create_app(get_env_name())
-
