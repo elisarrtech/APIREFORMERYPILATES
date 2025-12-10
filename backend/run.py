@@ -3,9 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from config import config
+import os
 
 db = SQLAlchemy()
 jwt = JWTManager()
+
 
 def create_app(config_name='development'):
     """
@@ -53,7 +55,10 @@ def create_app(config_name='development'):
     # Register optional blueprints
     try:
         from app.routes.schedules import admin_schedules_bp
-        app.register_blueprint(admin_schedules_bp, url_prefix='/api/v1/admin-reformery/schedules')
+        app.register_blueprint(
+            admin_schedules_bp,
+            url_prefix='/api/v1/admin-reformery/schedules'
+        )
         print("✅ Schedules blueprint registered")
     except ImportError:
         print("⚠️ Schedules blueprint not found")
@@ -67,7 +72,10 @@ def create_app(config_name='development'):
     
     try:
         from app.routes.notifications import notifications_bp
-        app.register_blueprint(notifications_bp, url_prefix='/api/v1/notifications')
+        app.register_blueprint(
+            notifications_bp,
+            url_prefix='/api/v1/notifications'
+        )
         print("✅ Notifications blueprint registered")
     except ImportError:
         print("⚠️ Notifications blueprint not found")
@@ -205,9 +213,10 @@ def create_app(config_name='development'):
     
     return app
 
-import os
 
 def get_env_name():
     return os.getenv("FLASK_ENV") or os.getenv("APP_ENV") or "production"
 
+
+# Este es el objeto que Gunicorn va a usar: backend.run:app
 app = create_app(get_env_name())
