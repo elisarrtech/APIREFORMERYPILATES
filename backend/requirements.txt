@@ -1,0 +1,9 @@
+Flask>=2.1
+Flask-JWT-Extended>=4.4
+Flask-SQLAlchemy>=3.0
+Flask-Migrate>=4.0
+Flask-Cors>=3.0
+psycopg2-binary>=2.9   # para PostgreSQL en Railway
+python-dotenv>=1.0
+pytz
+gunicorn
