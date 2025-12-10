@@ -23,8 +23,9 @@ def create_app():
     app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(minutes=int(os.getenv('JWT_ACCESS_EXPIRES_MIN', '15')))
     app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=int(os.getenv('JWT_REFRESH_EXPIRES_DAYS', '30')))
 
-    # CORS: cambiar FRONTEND_URL por la URL de tu frontend en Railway o Vercel
-    CORS(app, origins=[os.getenv('FRONTEND_URL', 'http://localhost:3000')], supports_credentials=True)
+    # CORS: por defecto permitimos tu frontend en Netlify. Cambia FRONTEND_URL si la URL varía.
+    frontend_url = os.getenv('FRONTEND_URL', 'https://ollinavances.netlify.app')
+    CORS(app, origins=[frontend_url, 'http://localhost:3000'], supports_credentials=True)
 
     # Inicializar extensiones
     db.init_app(app)
@@ -50,5 +51,5 @@ def create_app():
 
     return app
 
-# Para gunicorn en Railway: "gunicorn backend.app:create_app()"
+# Para gunicorn en Railway: "gunicorn backend.app:app"
 app = create_app()
