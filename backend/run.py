@@ -1,10 +1,3 @@
-# backend/app/__init__.py
-"""
-Application Factory Pattern - REFORMERY
-@version 3.0.0 - PRODUCTION READY
-@author @elisarrtech
-"""
-
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
@@ -212,3 +205,11 @@ def create_app(config_name='development'):
     print(f"✅ Flask app created successfully in {config_name} mode")
     
     return app
+
+import os
+
+def get_env_name():
+    return os.getenv("FLASK_ENV") or os.getenv("APP_ENV") or "production"
+
+app = create_app(get_env_name())
+
