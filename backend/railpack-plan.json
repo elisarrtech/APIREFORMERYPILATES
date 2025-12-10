@@ -1,0 +1,13 @@
+{
+  "build": {
+    "image": "python:3.13",
+    "commands": [
+      "python -m venv /app/.venv",
+      "pip install -r requirements.txt"
+    ]
+  },
+  "run": {
+    "command": "gunicorn backend.app:app"
+  },
+  "secrets": []
+}
