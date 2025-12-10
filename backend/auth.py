@@ -4,7 +4,7 @@ from flask_jwt_extended import (
     create_access_token, create_refresh_token,
     jwt_required, get_jwt_identity, get_jwt
 )
-from datetime import datetime, timedelta
+from datetime import datetime
 import pytz
 
 from .app import db
@@ -12,7 +12,7 @@ from .models import User, RefreshToken
 
 auth_bp = Blueprint('auth', __name__)
 
-# REGISTER (opcional, si quieres registro desde frontend)
+# REGISTER (opcional)
 @auth_bp.route('/register', methods=['POST'])
 def register():
     data = request.get_json() or {}
@@ -91,14 +91,14 @@ def refresh():
     if not token_record or token_record.revoked:
         return jsonify(success=False, message='Refresh token inválido o revocado'), 401
 
-    # Crear nuevo access token (puedes también rotar refresh tokens si quieres)
+    # Crear nuevo access token
     user = User.query.get(identity)
     additional_claims = {'role': user.role, 'email': user.email}
     access_token = create_access_token(identity=identity, additional_claims=additional_claims)
 
     return jsonify(success=True, access_token=access_token), 200
 
-# LOGOUT (revocar refresh token)
+# LOGOUT (revocar refresh)
 @auth_bp.route('/logout', methods=['POST'])
 @jwt_required(refresh=True)
 def logout():
